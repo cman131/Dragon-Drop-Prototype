@@ -65,48 +65,23 @@ body {
 	height:128px;
 }
 
-nav {
-    width: 156px;
-    text-align: left;
+#imageList li{
+	width:45%;
+	padding-right:2%;
+	float:left;
+	display:inline-block;
 }
 
-nav ul {
-    margin: 0;
-    padding: 0;
+nav li{
+	list-style:none;
 }
 
-nav li {
-    list-style: none;
+nav ul.sub-nav{
+	opacity:0;
+	transition:opacity .5s linear;
 }
 
-
-nav li:hover {
-    position: relative;
+nav ul.visible{
+	opacity:1;
 }
-
-ul ul {
-    display: none;
-}
-
-li > ul {
-    display: block;
-    position: absolute;
-    left: 156px;
-    top: 0px;
-}
-
-ul ul li {
-    float: left;
-    width: 156px;
-}
-
-ul ul {
-    display: none;
-}
-
-#imageMenu a{
-	text-decoration:none;
-}
-
-
 

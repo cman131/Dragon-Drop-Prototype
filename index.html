@@ -8,10 +8,12 @@
 	<div id="menu">
 		<div id="imageMenu">
 			<nav>
-				<ul class='top-level'>
-					<li><h3>Images</h3>
-					<ul id='imagelist' class='sub-level'>
+				<ul>
+					<li class='parent'><h3>Images</h3>
+					<ul id='imagelist' class='sub-nav'>
 						<li draggable='true' class='image'><img src='images/panda.png' alt='panda'></li>
+						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
+						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
 						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
 					</ul>
 					</li>
@@ -36,11 +38,12 @@
 <script src="js/site.js"></script>
 <script src="js/jquery.js"></script>
 <script>
-$('nav ul li').hover(function(){
-  $(' > ul', this).stop(true, true).fadeIn();  
-}, function(){
-  $(' > ul', this).hide(0);
-});
+
+$(document).ready(function() {
+		$('.parent').click(function() {
+			$('.sub-nav').toggleClass('visible');
+		});
+	});
 </script>
 </body>
 </html>
