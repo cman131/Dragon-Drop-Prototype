@@ -1,0 +1,16 @@
+drag and drop
+ - images
+ - shapes
+
+delete
+Adding menu(drag) 
+ - add images(url)
+ - shapes(squares, circles, rectangle, oval)
+
+ Maybe:
+ - edit
+ - resizing(menu)
+ - selecting(z)
+ 
+ Really maybe
+  - text

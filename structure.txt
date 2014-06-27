@@ -1,0 +1,9 @@
+Views:
+	Menu
+		- Image
+		- Shape
+	Canvas
+	
+Controllers:
+	ImageMenu
+	ShapeMenu
