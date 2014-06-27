@@ -8,36 +8,39 @@
 	<div id="menu">
 		<div id="imageMenu">
 			<h3 class='parent'>Images</h3>
-			<nav>
 					<ul id='imagelist' class='sub-nav'>
 						<li draggable='true' class='image'><img src='images/panda.png' alt='panda'></li>
-						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
-						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
-						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
+						<li draggable='true' class='image'><img src='images/dog.png' alt='dog'></li>
+						<li draggable='true' class='image'><img src='images/dog2.png' alt='dog'></li>
+						<li draggable='true' class='image'><img src='images/frog.png' alt='frog'></li>
+						<li draggable='true' class='image'><img src='images/pig.png' alt='pig'></li>
 					</ul>
-			</nav>
+			
 		</div>
 		<div id="shapeMenu">
-			<h3>Shapes</h3>
-			<div class="square dragon"></div>
-			<div class="circle dragon"></div>
-			<div class="rectangle dragon"></div>
-			<div class="oval dragon"></div>
+			<h3 class='parent'>Shapes</h3>
+		
+				<ul class='sub-nav'>
+					<div class="square dragon"></div>
+					<div class="circle dragon"></div>
+					<div class="rectangle dragon"></div>
+					<div class="oval dragon"></div>
+				</ul>
 		</div>
 	</div>
 
 	<div id="canvas" ondrop="drop(event)">
 		
 	</div>
-
+<script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/site.js"></script>
-<script src="js/jquery.js"></script>
 <script>
 
 $(document).ready(function() {
-		$('.parent').click(function() {
-			$('.sub-nav').toggleClass('visible');
+		$('h3').click(function() {
+			$(this)
+			$(this).siblings('ul').toggleClass('visible');
 		});
 	});
 </script>
