@@ -2,11 +2,13 @@ drag and drop
  - images
  - shapes
 
-delete
+delete(key-maybe)
 Adding menu(drag) 
- - add images(url)
- - shapes(squares, circles, rectangle, oval)
+ - add images(url) - k
+ - shapes(squares, circles, rectangle, oval) - c
 
+ overall layout - c
+ 
  Maybe:
  - edit
  - resizing(menu)
