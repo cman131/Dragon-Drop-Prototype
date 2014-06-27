@@ -4,7 +4,7 @@
 	<link href="site.css" rel="stylesheet">
 </head>
 
-<body ng-app="app">
+<body ng-app="app" ondragover="drag_over(event)">
 	<div id="menu">
 		<div id="imageMenu">
 			<h3 class='parent'>Images</h3>
@@ -19,14 +19,14 @@
 		</div>
 		<div id="shapeMenu">
 			<h3>Shapes</h3>
-			<dragon><div class="square"></div></dragon>
-			<dragon><div class="circle"></div></dragon>
-			<dragon><div class="rectangle"></div></dragon>
-			<dragon><div class="oval"></div></dragon>
+			<div class="square dragon"></div>
+			<div class="circle dragon"></div>
+			<div class="rectangle dragon"></div>
+			<div class="oval dragon"></div>
 		</div>
 	</div>
 
-	<div id="canvas" ondrop="drop(event)" ondragover="drag_over(event)">
+	<div id="canvas" ondrop="drop(event)">
 		
 	</div>
 

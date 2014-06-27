@@ -1,10 +1,20 @@
+function contains(obj1, obj2){
+	return obj1.indexOf(obj2)>-1;
+}
+
+var curDrag;
+
 app = angular.module("app", []);
 
 app.directive("dragon", function(){
 	return {
-		
+		restrict: "C",
+		link: function(scope, element, attrs){
+			element.attr("draggable", "true");
+			element.attr("ondragstart", "drag_start(event)");
+		}
 	}
-})
+});
 
 app.directive("selectable", function(){
 	return {
@@ -18,14 +28,14 @@ app.directive("selectable", function(){
 			})
 		}
 	}
-})
+});
 
 var offset_data;
 function drag_start(event) {
 	var style = window.getComputedStyle(event.target, null);
 	offset_data = (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY);
 	event.dataTransfer.setData("text/plain",offset_data);
-	event.dataTransfer.setData("me", event.target.id);
+	curDrag = event.target;
 } 
 function drag_over(event) { 
 	var offset;
@@ -35,9 +45,11 @@ function drag_over(event) {
 	catch(e) {
 		offset = offset_data.split(',');
 	}
-	var dm = document.getElementById(event.dataTransfer.getData("me"));
-	dm.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
-	dm.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+	if(!(curDrag.parentNode.id=="canvas" && ((event.clientX + parseInt(offset[0],10))>=0 || (event.clientY + parseInt(offset[1],10))>0))){
+		curDrag.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
+		curDrag.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+		console.log(curDrag.style.top+" "+curDrag.style.left);
+	}
 	event.preventDefault(); 
 	return false; 
 } 
@@ -49,9 +61,23 @@ function drop(event) {
 	catch(e) {
 		offset = offset_data.split(',');
 	}
-	var dm = document.getElementById(event.dataTransfer.getData("me"));
-	dm.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
-	dm.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+	var left = (event.clientX + parseInt(offset[0],10)) - document.getElementById("canvas").style.left;
+	var top = (event.clientY + parseInt(offset[1],10)) - document.getElementById("canvas").style.right;
+	if(curDrag.parentNode.id!="canvas"){
+		curDrag = curDrag.cloneNode(false);
+		console.log("clone");
+		event.target.appendChild(curDrag);
+		curDrag.style.position = "absolute";
+		left = (event.clientX + parseInt(offset[0],10))+107;
+		top = (event.clientY + parseInt(offset[1],10));
+	}
+	if(!contains(curDrag.className, "selectable")){
+		curDrag.className = curDrag.className+" selectable";
+	}
+	curDrag.style.left = left + 'px';
+	curDrag.style.top = top + 'px';
+	curDrag=undefined;
+	offset_data=undefined;
 	event.preventDefault();
 	return false;
 }
