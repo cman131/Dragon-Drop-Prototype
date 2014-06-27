@@ -28,6 +28,16 @@ body {
 	padding: 2px;
 }
 
+#shapeMenu h3, .menuheader {
+	width: 270px;
+	text-align: center;
+	font-family: helvetica;
+	padding: 8px;
+	box-shadow: 6px 6px 5px black;
+	border-radius: 4px;
+	background: light-grey;
+}
+
 #shapeMenu div{
 	margin: 0 auto;
 	margin-top: 30px;
