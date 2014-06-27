@@ -28,7 +28,7 @@ body {
 	padding: 2px;
 }
 
-#shapeMenu h3, .menuheader, #imageMenu h3 {
+#menu h3 {
 	width: 270px;
 	text-align: center;
 	font-family: helvetica;
@@ -38,7 +38,7 @@ body {
 	background: light-grey;
 }
 
-#shapeMenu div{
+#shapeMenu dragon, dragon div{
 	margin: 0 auto;
 	margin-top: 30px;
 	margin-bottom: 35px;

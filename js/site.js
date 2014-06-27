@@ -1,6 +1,12 @@
 app = angular.module("app", []);
 
-myApp.directive("selectable", function(){
+app.directive("dragon", function(){
+	return {
+		
+	}
+})
+
+app.directive("selectable", function(){
 	return {
 		restrict: "C",
 		link: function(scope, element, attrs){
