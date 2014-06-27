@@ -7,9 +7,17 @@
 <body ng-app="app">
 	<div id="menu">
 		<div id="imageMenu">
-			<ul id='imagelist'>
-				<li draggable='true' class='image'><img src='images/panda.png' alt='panda'></li>
+			<nav>
+				<ul class='top-level'>
+					<li><h3>Images</h3>
+					<ul id='imagelist' class='sub-level'>
+						<li draggable='true' class='image'><img src='images/panda.png' alt='panda'></li>
+						<li draggable='true' class='image'><img src='images/dog.png' alt='panda'></li>
+					</ul>
+					</li>
 			</ul>
+				</ul>
+			</nav>
 		</div>
 		<div id="shapeMenu">
 			<h3>Shapes</h3>
@@ -27,5 +35,12 @@
 <script src="js/angular.min.js"></script>
 <script src="js/site.js"></script>
 <script src="js/jquery.js"></script>
+<script>
+$('nav ul li').hover(function(){
+  $(' > ul', this).stop(true, true).fadeIn();  
+}, function(){
+  $(' > ul', this).hide(0);
+});
+</script>
 </body>
 </html>
