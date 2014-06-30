@@ -7,6 +7,7 @@ $(document).ready(function() {
 				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
 			});
 		});
+		setEditMenu();
 		$(function() {
 			$('.draggable').draggable();
 		});
@@ -21,22 +22,23 @@ $(document).ready(function() {
 				$('#canvas').append("<div class='dragon' draggable='true' ondragstart='drag_start(event)' style='position:absolute;'>" + $('.input-value').val()+ "</div>");
 			}
 		});
-		$('.color-value').keyup(function(){
-			var color = $(this).val();
-			if ($(this).val().length > 0) {
-				$('.elementSelected').css("color", color);
-			}
-			else{
-				$('.elementSelected').css("color", "black");	
-			}	
-		});
-		$('.fontsize-value').keyup(function(){
-			var fontsize = $(this).val();
-			if ($(this).val().length > 0) {
-				$('.elementSelected').css("font-size", fontsize);
-			}
-			else{
-				$('.elementSelected').css("font-size", "12");	
-			}	
-		});
 	});
+
+function setEditMenu(){
+	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
+	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
+	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
+	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
+	$("#fontColorMod").attr("oninput","fire('color', $('#fontColorMod').val())");
+	$("#textMod").attr("oninput","fire('font-size', $('#textMod').val())");
+}
+
+function fire(css, val){
+	console.log(css+" "+(css=="rotate"));
+	if(css=="rotate"){
+		$(".elementSelected").jqrotate(parseInt(val));
+	}
+	else{
+		$(".elementSelected").css(css, val);
+	}
+}

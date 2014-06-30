@@ -84,6 +84,8 @@ function drop(event) {
 		$(curDrag).bind("mousedown", function(){
 			$(".elementSelected").removeClass("elementSelected");
 			$(this).addClass("elementSelected");
+			$("#fontColorMod").val($(this).css("color"));
+			$("#textMod").val($(this).css("font-size"));
 			$("#widthMod").val($(this).css("width"));
 			$("#heightMod").val($(this).css("height"));
 			$("#colorMod").val($(this).css("background-color"));
@@ -95,21 +97,4 @@ function drop(event) {
 	offset_data=undefined;
 	event.preventDefault();
 	return false;
-}
-
-function setEditMenu(){
-	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
-	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
-	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
-	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
-}
-
-function fire(css, val){
-	console.log(css+" "+(css=="rotate"));
-	if(css=="rotate"){
-		$(".elementSelected").jqrotate(parseInt(val));
-	}
-	else{
-		$(".elementSelected").css(css, val);
-	}
 }

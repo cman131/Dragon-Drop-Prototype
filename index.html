@@ -33,16 +33,11 @@
 				<button type='button' id='push'>Add Text</button>
 			</ul>
 		</div>
-		<div id="changesMenu">
-			<h3 class='parent'>Changes</h3>
-			<ul class='sub-nav'>
-				<input type='text' placeholder='color value' class='color-value' />
-				<input type='text' placeholder='font size value' class='fontsize-value' />
-			</ul>
-		</div>
 		<div id="editMenu">
 			<h3 class='parent'>Edit</h3>
 			<ul class='sub-nav'>
+				<li><label>Color: </label><input value="" id="fontColorMod" /></li>
+				<li><label>Font-Size: </label><input id="textMod" /></li>
 				<li><label>Width: </label><input id="widthMod" type='text' value="" /></li>
 				<li><label>Height: </label><input id="heightMod" type='text' value="" /></li>
 				<li><label>Color: </label><input id="colorMod" type='text' value="" /></li>
@@ -59,31 +54,6 @@
 <script src="js/rotate.min.js"></script>
 <script src="js/site.js"></script>
 <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-<script>
-
-$(document).ready(function() {
-		$('h3').click(function() {
-			$(this).siblings('ul').toggleClass('visible');
-			$("#menu .dragon").each(function(index){
-				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-				console.log($(this).attr("class")+" "+$(this).get(0).getBoundingClientRect().top);
-				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
-			});
-		});
-		setEditMenu();
-		$(function() {
-			$('.draggable').draggable();
-		});
-		$(document).keydown(function(e) {
-    		if(e.which==46) {
-    			$('.elementSelected').remove();
-    		}
-		});
-		$('#push').click(function() {
-			$('#canvas').append("<div class='dragon selectable' draggable='true' ondragstart='drag_start(event)' style='position:absolute;'>" + $('.input-value').val()+ "</div>");
-		});
-	});
-	
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
