@@ -83,12 +83,6 @@ function drop(event) {
 		curDrag.className = curDrag.className+" selectable";
 		$(curDrag).bind("mousedown", function(){
 			$(".elementSelected").removeClass("elementSelected");
-			$(".selectable").each(function(index){
-				if($(this).css("z-index")>0){
-					$(this).css("z-index",$(this).css("z-index") -1);
-				}
-			});
-			$(this).css("z-index",$(this).css("z-index")+10);
 			$(this).addClass("elementSelected");
 			$("#widthMod").val($(this).css("width"));
 			$("#heightMod").val($(this).css("height"));
