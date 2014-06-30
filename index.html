@@ -3,17 +3,16 @@
 	<title>Dragon Drop Prototype</title>
 	<link href="site.css" rel="stylesheet">
 </head>
-
 <body ng-app="app" ondragover="drag_over(event)">
 	<div id="menu">
 		<div id="imageMenu">
 			<h3 class='parent'>Images</h3>
 					<ul id='imagelist' class='sub-nav'>
-						<li draggable='true' class='image dragon'><img class="dragon" src='images/panda.png' alt='panda'></li>
-						<li draggable='true' class='image dragon'><img class='dragon' src='images/dog.png' alt='dog'></li>
-						<li draggable='true' class='image dragon'><img class='dragon' src='images/dog2.png' alt='dog'></li>
-						<li draggable='true' class='image dragon'><img class='dragon' src='images/frog.png' alt='frog'></li>
-						<li draggable='true' class='image dragon'><img class='dragon' src='images/pig.png' alt='pig'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/panda.png' alt='panda'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/dog.png' alt='dog'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/dog2.png' alt='dog'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/frog.png' alt='frog'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/pig.png' alt='pig'></li>
 					</ul>
 			
 		</div>
@@ -26,6 +25,13 @@
 					<div class="rectangle dragon"></div>
 					<div class="oval dragon"></div>
 				</ul>
+		</div>
+		<div id="textMenu">
+			<h3 class='parent'>Text</h3>
+			<ul class='sub-nav'>
+				<input type='text' value="" class='input-value' />
+				<button type='button' id='push'>add text</button>
+			</ul>
 		</div>
 	</div>
 
@@ -50,7 +56,16 @@ $(document).ready(function() {
 		$(function() {
 			$('.draggable').draggable();
 		});
+		$(document).keydown(function(e) {
+    		if(e.which==46) {
+    			$('.elementSelected').remove();
+    		}
+		});
+		$('#push').click(function() {
+			$('#canvas').append("<div class='dragon selectable' draggable='true' ondragstart='drag_start(event)' style='position:absolute;'>" + $('.input-value').val()+ "</div>");
+		});
 	});
+	
 </script>
 </body>
 </html>
