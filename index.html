@@ -9,11 +9,11 @@
 		<div id="imageMenu">
 			<h3 class='parent'>Images</h3>
 					<ul id='imagelist' class='sub-nav'>
-						<li draggable='true' class='image'><img src='images/panda.png' alt='panda'></li>
-						<li draggable='true' class='image'><img src='images/dog.png' alt='dog'></li>
-						<li draggable='true' class='image'><img src='images/dog2.png' alt='dog'></li>
-						<li draggable='true' class='image'><img src='images/frog.png' alt='frog'></li>
-						<li draggable='true' class='image'><img src='images/pig.png' alt='pig'></li>
+						<li draggable='true' class='image dragon'><img class='dragon' src='images/panda.png' alt='panda'></li>
+						<li draggable='true' class='image dragon'><img class='dragon' src='images/dog.png' alt='dog'></li>
+						<li draggable='true' class='image dragon'><img class='dragon' src='images/dog2.png' alt='dog'></li>
+						<li draggable='true' class='image dragon'><img class='dragon' src='images/frog.png' alt='frog'></li>
+						<li draggable='true' class='image dragon'><img class='dragon' src='images/pig.png' alt='pig'></li>
 					</ul>
 			
 		</div>
@@ -35,17 +35,20 @@
 <script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/site.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <script>
 
 $(document).ready(function() {
 		$('h3').click(function() {
-			$(this)
 			$(this).siblings('ul').toggleClass('visible');
 			$("#menu .dragon").each(function(index){
 				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
 				console.log($(this).attr("class")+" "+$(this).get(0).getBoundingClientRect().top);
 				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
 			});
+		});
+		$(function() {
+			$('.draggable').draggable();
 		});
 	});
 </script>
