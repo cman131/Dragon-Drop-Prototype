@@ -88,7 +88,6 @@ body {
 }
 
 #menu ul.sub-nav{
-
 	display:none;
 }
 
@@ -99,4 +98,12 @@ body {
 .elementSelected{
 	border: 2px solid #93DBDB;
 	broderRadius: 4px;
+}
+
+#changeMenu, #ShapeMenu, #textMenu, #changesMenu {
+	padding-bottom:20px;
+}
+
+#changesMenu{
+	
 }
