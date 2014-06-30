@@ -22,6 +22,7 @@ $(document).ready(function() {
 				$('#canvas').append("<div class='dragon' draggable='true' ondragstart='drag_start(event)' style='position:absolute;'>" + $('.input-value').val()+ "</div>");
 			}
 		});
+		readIn();
 	});
 
 function setEditMenu(){
@@ -40,5 +41,51 @@ function fire(css, val){
 	}
 	else{
 		$(".elementSelected").css(css, val);
+	}
+	log();
+}
+
+function mkLog(styl, clas, tg, source, html){
+	return {
+	style: styl, 
+	class: clas, 
+	tag: tg, 
+	src: source, 
+	inner: html
+	}
+}
+
+function log(){
+	var save = [];
+	$(".selectable").each(function(){
+		save[save.length] = mkLog(
+		$(this).attr("style"),
+		$(this).attr("class"),
+		$(this).get(0).tagName,
+		$(this).attr("src"),
+		$(this).get(0).innerHTML
+		);
+	});
+	window.localStorage.work = JSON.stringify(save);
+}
+
+function readIn(){
+	if(window.localStorage.work){
+		var save = JSON.parse(window.localStorage.work);
+		var cur;
+		for(var i=0; i<save.length; i++){
+			cur = save[i];
+			$("#canvas").append("<"+cur.tag+" class='"+cur.class+"' style='"+cur.style+"' src='"+cur.src+"' draggable='true' ondragstart='drag_start(event)'>"+cur.inner+"</"+cur.tag+">");
+		}
+		$(".selectable").each(function(index){
+			$(this).bind("mousedown", function(){
+				$(".elementSelected").removeClass("elementSelected");
+				$(this).addClass("elementSelected");
+				$("#widthMod").val($(this).css("width"));
+				$("#heightMod").val($(this).css("height"));
+				$("#depthMod").val($(this).css("z-index"));
+				$("#colorMod").val($(this).css("background-color"));
+			});
+		});
 	}
 }
