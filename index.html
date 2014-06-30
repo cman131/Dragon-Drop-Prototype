@@ -55,47 +55,6 @@
 <script src="js/rotate.min.js"></script>
 <script src="js/site.js"></script>
 <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-<script>
-
-$(document).ready(function() {
-		$('h3').click(function() {
-			$(this).siblings('ul').toggleClass('visible');
-			$("#menu .dragon").each(function(index){
-				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
-			});
-		});
-		setEditMenu();
-		$(function() {
-			$('.draggable').draggable();
-		});
-		$(document).keydown(function(e) {
-    		if(e.which==46) {
-    			$('.elementSelected').remove();
-			log();
-    		}
-		});
-		$('#push').click(function() {
-			var textEl = document.createElement('div');
-			textEl.className = 'dragon selectable';
-			textEl.draggable='true';
-			$(textEl).attr('ondragstart','drag_start(event)');
-			textEl.style.position = 'absolute';
-			textEl.innerHTML = $('.input-value').val();
-			document.getElementById('canvas').appendChild(textEl);
-			$(textEl).bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
-				$(this).addClass("elementSelected");
-				$("#widthMod").val($(this).css("width"));
-				$("#heightMod").val($(this).css("height"));
-				$("#depthMod").val($(this).css("z-index"));
-				$("#colorMod").val($(this).css("background-color"));
-			});
-			$("#textMenu input").val("");
-		});
-		readIn();
-	});
-	
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
