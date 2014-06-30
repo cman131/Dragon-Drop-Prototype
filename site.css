@@ -34,6 +34,18 @@ body {
 	left: 0;
 }
 
+input[type=text] {
+	border-radius: 8px;
+	font-family: helvetica;
+	padding-left: 8px;
+	padding-top: 2px;
+}
+
+input:focus {
+	outline: none;
+	background-color: rgb(245, 240, 223);
+}
+
 #imageMenu, #shapeMenu {
 	width: 100%;
 	height:auto;
@@ -42,6 +54,7 @@ body {
 }
 
 #menu h3 {
+	cursor: hand;
 	width: 270px;
 	text-align: center;
 	font-family: helvetica;
