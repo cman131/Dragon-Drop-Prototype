@@ -22,11 +22,18 @@ app.directive("selectable", function(){
 		link: function(scope, element, attrs){
 			element.bind("mousedown", function(){
 				$(".elementSelected").removeClass("elementSelected");
+				$(".selectable").each(function(index){
+					if($(this).css("z-index")>0){
+						$(this).css("z-index",$(this).css("z-index") -1);
+					}
+				});
+				$(element).css("z-index",$(element).css("z-index")+10);
 				element.addClass("elementSelected");
 			});
 		}
 	}
 });
+
 
 var offset_data;
 function drag_start(event) {
@@ -75,12 +82,18 @@ function drop(event) {
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
 		$(curDrag).bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
+			$(".elementSelected").removeClass("elementSelected");
+			$(".selectable").each(function(index){
+				if($(this).css("z-index")>0){
+					$(this).css("z-index",$(this).css("z-index") -1);
+				}
+			});
+			$(this).css("z-index",$(this).css("z-index")+10);
 			$(this).addClass("elementSelected");
 		});
 	}
-	curDrag.style.left = left + 'px';
-	curDrag.style.top = top + 'px';
+	curDrag.style.left = (left>=0 ? left : 0) + 'px';
+	curDrag.style.top = (top>=0 ? top : 0) + 'px';
 	curDrag=undefined;
 	offset_data=undefined;
 	event.preventDefault();
