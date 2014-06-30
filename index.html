@@ -33,16 +33,11 @@
 				<button type='button' id='push'>Add Text</button>
 			</ul>
 		</div>
-		<div id="changesMenu">
-			<h3 class='parent'>Changes</h3>
-			<ul class='sub-nav'>
-				<input type='text' placeholder='color value' class='color-value' />
-				<input type='text' placeholder='font size value' class='fontsize-value' />
-			</ul>
-		</div>
 		<div id="editMenu">
 			<h3 class='parent'>Edit</h3>
 			<ul class='sub-nav'>
+				<li><label>Color: </label><input value="" id="fontColorMod" /></li>
+				<li><label>Font-Size: </label><input id="textMod" /></li>
 				<li><label>Width: </label><input id="widthMod" type='text' value="" /></li>
 				<li><label>Height: </label><input id="heightMod" type='text' value="" /></li>
 				<li><label>Depth: </label><input id="depthMod" type='text' value="" /></li>
@@ -78,6 +73,7 @@ $(document).ready(function() {
 		$(document).keydown(function(e) {
     		if(e.which==46) {
     			$('.elementSelected').remove();
+			log();
     		}
 		});
 		$('#push').click(function() {

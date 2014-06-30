@@ -84,6 +84,8 @@ function drop(event) {
 		$(curDrag).bind("mousedown", function(){
 			$(".elementSelected").removeClass("elementSelected");
 			$(this).addClass("elementSelected");
+			$("#fontColorMod").val($(this).css("color"));
+			$("#textMod").val($(this).css("font-size"));
 			$("#widthMod").val($(this).css("width"));
 			$("#heightMod").val($(this).css("height"));
 			$("#depthMod").val($(this).css("z-index"));

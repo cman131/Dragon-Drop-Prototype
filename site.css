@@ -100,10 +100,6 @@ body {
 	broderRadius: 4px;
 }
 
-#changeMenu, #ShapeMenu, #textMenu, #changesMenu {
+#imageMenu, #shapeMenu, #textMenu  {
 	padding-bottom:20px;
-}
-
-#changesMenu{
-	
 }
