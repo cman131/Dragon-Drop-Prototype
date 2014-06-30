@@ -67,8 +67,7 @@ function drop(event) {
 		curDrag = curDrag.cloneNode(false);
 		prevDrag.style.left = prevDrag.getBoundingClientRect().left;
 		prevDrag.style.top = prevDrag.getBoundingClientRect().top;
-		console.log("clone");
-		event.target.appendChild(curDrag);
+		document.getElementById("canvas").appendChild(curDrag);
 		curDrag.style.position = "absolute";
 		left = (event.clientX + parseInt(offset[0],10))-310;
 		top = (event.clientY + parseInt(offset[1],10));
