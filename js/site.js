@@ -107,10 +107,11 @@ function setEditMenu(){
 	$("#depthMod").attr("oninput","fire('z-index', $('#depthMod').val())");
 	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
 	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
+	$("#fontColorMod").attr("oninput", "fire('color', $('#fontColorMod').val())");
+	$("#textMod").attr("oninput", "fire('font-size', $('#textMod').val())");
 }
 
 function fire(css, val){
-	console.log(css+" "+(css=="rotate"));
 	if(css=="rotate"){
 		$(".elementSelected").jqrotate(parseInt(val));
 	}

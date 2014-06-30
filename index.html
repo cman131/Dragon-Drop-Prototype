@@ -29,20 +29,20 @@
 		<div id="textMenu">
 			<h3 class='parent'>Text</h3>
 			<ul class='sub-nav'>
-				<input type='text' value="" class='input-value' />
+				<input type='text' value="" onkeydown="event.keyCode==13 ? $('#push').click() : true" class='input-value' />
 				<button type='button' id='push'>Add Text</button>
 			</ul>
 		</div>
 		<div id="editMenu">
 			<h3 class='parent'>Edit</h3>
 			<ul class='sub-nav'>
-				<li><label>Color: </label><input value="" id="fontColorMod" /></li>
-				<li><label>Font-Size: </label><input id="textMod" /></li>
 				<li><label>Width: </label><input id="widthMod" type='text' value="" /></li>
 				<li><label>Height: </label><input id="heightMod" type='text' value="" /></li>
 				<li><label>Depth: </label><input id="depthMod" type='text' value="" /></li>
 				<li><label>Color: </label><input id="colorMod" type='text' value="" /></li>
 				<li><label>Rotation: </label><input id="rotateMod" type='text' value="" /></li>
+				<li><label>Font Color: </label><input type='text' value="" id="fontColorMod" /></li>
+				<li><label>Font Size: </label><input type='text' id="textMod" /></li>
 			</ul>
 		</div>
 	</div>
@@ -62,7 +62,6 @@ $(document).ready(function() {
 			$(this).siblings('ul').toggleClass('visible');
 			$("#menu .dragon").each(function(index){
 				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-				console.log($(this).attr("class")+" "+$(this).get(0).getBoundingClientRect().top);
 				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
 			});
 		});
@@ -77,7 +76,22 @@ $(document).ready(function() {
     		}
 		});
 		$('#push').click(function() {
-			$('#canvas').append("<div class='dragon selectable' draggable='true' ondragstart='drag_start(event)' style='position:absolute;'>" + $('.input-value').val()+ "</div>");
+			var textEl = document.createElement('div');
+			textEl.className = 'dragon selectable';
+			textEl.draggable='true';
+			$(textEl).attr('ondragstart','drag_start(event)');
+			textEl.style.position = 'absolute';
+			textEl.innerHTML = $('.input-value').val();
+			document.getElementById('canvas').appendChild(textEl);
+			$(textEl).bind("mousedown", function(){
+				$(".elementSelected").removeClass("elementSelected");
+				$(this).addClass("elementSelected");
+				$("#widthMod").val($(this).css("width"));
+				$("#heightMod").val($(this).css("height"));
+				$("#depthMod").val($(this).css("z-index"));
+				$("#colorMod").val($(this).css("background-color"));
+			});
+			$("#textMenu input").val("");
 		});
 		readIn();
 	});
