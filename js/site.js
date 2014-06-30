@@ -21,11 +21,9 @@ app.directive("selectable", function(){
 		restrict: "C",
 		link: function(scope, element, attrs){
 			element.bind("mousedown", function(){
-				for(i in $(".selectable")){
-					$(".selectable").removeClass("elementSelected");
-				}
+				$(".elementSelected").removeClass("elementSelected");
 				element.addClass("elementSelected");
-			})
+			});
 		}
 	}
 });
@@ -77,6 +75,10 @@ function drop(event) {
 	}
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
+		$(curDrag).bind("mousedown", function(){
+				$(".elementSelected").removeClass("elementSelected");
+			$(this).addClass("elementSelected");
+		});
 	}
 	curDrag.style.left = left + 'px';
 	curDrag.style.top = top + 'px';
