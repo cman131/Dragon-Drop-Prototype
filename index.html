@@ -33,6 +33,15 @@
 				<button type='button' id='push'>add text</button>
 			</ul>
 		</div>
+		<div id="editMenu">
+			<h3 class='parent'>Edit</h3>
+			<ul class='sub-nav'>
+				<li><label>Width: </label><input id="widthMod" type='text' value="" /></li>
+				<li><label>Height: </label><input id="heightMod" type='text' value="" /></li>
+				<li><label>Color: </label><input id="colorMod" type='text' value="" /></li>
+				<li><label>Rotation: </label><input id="rotateMod" type='text' value="" /></li>
+			</ul>
+		</div>
 	</div>
 
 	<div id="canvas" ondrop="drop(event)">
@@ -40,6 +49,7 @@
 	</div>
 <script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
+<script src="js/rotate.min.js"></script>
 <script src="js/site.js"></script>
 <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <script>
@@ -53,6 +63,7 @@ $(document).ready(function() {
 				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
 			});
 		});
+		setEditMenu();
 		$(function() {
 			$('.draggable').draggable();
 		});

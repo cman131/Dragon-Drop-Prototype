@@ -90,6 +90,9 @@ function drop(event) {
 			});
 			$(this).css("z-index",$(this).css("z-index")+10);
 			$(this).addClass("elementSelected");
+			$("#widthMod").val($(this).css("width"));
+			$("#heightMod").val($(this).css("height"));
+			$("#colorMod").val($(this).css("background-color"));
 		});
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
@@ -98,4 +101,21 @@ function drop(event) {
 	offset_data=undefined;
 	event.preventDefault();
 	return false;
+}
+
+function setEditMenu(){
+	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
+	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
+	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
+	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
+}
+
+function fire(css, val){
+	console.log(css+" "+(css=="rotate"));
+	if(css=="rotate"){
+		$(".elementSelected").jqrotate(parseInt(val));
+	}
+	else{
+		$(".elementSelected").css(css, val);
+	}
 }
