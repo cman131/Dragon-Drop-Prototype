@@ -101,7 +101,7 @@ input:focus {
 	background-color: #caedf7;
 }
 
-#imageMenu, #shapeMenu {
+#imageMenu, #shapeMenu, #videoMenu, #socialMenu, #textMenu, #editMenu {
 	width: 100%;
 	height:auto;
 	padding: 2px;
@@ -208,11 +208,29 @@ input:focus {
 	cursor: default;
 }
 
+#socialMenu ul {
+	box-sizing: border-box;
+	position: relative;
+}
+
+#socialMenu li {
+	padding-left: 70px;
+}
+
+.socialOption {
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid;
+	background-color: white;
+	border-color: blue;
+	box-sizing: border-box;
+	position: relative;
+	border-radius: 8px;
+	height: 20px;
 #blocker input {
 	cursor: pointer;
 }
 
 #videoMenu label{
 	padding-right:55px;
-
 }

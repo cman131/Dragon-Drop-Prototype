@@ -76,6 +76,10 @@ function drop(event) {
 		prevDrag.style.top = prevDrag.getBoundingClientRect().top;
 		document.getElementById("canvas").appendChild(curDrag);
 		curDrag.style.position = "absolute";
+		$(curDrag).html($(prevDrag).html());
+		if($(curDrag).hasClass("transform")){
+			$(curDrag).html(moreThanMeetsTheEye($(curDrag).attr("cval")));
+		}
 		left = (event.clientX + parseInt(offset[0],10))-310;
 		top = (event.clientY + parseInt(offset[1],10));
 	}
@@ -134,4 +138,42 @@ function submitLocal(path){
 		$("#colorMod").val($(this).css("background-color"));
 	});
 	log();
+}
+
+function getDatTweet(id){
+	$.get("https://api.twitter.com/1/statuses/oembed.json?id="+id,
+	{},
+	function(data){
+		if(data.html){
+			var div = document.createElement('div');
+			div.innerHTML = data.html;
+			div.className = 'dragon selectable';
+			div.draggable='true';
+			$(div).attr('ondragstart','drag_start(event)');
+			div.style.position = 'absolute';
+			document.getElementById('canvas').appendChild(div);
+			$(div).bind("mousedown", function(){
+				$(".elementSelected").removeClass("elementSelected");
+				$(this).addClass("elementSelected");
+				$("#htmlMod").val($(this).html());
+				$("#fontColorMod").val($(this).css("color"))
+				$("#textMod").val($(this).css("font-size"));
+				$("#widthMod").val($(this).css("width"));
+				$("#heightMod").val($(this).css("height"));
+				$("#depthMod").val($(this).css("z-index"));
+				$("#colorMod").val($(this).css("background-color"));
+			});
+			log();
+		}
+	});
+}
+
+function moreThanMeetsTheEye(type){
+	switch(type) {
+	case "twitter":
+	return "<a class=\"twitter-timeline\" href=\"https://twitter.com/twitter\" data-widget-id=\"484017786205650945\">Tweets by @twitter</a>"+
+	"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
+	default:
+		return "";
+	}
 }
