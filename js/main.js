@@ -55,6 +55,13 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
+		$('#activateTween').click(function() {
+			var image = document.getElementsByClassName('elementSelected');
+			var time = $('#animationTime').val();
+			if(time='') {time=4};
+			var tweenType = $('#tweenSelect').val();
+			TweenLite.to(image, time, {left:"440px", ease:tweenType});
+		});
 		readIn();
 	});
 
@@ -68,6 +75,7 @@ function setEditMenu(){
 	$("#textMod").attr("oninput", "fire('font-size', $('#textMod').val())");
 	$("#htmlMod").attr("oninput", "fire('html', $('#htmlMod').val())");
 }
+
 
 function fire(css, val){
 	if(css=="rotate"){
