@@ -40,6 +40,15 @@ $(document).ready(function() {
 			});
 			$("#textMenu input").val("");
 		});
+		$('#addVideo').click(function() {
+			var videoURL = $('.video-value').val().split('=');
+			var video = '<div class="dragon selectable containerVideo" ondragstart="drag_start(event)" style="position:absolute;" draggable="true"><embed width="99%" height="99%" class="dragon selectable" ondragstart="drag_start(event)" draggable="true" style="position: absolute;" src="http://www.youtube.com/v/' + videoURL[1] + '" type="application/x-shockwave-flash"></div>';
+			document.getElementById('canvas').insertAdjacentHTML('beforeend',video);
+			$('.video-value').val("");
+		});
+		$('#clearLocalStorage').click(function() {
+			localStorage.clear();
+		});
 		readIn();
 	});
 
@@ -120,3 +129,4 @@ function flipIt(){
 	$('.elementSelected').toggleClass('flipped');
 	log();
 }
+

@@ -36,6 +36,13 @@
 				<button type='button' id='push'>Add Text</button>
 			</ul>
 		</div>
+		<div id='videoMenu'>
+			<h3 class='parent'>Video</h3>
+			<ul class='sub-nav'>
+				<input type='url' name='video' class='video-value' />
+				<button type='button' id='addVideo'>Add Video</button>
+			</ul>
+		</div>
 		<div id="editMenu">
 			<h3 class='parent'>Edit</h3>
 			<ul class='sub-nav'>
@@ -50,6 +57,7 @@
 				<li><button id="flippy" title="Horizontally" onclick="flipIt();">Flip it!</button></li>
 			</ul>
 		</div>
+		<p id="clearLocalStorage">clear local storage</p>
 	</div>
 
 	<div id="canvas" ondrop="drop(event)">

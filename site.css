@@ -176,7 +176,7 @@ input:focus {
 	broderRadius: 4px;
 }
 
-#imageMenu, #shapeMenu, #textMenu  {
+#imageMenu, #shapeMenu, #textMenu, #videoMenu  {
 	padding-bottom:20px;
 }
 
@@ -187,4 +187,19 @@ input:focus {
 	text-align:center;
 	width:270px;
 	padding:5px;
+}
+
+.containerVideo{
+	height:400px;
+	width:400px;
+	border:1px solid white;
+}
+
+#clearLocalStorage{
+	color:white;
+	position:relative;
+	text-align:center;
+	font-size:25px;
+	display:none;
+	
 }
