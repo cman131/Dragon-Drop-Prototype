@@ -49,6 +49,7 @@ input[type=text] {
 }
 
 button, input[type=button] {
+	outline: none;
 	background-color:#3dc2e3;
 	-moz-border-radius:25px;
 	-webkit-border-radius:25px;
@@ -65,10 +66,15 @@ button, input[type=button] {
 }
 button:hover, input[type=button]:hover {
 	background-color:#6fc6f2;
+	outline: none;
 }
-button:active , input[typ=button]:active{
+button:active , input[type=button]:active{
 	position:relative;
 	top:1px;
+	outline: none;
+}
+button:focus , input[type=button]:focus{
+	outline: none;
 }
 
 input:focus {

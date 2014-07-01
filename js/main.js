@@ -17,6 +17,9 @@ $(document).ready(function() {
     		}
 		});
 		$('#push').click(function() {
+			if($(".input-value").val()==""){
+				return;
+			}
 			var textEl = document.createElement('div');
 			textEl.className = 'dragon selectable';
 			textEl.draggable='true';
