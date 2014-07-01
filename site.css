@@ -41,6 +41,13 @@ input[type=text] {
 	padding-top: 2px;
 }
 
+#shapeMenu li {
+	list-style: none;
+	width: 80px;
+	padding: 20px;
+	display: inline-block;
+}
+
 button, input[type=button] {
 	background-color:#3dc2e3;
 	-moz-border-radius:25px;
