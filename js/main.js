@@ -72,12 +72,21 @@ function setEditMenu(){
 function fire(css, val){
 	if(css=="rotate"){
 		$(".elementSelected").jqrotate(parseInt(val));
+		if($(".elementSelected iframe").length>0){
+			$(".elementSelected iframe").jqrotate(parseInt(val));
+		}
 	}
 	else if(css=="html"){
 		$(".elementSelected").html(val);
+		if($(".elementSelected iframe").length>0){
+			$(".elementSelected iframe").html(val);
+		}
 	}
 	else{
 		$(".elementSelected").css(css, val);
+		if($(".elementSelected iframe").length>0){
+			$(".elementSelected iframe").css(css, val);
+		}
 	}
 	log();
 }
