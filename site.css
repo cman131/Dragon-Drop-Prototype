@@ -209,8 +209,13 @@ input:focus {
 	border:1px solid white;
 }
 
-#blocker {
+#blocker , .blockUI{
 	cursor: default;
+	background-color: #19a1a1;
+}
+
+#blocker ul{
+	list-style: none;
 }
 
 #socialMenu ul {
@@ -240,4 +245,8 @@ input:focus {
 
 #videoMenu label{
 	padding-right:55px;
+}
+body>button:active {
+	top: auto;
+	bottom: -40px;
 }

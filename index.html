@@ -66,6 +66,7 @@
 				<li><label>Font Size: </label><input type='text' id="textMod" /></li>
 				<li><label>Text: </label><input type='text' id="htmlMod" /></li>
 				<li><button id="flippy" title="Horizontally" onclick="flipIt();">Flip it!</button></li>
+				<li><button id="Animate" onclick="animateIt();">Animate it!</button></li>
 			</ul>
 		</div>
 		<p id="clearLocalStorage">clear local storage</p>
@@ -74,10 +75,12 @@
 	<div id="canvas" ondrop="drop(event)">
 		
 	</div>
+	<button style="position:absolute;bottom:0;right:0;position: fixed;" onclick="launchAnimations();">Animation Time!</button>
 <script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/rotate.min.js"></script>
 <script src="js/blockUI.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.12.1/TweenMax.min.js"></script>
 <script src="js/site.js"></script>
 <script src="js/main.js"></script>
 </body>

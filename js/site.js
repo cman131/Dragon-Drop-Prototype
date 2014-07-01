@@ -3,6 +3,7 @@ function contains(obj1, obj2){
 }
 
 var curDrag;
+var animations = [];
 
 app = angular.module("app", []);
 
@@ -177,5 +178,37 @@ function moreThanMeetsTheEye(type, extra){
 	"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\"://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
 	default:
 		return "";
+	}
+}
+
+function animateIt(){
+	var message = "<div id='blocker'>"+
+			"<h3>Animation Station</h3>"+
+			"<ul>"+
+			"<li><label>Change in X pos: </label><input id='xchange' type='text'></li>"+
+			"</ul>"+
+			"<button onclick='$.unblockUI();'>Cancel</button>"+
+			"<button onclick='submitAnimation()'>Submit</button>"+
+			"</div>";
+
+	$.blockUI({
+		message: message,
+		css: {backgroundColor: '#19a1a1'}
+	});
+}
+
+function submitAnimation(){
+	var xchange = $("#xchange");
+	var element = $(".elementSelected").get(0);
+	animations[element] = {};
+	animations[element].xpos = function(element){
+		TweenMax.to(element, 3, {width: '+='+xchange, ease:Elastic.easeOut,onComplete: function(){alert("done");}});
+	}
+	$.unblockUI();
+}
+
+function launchAnimations(){
+	for(var i=0; i<$(".selectable").length; i++){
+		animations[$(".selectable").get(i)].xpos.call(animations[$(".selectable").get(i)],$(".selectable").get(i));
 	}
 }
