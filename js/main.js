@@ -115,3 +115,8 @@ function readIn(){
 		$(".elementSelected").removeClass("elementSelected");
 	}
 }
+
+function flipIt(){
+	$('.elementSelected').toggleClass('flipped');
+	log();
+}

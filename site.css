@@ -34,6 +34,15 @@ body {
 	left: 0;
 }
 
+.flipped {
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
 input[type=text] {
 	border-radius: 8px;
 	font-family: helvetica;
