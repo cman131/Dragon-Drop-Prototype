@@ -168,7 +168,7 @@ function getDatTweet(id){
 	});
 }
 
-function moreThanMeetsTheEye(type){
+function moreThanMeetsTheEye(type, extra){
 	switch(type) {
 	case "twitter":
 	return "<a class=\"twitter-timeline\" href=\"https://twitter.com/twitter\" data-widget-id=\"484017786205650945\">Tweets by @twitter</a>"+
