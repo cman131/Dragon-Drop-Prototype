@@ -188,3 +188,19 @@ input:focus {
 	width:270px;
 	padding:5px;
 }
+
+#blocker {
+	cursor: default;
+}
+
+#blocker input {
+	cursor: pointer;
+}
+
+#videoMenu {
+	height: 84px;
+}
+
+#videoMenu li {
+	padding-left: 70px
+}
