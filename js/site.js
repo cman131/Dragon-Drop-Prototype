@@ -116,7 +116,7 @@ function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
 	var div = document.createElement('div');
-	div.innerHTML = "<video src="+path+">";
+	div.innerHTML = "<video><source src='"+path.replace(" ", "\\ ")+"'>No Video</video>";
 	div.className = 'dragon selectable';
 	div.draggable='true';
 	$(div).attr('ondragstart','drag_start(event)');
