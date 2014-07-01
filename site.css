@@ -41,10 +41,13 @@ input[type=text] {
 	padding-top: 2px;
 }
 
+#shapeMenu ul {
+	padding-left: 15px;
+}
+
 #shapeMenu li {
 	list-style: none;
-	width: 80px;
-	padding: 20px;
+	width: 49%;
 	display: inline-block;
 }
 
