@@ -10,6 +10,11 @@ body {
 	background-size:100%;
 }
 
+.transform {
+	border: 1px solid black;
+	broderRadius: 4px;
+}
+
 #canvas {
 	display: inline-block;
 	height: 100%;
@@ -227,6 +232,8 @@ input:focus {
 	position: relative;
 	border-radius: 8px;
 	height: 20px;
+	
+}
 #blocker input {
 	cursor: pointer;
 }
