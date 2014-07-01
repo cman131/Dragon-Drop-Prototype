@@ -212,11 +212,6 @@ input:focus {
 	cursor: pointer;
 }
 
-#videoMenu {
-	height: 84px;
+#videoMenu label{
+	padding-right:55px;
 }
-
-#videoMenu li {
-	padding-left: 70px
-}
-

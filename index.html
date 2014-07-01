@@ -32,9 +32,9 @@
 		<div id="videoMenu">
 			<h3 class='parent'>Video</h3>
 			<ul class='sub-nav'>
-				<li>
-				<button id="addLocalVideo" onClick="addLocal();">Add local Video</button>
-				</li>
+				<li><label>Add local Video :  </label><button id="addLocalVideo" onClick="addLocal();">Upload</button></li>
+				<input type='url' name='video' placeholder='youtube URL' class='video-value' />
+				<button type='button' id='addVideo'>Add Video</button>
 			</ul>
 		</div>
 		<div id="textMenu">
@@ -42,13 +42,6 @@
 			<ul class='sub-nav'>
 				<input type='text' value="" onkeydown="event.keyCode==13 ? $('#push').click() : true" class='input-value' />
 				<button type='button' id='push'>Add Text</button>
-			</ul>
-		</div>
-		<div id='videoMenu'>
-			<h3 class='parent'>Video</h3>
-			<ul class='sub-nav'>
-				<input type='url' name='video' class='video-value' />
-				<button type='button' id='addVideo'>Add Video</button>
 			</ul>
 		</div>
 		<div id="editMenu">
@@ -76,7 +69,6 @@
 <script src="js/rotate.min.js"></script>
 <script src="js/blockUI.js"></script>
 <script src="js/site.js"></script>
-<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
