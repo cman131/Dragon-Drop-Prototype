@@ -227,4 +227,10 @@ input:focus {
 	position: relative;
 	border-radius: 8px;
 	height: 20px;
+#blocker input {
+	cursor: pointer;
+}
+
+#videoMenu label{
+	padding-right:55px;
 }

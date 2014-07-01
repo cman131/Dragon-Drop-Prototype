@@ -32,12 +32,12 @@
 		<div id="videoMenu">
 			<h3 class='parent'>Video</h3>
 			<ul class='sub-nav'>
+				<li><label>Add local Video :  </label><button id="addLocalVideo" onClick="addLocal();">Upload</button></li>
+				<input type='url' name='video' placeholder='youtube URL' class='video-value' />
+				<button type='button' id='addVideo'>Add Video</button>
 				<li>
 				<input type='url' name='video' class='video-value' />
 				<button type='button' id='addVideo'>Add Video</button>
-				</li>
-				<li>
-				<button id="addLocalVideo" onClick="addLocal();">Add local Video</button>
 				</li>
 			</ul>
 		</div>
@@ -83,7 +83,6 @@
 <script src="js/rotate.min.js"></script>
 <script src="js/blockUI.js"></script>
 <script src="js/site.js"></script>
-<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
