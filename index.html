@@ -33,6 +33,10 @@
 			<h3 class='parent'>Video</h3>
 			<ul class='sub-nav'>
 				<li>
+				<input type='url' name='video' class='video-value' />
+				<button type='button' id='addVideo'>Add Video</button>
+				</li>
+				<li>
 				<button id="addLocalVideo" onClick="addLocal();">Add local Video</button>
 				</li>
 			</ul>
@@ -64,6 +68,7 @@
 				<li><button id="flippy" title="Horizontally" onclick="flipIt();">Flip it!</button></li>
 			</ul>
 		</div>
+		<p id="clearLocalStorage">clear local storage</p>
 	</div>
 
 	<div id="canvas" ondrop="drop(event)">
