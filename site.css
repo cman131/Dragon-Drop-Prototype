@@ -178,7 +178,7 @@ input:focus {
 
 .elementSelected{
 	border: 2px solid #93DBDB;
-	border-radius: 4px;
+	
 }
 
 #imageMenu, #shapeMenu, #textMenu, #videoMenu, #socialMenu  {
@@ -240,4 +240,13 @@ input:focus {
 
 #videoMenu label{
 	padding-right:55px;
+}
+
+#editMenu li p{
+	text-align: center;
+	border-radius: 4px;
+	color:white;
+	font-family: 'Segoe UI Light_', 'Open Sans Light', Verdana, Arial, Helvetica, sans-serif;
+	font-weight: 300;
+	letter-spacing: 0.01em;
 }

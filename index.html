@@ -66,6 +66,18 @@
 				<li><label>Font Size: </label><input type='text' id="textMod" /></li>
 				<li><label>Text: </label><input type='text' id="htmlMod" /></li>
 				<li><button id="flippy" title="Horizontally" onclick="flipIt();">Flip it!</button></li>
+
+				<li><p>Animations</p></li>
+				<li><label>Animation Time: </label><input type='text' id='animationTime' value="" /></li>
+				<li><label>Animation Type</label>
+				<select id='tweenSelect'>
+					<option value='Linear.easeNone'>Linear ease none</option>
+					<option value='Back.easeIn'>Back ease In</option>
+					<option value='Back.easeOut'>Back ease Out</option>
+				</select>
+				<button id="activateTween">activate tween</button>
+				</li>
+
 			</ul>
 		</div>
 		<p id="clearLocalStorage">clear local storage</p>
@@ -78,6 +90,9 @@
 <script src="js/angular.min.js"></script>
 <script src="js/rotate.min.js"></script>
 <script src="js/blockUI.js"></script>
+<script type="text/javascript" src="js/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/EasePack.min.js"></script>
+<script type="text/javascript" src="js/TweenLite.min.js"></script>
 <script src="js/site.js"></script>
 <script src="js/main.js"></script>
 </body>
