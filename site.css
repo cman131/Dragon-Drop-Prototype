@@ -189,12 +189,6 @@ input:focus {
 	padding:5px;
 }
 
-.containerVideo{
-	height:400px;
-	width:400px;
-	border:1px solid white;
-}
-
 #clearLocalStorage{
 	color:white;
 	position:relative;
@@ -203,3 +197,26 @@ input:focus {
 	display:none;
 	
 }
+
+.containerVideo{
+	height:400px;
+	width:400px;
+	border:1px solid white;
+}
+
+#blocker {
+	cursor: default;
+}
+
+#blocker input {
+	cursor: pointer;
+}
+
+#videoMenu {
+	height: 84px;
+}
+
+#videoMenu li {
+	padding-left: 70px
+}
+

@@ -101,3 +101,37 @@ function drop(event) {
 	log();
 	return false;
 }
+
+function addLocal(){
+	var message = "<div id='blocker'>"+
+			"<h2>Choose Your Video File</h2>"+
+			"<input type='file' id='filePathInput'><br><br>"+
+			"<button onclick='$.unblockUI();'>Cancel</button>"+
+			"<button onclick=\"submitLocal($('#filePathInput').val());\">Submit</button>"+
+			"</div>";
+	$.blockUI({message: message});
+}
+
+function submitLocal(path){
+	console.log(path);
+	$.unblockUI();
+	var div = document.createElement('div');
+	div.innerHTML = "<video src="+path+">";
+	div.className = 'dragon selectable';
+	div.draggable='true';
+	$(div).attr('ondragstart','drag_start(event)');
+	div.style.position = 'absolute';
+	document.getElementById('canvas').appendChild(div);
+	$(div).bind("mousedown", function(){
+		$(".elementSelected").removeClass("elementSelected");
+		$(this).addClass("elementSelected");
+		$("#htmlMod").val($(this).html());
+		$("#fontColorMod").val($(this).css("color"))
+		$("#textMod").val($(this).css("font-size"));
+		$("#widthMod").val($(this).css("width"));
+		$("#heightMod").val($(this).css("height"));
+		$("#depthMod").val($(this).css("z-index"));
+		$("#colorMod").val($(this).css("background-color"));
+	});
+	log();
+}
