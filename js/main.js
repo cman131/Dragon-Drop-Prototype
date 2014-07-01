@@ -30,6 +30,9 @@ $(document).ready(function() {
 			$(textEl).bind("mousedown", function(){
 				$(".elementSelected").removeClass("elementSelected");
 				$(this).addClass("elementSelected");
+				$("#htmlMod").val($(this).html());
+				$("#fontColorMod").val($(this).css("color"))
+				$("#textMod").val($(this).css("font-size"));
 				$("#widthMod").val($(this).css("width"));
 				$("#heightMod").val($(this).css("height"));
 				$("#depthMod").val($(this).css("z-index"));
@@ -48,11 +51,15 @@ function setEditMenu(){
 	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
 	$("#fontColorMod").attr("oninput", "fire('color', $('#fontColorMod').val())");
 	$("#textMod").attr("oninput", "fire('font-size', $('#textMod').val())");
+	$("#htmlMod").attr("oninput", "fire('html', $('#htmlMod').val())");
 }
 
 function fire(css, val){
 	if(css=="rotate"){
 		$(".elementSelected").jqrotate(parseInt(val));
+	}
+	else if(css=="html"){
+		$(".elementSelected").html(val);
 	}
 	else{
 		$(".elementSelected").css(css, val);
@@ -97,10 +104,14 @@ function readIn(){
 				$(".elementSelected").removeClass("elementSelected");
 				$(this).addClass("elementSelected");
 				$("#widthMod").val($(this).css("width"));
+				$("#htmlMod").val($(this).html());
+				$("#fontColorMod").val($(this).css("color"))
+				$("#textMod").val($(this).css("font-size"));
 				$("#heightMod").val($(this).css("height"));
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
 			});
 		});
+		$(".elementSelected").removeClass("elementSelected");
 	}
 }
