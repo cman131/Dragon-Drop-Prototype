@@ -38,15 +38,19 @@ $(document).ready(function() {
 			$("#textMenu input").val("");
 		});
 		$('#addVideo').click(function() {
-			if($('.video-value').val().toLowerCase().indexOf("youtube")>=0) {
-				var videoURL = $('.video-value').val().split('=');
-				var video = '<div class="dragon selectable containerVideo" ondragstart="drag_start(event)" style="position:absolute;" draggable="true"><embed width="90%" height="90%" class="dragon selectable" ondragstart="drag_start(event)" draggable="true" style="position: absolute;" src="http://www.youtube.com/v/' + videoURL[1] + '" type="application/x-shockwave-flash"></div>';
-				document.getElementById('canvas').insertAdjacentHTML('beforeend',video);
+			//if($('.video-value').val().toLowerCase().indexOf("youtube")>=0) {
+				var videoURL = $('.video-value').val();//.split('=');			
+				var video = document.createElement('video');
+				video.className = 'dragon selectable';
+				video.draggable='true';
+				$(video).attr('ondragstart','drag_start(event)');
+				$(video).attr({'autoplay':'true'});
+				video.style.position = 'absolute';
+				video.style.display = 'block';
+				video.id = 'vidLoaded';
+				video.src =videoURL;
+				document.getElementById('canvas').appendChild(video);
 				$('.video-value').val("");
-			}
-			else{
-				alert("Not a valid youtube URL");
-			}
 		});
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
