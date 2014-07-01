@@ -109,7 +109,8 @@ function drop(event) {
 function addLocal(){
 	var message = "<div id='blocker'>"+
 			"<h2>Choose Your Video File</h2>"+
-			"<input type='file' id='filePathInput'><br><br>"+
+			"<!-- use: videos/movie.ogg -->"+
+			"<input type='text' placeholder='filePath?' id='filePathInput'><br><br>"+
 			"<button onclick='$.unblockUI();'>Cancel</button>"+
 			"<button onclick=\"submitLocal($('#filePathInput').val());\">Submit</button>"+
 			"</div>";
@@ -120,11 +121,12 @@ function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
 	var div = document.createElement('div');
-	div.innerHTML = "<video><source src='"+path.replace(" ", "\\ ")+"'>No Video</video>";
+	div.innerHTML = "<video controls><source src='"+path.replace(" ", "\\ ")+"' type='video/ogg'>No Video</video>";
 	div.className = 'dragon selectable';
 	div.draggable='true';
 	$(div).attr('ondragstart','drag_start(event)');
 	div.style.position = 'absolute';
+	div.style.padding = 20;
 	document.getElementById('canvas').appendChild(div);
 	$(div).bind("mousedown", function(){
 		$(".elementSelected").removeClass("elementSelected");
