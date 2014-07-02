@@ -218,6 +218,14 @@ input:focus {
 	list-style: none;
 }
 
+#blocker h3{
+	color:white;
+	font-size:25px;
+	text-align:center;
+	padding:5px;
+}
+}
+
 #socialMenu ul {
 	box-sizing: border-box;
 	position: relative;

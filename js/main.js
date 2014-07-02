@@ -150,15 +150,38 @@ function flipIt(){
 }
 
 function activateTween() {    
- 	var prompt = "<div id='tweenOptions'><ul><li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
+ 	var prompt = "<div id='tweenOptions'><ul>"+
+ 				"<li><label>Width: </label><input type='number' id='widthChange' value='0' /></li>"+
+ 				"<li><label>Height: </label><input type='number' id='heightChange' value='0' /></li>"+
+ 				"<li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
 				"<li><label>Animation Type</label>"+
-				"<select id='tweenSelect'>"+
+				"<select id='animationType'>"+
 					"<option value='-'>Choose an option</option>"+
-					"<option value='Linear.easeNone'>Linear ease none</option>"+
-					"<option value='Back.easeIn'>Back ease In</option>"+
-					"<option value='Back.easeOut'>Back ease Out</option>"+
+					"<option value='Power0'>Power 0</option>"+
+					"<option value='Power1'>Power 1</option>"+
+					"<option value='Power2'>Power 2</option>"+
+					"<option value='Power3'>Power 3</option>"+
+					"<option value='Power4'>Power 4</option>"+
+					"<option value='Quad'>Quad</option>"+
+					"<option value='Cubic'>Cubic</option>"+
+					"<option value='Quart'>Quart</option>"+
+					"<option value='Quint'>Quint</option>"+
+					"<option value='Strong'>Strong</option>"+
+					"<option value='Back'>Back</option>"+
+					"<option value='Circ'>Circ</option>"+
+					"<option value='Bounce'>Bounce</option>"+
+					"<option value='Elastic'>Elastic</option>"+
+					"<option value='Expo'>Expo</option>"+
+					"<option value='Sine'>Sine</option>"+
 				"</select></li>"+
-				"<li><label>Animation Delay: </label><input type='number' id='animationDelay' /></li></ul>"+
+				"<li><label>Ease Type</label>"+
+				"<select id='easeSelect'>"+
+					"<option value='-'>Choose an option</option>"+
+					"<option value='easeIn'>ease In</option>"+
+					"<option value='easeInOut'>ease InOut</option>"+
+					"<option value='easeOut'>ease Out</option>"+
+				"</select></li>"+
+				"<li><label>Animation Delay: </label><input type='number' id='animationDelay' value='0' /></li></ul>"+
 				"<button onclick='$.unblockUI();'>Cancel</button>"+
 				"<button onclick='startAnimation();'>Submit</button>"+
 				"</div>";
@@ -176,27 +199,20 @@ function startAnimation() {
 		if(isNaN(time) == true || time < 0) {time = 1;};
 		
 
-		var tweenType = $('#tweenSelect').val();
-
 		var properties = returnProperties();
 
-		TweenLite.to(image, time, {width: "440px", ease:Back.easeIn});
+		TweenLite.to(image, time, {width: "440px"});
 	$.unblockUI();
 }
 
 function returnProperties() {
-	var tweenType = $('#tweenSelect').val();
+	var easeType = $('#easeSelect').val();
+	var animationType = $('#animationType').val();
 	var delay = parseInt($('#animationDelay').val());
-	
 
-	var props='';
-
-	if(tweenType!='-') {
-		return props+='ease: '+tweenType;
-	}
-
-
-	return props;
+	var properties =  '{delay:' + delay + ',ease:' + animationType + '.' + easeType + '}';
+	alert(properties);
+	return properties;
 }
 
 
