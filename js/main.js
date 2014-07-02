@@ -55,13 +55,6 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-		$('#activateTween').click(function() {
-			var image = document.getElementsByClassName('elementSelected');
-			var time = $('#animationTime').val();
-			if(time='') {time=4};
-			var tweenType = $('#tweenSelect').val();
-			TweenLite.to(image, time, {left:"440px", ease:tweenType});
-		});
 		readIn();
 	});
 
@@ -153,3 +146,54 @@ function flipIt(){
 	log();
 }
 
+function activateTween() {    
+ 	var prompt = "<div id='tweenOptions'><ul><li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
+				"<li><label>Animation Type</label>"+
+				"<select id='tweenSelect'>"+
+					"<option value='-'>Choose an option</option>"+
+					"<option value='Linear.easeNone'>Linear ease none</option>"+
+					"<option value='Back.easeIn'>Back ease In</option>"+
+					"<option value='Back.easeOut'>Back ease Out</option>"+
+				"</select></li>"+
+				"<li><label>Animation Delay: </label><input type='number' id='animationDelay' /></li></ul>"+
+				"<button onclick='$.unblockUI();'>Cancel</button>"+
+				"<button onclick='startAnimation();'>Submit</button>"+
+				"</div>";
+
+	$.blockUI({
+		message: prompt,
+		css: {backgroundColor: '#19a1a1'}
+	});
+}
+
+function startAnimation() {
+	
+		var image = document.getElementsByClassName('elementSelected');
+		var time = parseInt($('#animationTime').val());
+		if(isNaN(time) == true || time < 0) {time = 1;};
+		
+
+		var tweenType = $('#tweenSelect').val();
+
+		var properties = returnProperties();
+
+		TweenLite.to(image, time, {width: "440px", ease:Back.easeIn});
+	$.unblockUI();
+}
+
+function returnProperties() {
+	var tweenType = $('#tweenSelect').val();
+	var delay = parseInt($('#animationDelay').val());
+	
+
+	var props='';
+
+	if(tweenType!='-') {
+		return props+='ease: '+tweenType;
+	}
+
+
+	return props;
+
+
+}
