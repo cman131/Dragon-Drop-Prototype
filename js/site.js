@@ -2,8 +2,8 @@ function contains(obj1, obj2){
 	return obj1.indexOf(obj2)>-1;
 }
 
-var curDrag;
 var animations = [];
+var curDrag;
 
 app = angular.module("app", []);
 
@@ -122,7 +122,11 @@ function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
 	var div = document.createElement('div');
-	div.innerHTML = "<video controls><source src='"+path.replace(" ", "\\ ")+"' type='video/ogg'>No Video</video>";
+	div.innerHTML = "<video controls>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/ogg'>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/mp4'>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/webm'>"+
+	"No Video</video>";
 	div.className = 'dragon selectable';
 	div.draggable='true';
 	$(div).attr('ondragstart','drag_start(event)');
@@ -185,8 +189,14 @@ function animateIt(){
 	var message = "<div id='blocker'>"+
 			"<h3>Animation Station</h3>"+
 			"<ul>"+
-			"<li><label>Change in X pos: </label><input id='xchange' type='text'></li>"+
-			"<li><label>Change in Y pos: </label><input id='ychange' type='text'></li>"+
+			"<li><label>Change in X pos: </label><input id='xchange' type='number'></li>"+
+			"<li><label>Change in Y pos: </label><input id='ychange' type='number'></li>"+
+			"<li><label>Change in x scale: </label><input id='xschange' type='number'></li>"+
+			"<li><label>Change in Y scale: </label><input id='yschange' type='number'></li>"+
+			"<li><label>Change in rotation: </label><input id='rotationchange' type='number'></li>"+
+			"<li><label>Change in alpha: </label><input id='alphachange' type='number'></li>"+
+			"<li><label>Animation Time(sec): </label><input id='changeTime' value='3' type='number'></li>"+
+			"<li><label>Start Delay(sec): </label><input id='delayTime' value='0' type='number'></li>"+
 			"<li><label>Ease Type: </label><select id='easeSelect'>"+
 			"<option value='Regular'>Regular</option>"+
 			"<option value='Back'>Back</option>"+
@@ -212,26 +222,69 @@ function animateIt(){
 
 	$.blockUI({
 		message: message,
-		css: {backgroundColor: '#19a1a1'}
+		css: {top: '20%', backgroundColor: '#19a1a1'}
 	});
 }
 
 function submitAnimation(){
 	var xchange = $("#xchange").val();
 	var ychange = $("#ychange").val();
+	var xschange = $("#xschange").val();
+	var yschange = $("#yschange").val();
+	var rotationchange = $("#rotationchange").val();
+	var alphachange = $("#alphachange").val();
+	var time;
+	var delay;
+	try{
+		delay = parseInt($("#delayTime").val());
+		time = parseInt($("#timeChange").val());
+	}
+	catch(e){
+	}
+	console.log(delay);
 	var element = $(".elementSelected").get(0);
-	var ease = getEase();
+	var ease = getEase($("#easeSelect").val(), $("#easeDSelect").val());
 	
 	if(!animations[element]){
 		animations[element] = {};
 	}
-	animations[element].xpos = function(element){
-		var left = (parseInt(element.style.left)+parseInt(xchange));
-		TweenLite.to(element, 3, {left: left+"px", ease:ease,onComplete: function(){}});
+	if(!time || time<0){
+		time = 3;
 	}
-	animations[element].ypos = function(element){
-		var top = (parseInt(element.style.top)+parseInt(ychange));
-		TweenLite.to(element, 3, {top: top+"px", ease:ease,onComplete: function(){}});
+	if(!delay){
+		delay = 0;
+	}
+	if(xchange!=""){
+		animations[element].xpos = function(element){
+			var left = (parseInt(element.style.left)+parseInt(xchange));
+			TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(ychange!=""){
+		animations[element].ypos = function(element){
+			var top = (parseInt(element.style.top)+parseInt(ychange));
+			TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(xschange!=""){
+		animations[element].xscale = function(element){
+			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(yschange!=""){
+		animations[element].yscale = function(element){
+			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(rotationchange!=""){
+		animations[element].rotate = function(element){
+			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(alphachange!=""){
+		animations[element].alpha = function(element){
+			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
 	$.unblockUI();
 }
@@ -247,9 +300,9 @@ function launchAnimations(){
 	}
 }
 
-function getEase(){
+function getEase(type,dir){
 	var ease;
-	switch($("#easeSelect").val()){
+	switch(type){
 	case "Bounce":
 		ease = Bounce;
 		break;
@@ -284,7 +337,7 @@ function getEase(){
 		ease = Regular;
 		break;
 	}
-	switch($("#easeDSelect").val()){
+	switch(dir){
 	case "easeOut":
 		ease = ease.easeOut;
 		break;
