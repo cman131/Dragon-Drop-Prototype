@@ -159,6 +159,8 @@ function activateTween() {
  	var prompt = "<div id='tweenOptions'><ul>"+
  				"<li><label>Width: </label><input type='number' id='widthChange' value='0' /></li>"+
  				"<li><label>Height: </label><input type='number' id='heightChange' value='0' /></li>"+
+ 				"<li><label>left: </label><input type='number' id='xChange' value='0' /></li>"+
+ 				"<li><label>top: </label><input type='number' id='yChange' value='0' /></li>"+
  				"<li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
 				"<li><label>Animation Type</label>"+
 				"<select id='animationType'>"+
@@ -187,16 +189,19 @@ function activateTween() {
 					"<option value='easeInOut'>ease InOut</option>"+
 					"<option value='easeOut'>ease Out</option>"+
 				"</select></li>"+
-				"<li><label>Animation Delay: </label><input type='number' id='animationDelay' value='0' /></li></ul>"+
+				"<li><label>Animation Delay: </label><input type='number' id='animationDelay' value='0' /></li>"+
+				"<li><label>Repeat: </label><input type='checkbox' class='repeat' value='repeat' /></li></ul>"+
 				"<button onclick='$.unblockUI();'>Cancel</button>"+
 				"<button onclick='startAnimation();'>Submit</button>"+
 				"</div>";
 
-	$.blockUI({
-		message: prompt,
-		css: {backgroundColor: '#19a1a1'}
-	});
-}
+				$.blockUI({
+					message: prompt,
+					css: {backgroundColor: '#19a1a1'}
+				});
+					var width = $('.elementSelected').width();
+				$('#widthChange').val(width);
+	}
 
 function startAnimation() {
 	
@@ -204,11 +209,14 @@ function startAnimation() {
 		var time = parseInt($('#animationTime').val());
 		if(isNaN(time) == true || time < 0) {time = 1;};
 		
-
 		var properties = returnProperties();
 		
-
-		TweenLite.to(image, time, properties);
+		var tween = TweenLite.to(image, time, properties);
+		if ($('input.repeat').is(':checked')) {
+			window.setInterval(function() {
+				tween.restart();
+			},2000);
+		}
 	$.unblockUI();
 }
 
@@ -218,9 +226,10 @@ function returnProperties() {
 	var delay = parseInt($('#animationDelay').val());
 	var width = parseInt($('#widthChange').val());
 	var height = parseInt($('#heightChange').val());
-	
+	var y = parseInt($('#yChange').val());
+	var x = parseInt($('#xChange').val());
 
-	var properties =  {delay:delay,ease:getEase(animationType, easeType),height:height,width:width};
+	var properties =  {delay:delay,ease:getEase(animationType, easeType),height:height,width:width, left:x, top:y};
 	
 	return properties;
 }
