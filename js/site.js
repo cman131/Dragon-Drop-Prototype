@@ -2,8 +2,8 @@ function contains(obj1, obj2){
 	return obj1.indexOf(obj2)>-1;
 }
 
-var curDrag;
 var animations = [];
+var curDrag;
 
 app = angular.module("app", []);
 
@@ -122,7 +122,11 @@ function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
 	var div = document.createElement('div');
-	div.innerHTML = "<video controls><source src='"+path.replace(" ", "\\ ")+"' type='video/ogg'>No Video</video>";
+	div.innerHTML = "<video controls>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/ogg'>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/mp4'>"+
+	"<source src='"+path.replace(" ", "\\ ")+"' type='video/webm'>"+
+	"No Video</video>";
 	div.className = 'dragon selectable';
 	div.draggable='true';
 	$(div).attr('ondragstart','drag_start(event)');
@@ -218,7 +222,7 @@ function animateIt(){
 
 	$.blockUI({
 		message: message,
-		css: {backgroundColor: '#19a1a1'}
+		css: {top: '20%', backgroundColor: '#19a1a1'}
 	});
 }
 
@@ -232,7 +236,7 @@ function submitAnimation(){
 	var time;
 	var delay;
 	try{
-		delay = parseInt($("#delayChange").val());
+		delay = parseInt($("#delayTime").val());
 		time = parseInt($("#timeChange").val());
 	}
 	catch(e){

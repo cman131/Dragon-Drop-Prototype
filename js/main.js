@@ -96,6 +96,9 @@ function fire(css, val){
 			$(".elementSelected iframe").css(css, val);
 		}
 	}
+	if($(".elementSelected video").length>0 && (css=="width" || css=="height")){
+			$(".elementSelected video").attr(css, val);
+	}
 	log();
 }
 
@@ -153,3 +156,8 @@ function flipIt(){
 	log();
 }
 
+function unAnimateIt(){
+	var e = $(".elementSelected").get(0);
+	animations[e] = undefined;
+	log();
+}
