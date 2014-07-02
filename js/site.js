@@ -302,9 +302,12 @@ function submitAnimation(){
 function launchAnimations(){
 	for(var i=0; i<$(".selectable").length; i++){
 		var element = $(".selectable").get(i);
-		for(var key in animations[element]){
-			if(animations[element].hasOwnProperty(key)){
-				animations[element][key].call(animations[element],element);
+		if(animations[element]){
+			console.log(element);
+			for(var key in animations[element]){
+				if(animations[element].hasOwnProperty(key)){
+					animations[element][key].call(animations[element],element);
+				}
 			}
 		}
 	}
