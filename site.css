@@ -276,3 +276,9 @@ body>button:active {
 #tweenOptions ul{
 	list-style:none;
 }
+
+#flippy {
+	width: 80%;
+	margin-left: 0 auto;
+	margin-right: 0 auto;
+}
