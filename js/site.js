@@ -186,6 +186,25 @@ function animateIt(){
 			"<h3>Animation Station</h3>"+
 			"<ul>"+
 			"<li><label>Change in X pos: </label><input id='xchange' type='text'></li>"+
+			"<li><label>Change in Y pos: </label><input id='ychange' type='text'></li>"+
+			"<li><label>Ease Type: </label><select id='easeSelect'>"+
+			"<option value='Regular'>Regular</option>"+
+			"<option value='Back'>Back</option>"+
+			"<option value='Circ'>Circ</option>"+
+			"<option value='Cubic'>Cubic</option>"+
+			"<option value='Bounce'>Bounce</option>"+
+			"<option value='Elastic'>Elastic</option>"+
+			"<option value='Expo'>Expo</option>"+
+			"<option value='Quad'>Quad</option>"+
+			"<option value='Quart'>Quart</option>"+
+			"<option value='Quint'>Quint</option>"+
+			"<option value='Sine'>Sine</option>"+
+			"</select></li>"+
+			"<li><label>Ease direction: </label><select id='easeDSelect'>"+
+			"<option value='easeOut'>Ease Out</option>"+
+			"<option value='easeIn'>Ease In</option>"+
+			"<option value='easeInOut'>Ease In Out</option>"+
+			"</select></li>"+
 			"</ul>"+
 			"<button onclick='$.unblockUI();'>Cancel</button>"+
 			"<button onclick='submitAnimation()'>Submit</button>"+
@@ -198,17 +217,82 @@ function animateIt(){
 }
 
 function submitAnimation(){
-	var xchange = $("#xchange");
+	var xchange = $("#xchange").val();
+	var ychange = $("#ychange").val();
 	var element = $(".elementSelected").get(0);
-	animations[element] = {};
+	var ease = getEase();
+	
+	if(!animations[element]){
+		animations[element] = {};
+	}
 	animations[element].xpos = function(element){
-		TweenMax.to(element, 3, {width: '+='+xchange, ease:Elastic.easeOut,onComplete: function(){alert("done");}});
+		var left = (parseInt(element.style.left)+parseInt(xchange));
+		TweenLite.to(element, 3, {left: left+"px", ease:ease,onComplete: function(){}});
+	}
+	animations[element].ypos = function(element){
+		var top = (parseInt(element.style.top)+parseInt(ychange));
+		TweenLite.to(element, 3, {top: top+"px", ease:ease,onComplete: function(){}});
 	}
 	$.unblockUI();
 }
 
 function launchAnimations(){
 	for(var i=0; i<$(".selectable").length; i++){
-		animations[$(".selectable").get(i)].xpos.call(animations[$(".selectable").get(i)],$(".selectable").get(i));
+		var element = $(".selectable").get(i);
+		for(var key in animations[element]){
+			if(animations[element].hasOwnProperty(key)){
+				animations[element][key].call(animations[element],element);
+			}
+		}
 	}
+}
+
+function getEase(){
+	var ease;
+	switch($("#easeSelect").val()){
+	case "Bounce":
+		ease = Bounce;
+		break;
+	case "Back":
+		ease = Back;
+		break;
+	case "Circ":
+		ease = Circ;
+		break;
+	case "Cubic":
+		ease = Cubic;
+		break;
+	case "Elastic":
+		ease = Elastic;
+		break;
+	case "Expo":
+		ease = Expo;
+		break;
+	case "Quad":
+		ease = Quad;
+		break;
+	case "Quart":
+		ease = Quart;
+		break;
+	case "Quint":
+		ease = Quint;
+		break;
+	case "Sine":
+		ease = Sine;
+		break;
+	default:
+		ease = Regular;
+		break;
+	}
+	switch($("#easeDSelect").val()){
+	case "easeOut":
+		ease = ease.easeOut;
+		break;
+	case "easeIn":
+		ease = ease.easeIn;
+		break;
+	default:
+		ease = ease.easeInOut;
+	}
+	return ease;
 }
