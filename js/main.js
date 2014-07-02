@@ -197,7 +197,7 @@ function returnProperties() {
 
 
 	return props;
-
+}
 
 
 function unAnimateIt(){
