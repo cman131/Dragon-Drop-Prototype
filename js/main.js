@@ -91,13 +91,16 @@ function fire(css, val){
 	log();
 }
 
-function mkLog(styl, clas, tg, source, html){
+function mkLog(styl, clas, tg, source, html, href, over, leave){
 	return {
 	style: styl, 
 	class: clas, 
 	tag: tg, 
 	src: source, 
-	inner: html
+	inner: html,
+	href: href,
+	over: over,
+	leave: leave
 	}
 }
 
@@ -109,7 +112,10 @@ function log(){
 		$(this).attr("class"),
 		$(this).get(0).tagName,
 		$(this).attr("src"),
-		$(this).get(0).innerHTML
+		$(this).get(0).innerHTML,
+		$(this).attr("href"),
+		$(this).attr("onmouseover"),
+		$(this).attr("onmouseleave")
 		);
 	});
 	window.localStorage.work = JSON.stringify(save);
@@ -121,7 +127,7 @@ function readIn(){
 		var cur;
 		for(var i=0; i<save.length; i++){
 			cur = save[i];
-			$("#canvas").append("<"+cur.tag+" class='"+cur.class+"' style='"+cur.style+"' src='"+cur.src+"' draggable='true' ondragstart='drag_start(event)'>"+cur.inner+"</"+cur.tag+">");
+			$("#canvas").append("<"+cur.tag+" class='"+cur.class+"' style='"+cur.style+"' href='"+cur.href+"' onmouseover='"+cur.over+"' onmouseleave='"+cur.leave+"' src='"+cur.src+"' draggable='true' ondragstart='drag_start(event)'>"+cur.inner+"</"+cur.tag+">");
 		}
 		$(".selectable").each(function(index){
 			$(this).bind("mousedown", function(){

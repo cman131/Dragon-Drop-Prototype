@@ -114,7 +114,7 @@ function addLocal(){
 			"<button onclick='$.unblockUI();'>Cancel</button>"+
 			"<button onclick=\"submitLocal($('#filePathInput').val());\">Submit</button>"+
 			"</div>";
-	$.blockUI({message: message});
+	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
 }
 
 function submitLocal(path){
@@ -142,6 +142,12 @@ function submitLocal(path){
 	log();
 }
 
+
+/**
+ * Retrieves Specified tweet by id
+ * then places it on the canvas
+ * (doesn't work with twitter incorporating corps, which they don't...)
+ */
 function getDatTweet(id){
 	$.get("https://api.twitter.com/1/statuses/oembed.json?id="+id,
 	{},
@@ -178,4 +184,60 @@ function moreThanMeetsTheEye(type, extra){
 	default:
 		return "";
 	}
+}
+
+function makeButtonMenu(){	
+	var message = "<div id='blocker'>"+
+			"<h2>Let's Make A Button</h2>"+
+			"<ul>"+
+			"<label>Label: </label><input type='text' placeholder='text?' id='labelInput'></li>"+
+			"<label>Link: </label><input type='text' placeholder='url?' id='linkInput'></li>"+
+			"<li><label>Color: </label><input id='buttonColorPicker' type='color'></li>"+
+			"<li><label>Hover Color: </label><input id='buttonHColorPicker' type='color'></li>"+
+			"<li><label>Text Color: </label><input id='buttonTColorPicker' type='color'></li>"+
+			"<li><label>Border Color: </label>><input id='buttonBColorPicker' type='color'></li>"+
+			"</ul>"+
+			"<button onclick='$.unblockUI();'>Cancel</button>"+
+			"<button onclick=\"submitButton();\">Submit</button>"+
+			"</div>";
+	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
+}
+
+function submitButton(){
+	var text = $("#labelInput").val();
+	var link = $("#linkInput").val();
+	var backgroundColor = $("#buttonColorPicker").val();
+	var hoverColor = $("#buttonHColorPicker").val();
+	var textColor = $("#buttonTColorPicker").val();
+	var borderColor = $("#buttonBColorPicker").val();
+	var e = document.createElement('a');
+	e.innerHTML = text;
+	$(e).css({
+		backgroundColor: backgroundColor,
+		color: textColor,
+		borderColor: borderColor
+	});
+	e.className = "dragon selectable userButton";
+	$(e).attr({
+		href: link,
+		onmouseover: "$(this).css(\"backgroundColor\", \""+hoverColor+"\")",
+		onmouseleave: "$(this).css(\"backgroundColor\", \""+backgroundColor+"\")"
+	});
+	e.draggable='true';
+	$(e).attr('ondragstart','drag_start(event)');
+	e.style.position = 'absolute';
+	document.getElementById('canvas').appendChild(e);
+	$(e).bind("mousedown", function(){
+		$(".elementSelected").removeClass("elementSelected");
+		$(this).addClass("elementSelected");
+		$("#htmlMod").val($(this).html());
+		$("#fontColorMod").val($(this).css("color"))
+		$("#textMod").val($(this).css("font-size"));
+		$("#widthMod").val($(this).css("width"));
+		$("#heightMod").val($(this).css("height"));
+		$("#depthMod").val($(this).css("z-index"));
+		$("#colorMod").val($(this).css("background-color"));
+	});
+	$.unblockUI();
+	log();
 }
