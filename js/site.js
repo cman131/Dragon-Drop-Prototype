@@ -202,8 +202,13 @@ function animateIt(){
 			"<li><label>Change in rotation: </label><input id='rotationchange' type='number'></li>"+
 			"<li><label>Change in alpha: </label><input id='alphachange' type='number'></li>"+
 			"<li><label>Animation Time(sec): </label><input id='changeTime' value='3' type='number'></li>"+
-			"<li><label>Start Delay(sec): </label><input id='delayTime' value='0' type='number'></li>"+
-			"<li><label>Ease Type: </label><select id='easeSelect'>"+
+			"<li><label>Delay Start(sec): </label><input id='delayTime' value='0' type='number'></li>"+
+			"<li><label>Animation Type: </label><select id='easeSelect'>"+
+			"<option value='Power0'>Power 0</option>"+
+			"<option value='Power1'>Power 1</option>"+
+			"<option value='Power2'>Power 2</option>"+
+			"<option value='Power3'>Power 3</option>"+
+			"<option value='Power4'>Power 4</option>"+
 			"<option value='Back'>Back</option>"+
 			"<option value='Circ'>Circ</option>"+
 			"<option value='Cubic'>Cubic</option>"+
@@ -215,7 +220,7 @@ function animateIt(){
 			"<option value='Quint'>Quint</option>"+
 			"<option value='Sine'>Sine</option>"+
 			"</select></li>"+
-			"<li><label>Ease direction: </label><select id='easeDSelect'>"+
+			"<li><label>Ease Type: </label><select id='easeDSelect'>"+
 			"<option value='easeOut'>Ease Out</option>"+
 			"<option value='easeIn'>Ease In</option>"+
 			"<option value='easeInOut'>Ease In Out</option>"+
@@ -338,8 +343,23 @@ function getEase(type,dir){
 	case "Sine":
 		ease = Sine;
 		break;
+	case "Power0":
+		ease = Power0;
+		break;
+	case "Power1":
+		ease = Power1;
+		break;
+	case "Power2":
+		ease = Power2;
+		break;
+	case "Power3":
+		ease = Power3;
+		break;
+	case "Power4":
+		ease = Power4;
+		break;
 	default:
-		ease = Regular;
+		ease = Power0;
 		break;
 	}
 	switch(dir){
