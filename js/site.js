@@ -204,7 +204,6 @@ function animateIt(){
 			"<li><label>Animation Time(sec): </label><input id='changeTime' value='3' type='number'></li>"+
 			"<li><label>Start Delay(sec): </label><input id='delayTime' value='0' type='number'></li>"+
 			"<li><label>Ease Type: </label><select id='easeSelect'>"+
-			"<option value='Regular'>Regular</option>"+
 			"<option value='Back'>Back</option>"+
 			"<option value='Circ'>Circ</option>"+
 			"<option value='Cubic'>Cubic</option>"+
