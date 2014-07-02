@@ -44,7 +44,7 @@ $(document).ready(function() {
 				video.className = 'dragon selectable';
 				video.draggable='true';
 				$(video).attr('ondragstart','drag_start(event)');
-				$(video).attr({'autoplay':'true'});
+				$(video).attr({'autoplay':'true'});	
 				video.style.position = 'absolute';
 				video.style.display = 'block';
 				video.id = 'vidLoaded';
@@ -206,8 +206,9 @@ function startAnimation() {
 		
 
 		var properties = returnProperties();
+		
 
-		TweenLite.to(image, time, {width: "440px"});
+		TweenLite.to(image, time, properties);
 	$.unblockUI();
 }
 
@@ -215,9 +216,12 @@ function returnProperties() {
 	var easeType = $('#easeSelect').val();
 	var animationType = $('#animationType').val();
 	var delay = parseInt($('#animationDelay').val());
+	var width = parseInt($('#widthChange').val());
+	var height = parseInt($('#heightChange').val());
+	
 
-	var properties =  '{delay:' + delay + ',ease:' + animationType + '.' + easeType + '}';
-	alert(properties);
+	var properties =  {delay:delay,ease:getEase(animationType, easeType),height:height,width:width};
+	
 	return properties;
 }
 
