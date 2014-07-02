@@ -191,7 +191,8 @@ function animateIt(){
 			"<li><label>Change in Y scale: </label><input id='yschange' type='number'></li>"+
 			"<li><label>Change in rotation: </label><input id='rotationchange' type='number'></li>"+
 			"<li><label>Change in alpha: </label><input id='alphachange' type='number'></li>"+
-			"<li><label>Animation Time: </label><input id='changeTime' value='3' type='number'></li>"+
+			"<li><label>Animation Time(sec): </label><input id='changeTime' value='3' type='number'></li>"+
+			"<li><label>Start Delay(sec): </label><input id='delayTime' value='0' type='number'></li>"+
 			"<li><label>Ease Type: </label><select id='easeSelect'>"+
 			"<option value='Regular'>Regular</option>"+
 			"<option value='Back'>Back</option>"+
@@ -229,13 +230,16 @@ function submitAnimation(){
 	var rotationchange = $("#rotationchange").val();
 	var alphachange = $("#alphachange").val();
 	var time;
+	var delay;
 	try{
+		delay = parseInt($("#delayChange").val());
 		time = parseInt($("#timeChange").val());
 	}
 	catch(e){
 	}
+	console.log(delay);
 	var element = $(".elementSelected").get(0);
-	var ease = getEase();
+	var ease = getEase($("#easeSelect").val(), $("#easeDSelect").val());
 	
 	if(!animations[element]){
 		animations[element] = {};
@@ -243,25 +247,40 @@ function submitAnimation(){
 	if(!time || time<0){
 		time = 3;
 	}
-	animations[element].xpos = function(element){
-		var left = (parseInt(element.style.left)+parseInt(xchange));
-		TweenLite.to(element, time, {left: left+"px", ease:ease,onComplete: function(){}});
+	if(!delay){
+		delay = 0;
 	}
-	animations[element].ypos = function(element){
-		var top = (parseInt(element.style.top)+parseInt(ychange));
-		TweenLite.to(element, time, {top: top+"px", ease:ease,onComplete: function(){}});
+	if(xchange!=""){
+		animations[element].xpos = function(element){
+			var left = (parseInt(element.style.left)+parseInt(xchange));
+			TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
-	animations[element].xscale = function(element){
-		TweenLite.to(element, time, {scaleX: xschange, ease:ease,onComplete: function(){}});
+	if(ychange!=""){
+		animations[element].ypos = function(element){
+			var top = (parseInt(element.style.top)+parseInt(ychange));
+			TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
-	animations[element].yscale = function(element){
-		TweenLite.to(element, time, {scaleY: yschange, ease:ease,onComplete: function(){}});
+	if(xschange!=""){
+		animations[element].xscale = function(element){
+			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
-	animations[element].rotate = function(element){
-		TweenLite.to(element, time, {rotation: rotationchange, ease:ease,onComplete: function(){}});
+	if(yschange!=""){
+		animations[element].yscale = function(element){
+			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
-	animations[element].alpha = function(element){
-		TweenLite.to(element, time, {alpha: alphachange, ease:ease,onComplete: function(){}});
+	if(rotationchange!=""){
+		animations[element].rotate = function(element){
+			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
+		}
+	}
+	if(alphachange!=""){
+		animations[element].alpha = function(element){
+			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
+		}
 	}
 	$.unblockUI();
 }
@@ -277,9 +296,9 @@ function launchAnimations(){
 	}
 }
 
-function getEase(){
+function getEase(type,dir){
 	var ease;
-	switch($("#easeSelect").val()){
+	switch(type){
 	case "Bounce":
 		ease = Bounce;
 		break;
@@ -314,7 +333,7 @@ function getEase(){
 		ease = Regular;
 		break;
 	}
-	switch($("#easeDSelect").val()){
+	switch(dir){
 	case "easeOut":
 		ease = ease.easeOut;
 		break;
