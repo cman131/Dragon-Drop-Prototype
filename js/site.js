@@ -96,6 +96,7 @@ function drop(event) {
 			$("#heightMod").val($(this).css("height"));
 			$("#depthMod").val($(this).css("z-index"));
 			$("#colorMod").val($(this).css("background-color"));
+			
 		});
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';

@@ -2,6 +2,7 @@
 <head>
 	<title>Dragon Drop Prototype</title>
 	<link href="site.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 </head>
 <body ng-app="app" ondragover="drag_over(event)">
 	<div id="menu">
@@ -11,11 +12,23 @@
 		<div id="imageMenu">
 			<h3 class='parent'>Images</h3>
 					<ul id='imagelist' class='sub-nav'>
-						<li draggable='true' class='image'><img class='dragon' src='images/panda.png' alt='panda'></li>
+						<!-- <li draggable='true' class='image'><img class='dragon' src='images/panda.png' alt='panda'></li>
 						<li draggable='true' class='image'><img class='dragon' src='images/dog.png' alt='dog'></li>
 						<li draggable='true' class='image'><img class='dragon' src='images/dog2.png' alt='dog'></li>
 						<li draggable='true' class='image'><img class='dragon' src='images/frog.png' alt='frog'></li>
-						<li draggable='true' class='image'><img class='dragon' src='images/pig.png' alt='pig'></li>
+						<li draggable='true' class='image'><img class='dragon' src='images/pig.png' alt='pig'></li> -->
+
+
+<!-- 						<li><div class='dragon image'><img src='images/panda.png' alt='panda'></div></li>
+						<li><div class='dragon image'><img src='images/dog.png' alt='dog'></div></li>
+						<li><div class='dragon image'><img src='images/dog2.png' alt='dog'></div></li>
+						<li><div class='dragon image'><img src='images/frog.png' alt='frog'></div></li>
+						<li><div class='dragon image'><img src='images/pig.png' alt='pig'></div></li> -->
+						<li><div class='dragon dog'></div></li>
+						<li><div class='dragon dog2'></div></li>
+						<li><div class='dragon pig'></div></li>
+						<li><div class='dragon frog'></div></li>
+						<li><div class='dragon panda'></div></li>
 					</ul>
 			
 		</div>
@@ -94,6 +107,7 @@
 <script src="js/angular.min.js"></script>
 <script src="js/rotate.min.js"></script>
 <script src="js/blockUI.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/CSSPlugin.min.js"></script>
 <script type="text/javascript" src="js/EasePack.min.js"></script>
 <script type="text/javascript" src="js/TweenLite.min.js"></script>

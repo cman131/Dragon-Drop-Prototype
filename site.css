@@ -283,3 +283,45 @@ body>button:active {
 	margin-left: 0 auto;
 	margin-right: 0 auto;
 }
+
+.selectable{
+	resize:both;
+	overflow:auto;
+}
+
+.dog{
+	background-image:url(images/dog.png);
+	height:200px;
+	width:200px;
+}
+
+.dog2{
+	background-image:url(images/dog2.png);
+	height:200px;
+	width:200px;
+}
+
+.panda{
+	background-image:url(images/panda.png);	
+	height:200px;
+	width:200px;
+}
+
+.frog{
+	background-image:url(images/frog.png);	
+	height:200px;
+	width:200px;
+}
+
+.pig{
+	background-image:url(images/pig.png);	
+	height:200px;
+	width:200px;
+}
+
+.dog, .dog2, .panda, .frog, .pig{
+	max-width: 100%;
+	max-height: 100%;
+	background-size:100%;
+	background-repeat:no-repeat;
+}

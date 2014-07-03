@@ -55,6 +55,10 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
+		$(document).on('click', '.selectable', function() {
+			$('.selectable').resizable();
+		});
+		
 		readIn();
 	});
 
