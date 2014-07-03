@@ -245,6 +245,7 @@ function submitAnimation(){
 	var alphachange = $("#alphachange").val();
 	var time;
 	var delay;
+	var newVal = {};
 	try{
 		delay = parseInt($("#delayTime").val());
 		time = parseInt($("#timeChange").val());
@@ -253,10 +254,10 @@ function submitAnimation(){
 	}
 	console.log(delay);
 	var position = $(".selectable").get().indexOf($(".elementSelected").get(0));
-	var ease = getEase($("#easeSelect").val(), $("#easeDSelect").val());
+	var ease = [$("#easeSelect").val(), $("#easeDSelect").val()];
 	
 	if(!animations[position]){
-		animations[position] = {};
+		animations[position] = [];
 	}
 	if(!time || time<0){
 		time = 3;
@@ -265,39 +266,49 @@ function submitAnimation(){
 		delay = 0;
 	}
 	if(xchange!=""){
-		animations[position].xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
+		newVal.xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
 	}
 	if(ychange!=""){
-		animations[position].ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
+		newVal.ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
 	}
 	if(xschange!=""){
-		animations[position].xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
+		newVal.xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
 	}
 	if(yschange!=""){
-		animations[position].yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
+		newVal.yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
 	}
 	if(rotationchange!=""){
-		animations[position].rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
+		newVal.rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
 	}
 	if(alphachange!=""){
-		animations[position].alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
+		newVal.alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
 	}
+	animations[position].push(newVal);
 	$.unblockUI();
 	log();
 }
 
 function launchAnimations(){
+	$("#line").css("left", 0);
+	var longest = 0;
 	for(var i=0; i<$(".selectable").length; i++){
 		if(animations[i]){
 			console.log(i);
-			for(var key in animations[i]){
-				if(animations[i].hasOwnProperty(key)){
-					var temp = animations[i][key];
-					aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,temp.ease);
+			for(var j = 0; j<animations[i].length; j++){
+				for(var key in animations[i][j]){
+					if(animations[i][j].hasOwnProperty(key)){
+						var temp = animations[i][j][key];
+						if(temp.time+temp.delay>longest){
+							longest = temp.time+temp.delay;
+						}
+						aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,getEase(temp.ease[0], temp.ease[1]));
+					}
 				}
 			}
 		}
 	}
+	console.log(longest);
+	$("#line").animate({left: 11+(longest*10)}, longest*1000);
 }
 
 function getEase(type,dir){

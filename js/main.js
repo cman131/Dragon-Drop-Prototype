@@ -1,4 +1,16 @@
+var timeline = new TimelineLite({});
+var toggler = true;
 $(document).ready(function() {
+		$(".tab").click(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").animate({right: 0}, 750);
+				$(".tab b").html(">>");
+			}
+			else{
+				$("#animationDrawer").animate({right: -1400}, 750);
+				$(".tab b").html("<<");
+			}
+		});
 		$('h3').click(function() {
 			$(this).siblings('ul').toggleClass('visible');
 			$("#menu .dragon").each(function(index){
@@ -125,6 +137,7 @@ function log(){
 	});
 	window.localStorage.work = JSON.stringify(save);
 	window.localStorage.anime = JSON.stringify(animations);
+	updateTimelineVisual();
 }
 
 function readIn(){
@@ -152,6 +165,7 @@ function readIn(){
 			});
 		});
 		$(".elementSelected").removeClass("elementSelected");
+		updateTimelineVisual();
 	}
 }
 
@@ -244,4 +258,28 @@ function unAnimateIt(){
 	var e = $(".elementSelected").get(0);
 	animations[e] = undefined;
 	log();
+}
+
+
+function updateTimelineVisual(){
+	var newContent = "<div class='table'><div id=\"line\"><div></div></div>";
+	for(var key in animations){
+		if(animations.hasOwnProperty(key)){
+			newContent+="<div class='tr'>"
+			for(var i=0; i<animations[key].length; i++){
+				var temp;
+				for(var key2 in animations[key][i]){
+					temp = {
+					start: animations[key][i][key2].delay*10,
+					dur: animations[key][i][key2].time*10
+					};
+					break;
+				}
+				newContent+="<div class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px'></div>";
+			}
+			newContent+="</div>";
+		}
+	}
+	newContent+="</div>";
+	$("#timeline").html(newContent);
 }
