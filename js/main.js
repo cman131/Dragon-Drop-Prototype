@@ -39,8 +39,7 @@ $(document).ready(function() {
 			$("#textMenu input").val("");
 		});
 		$('#addVideo').click(function() {
-			//if($('.video-value').val().toLowerCase().indexOf("youtube")>=0) {
-				var videoURL = $('.video-value').val();//.split('=');			
+				var videoURL = $('.video-value').val();
 				var video = document.createElement('video');
 				video.className = 'dragon selectable';
 				video.draggable='true';
@@ -160,12 +159,15 @@ function flipIt(){
 	log();
 }
 
-function activateTween() {    
+function activateTween() {  
  	var prompt = "<div id='tweenOptions'><ul>"+
  				"<li><label>Width: </label><input type='number' id='widthChange' value='0' /></li>"+
  				"<li><label>Height: </label><input type='number' id='heightChange' value='0' /></li>"+
- 				"<li><label>left: </label><input type='number' id='xChange' value='0' /></li>"+
- 				"<li><label>top: </label><input type='number' id='yChange' value='0' /></li>"+
+ 				"<li><label>Left: </label><input type='number' id='xChange' value='0' /></li>"+
+ 				"<li><label>Top: </label><input type='number' id='yChange' value='0' /></li>"+
+ 				"<li><label>Background-Color: </label><input type='text' id='bgColorChange' value='#000000' /></li>"+
+ 				"<li><label>Opacity: </label><input type='number' id='opacityChange' value='100' /></li>"+
+ 				"<li><label>Rotation: </label><input type='rotateChange' id='rotationChange' value='0' /></li>"+
  				"<li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
 				"<li><label>Animation Type</label>"+
 				"<select id='animationType'>"+
@@ -204,12 +206,18 @@ function activateTween() {
 					message: prompt,
 					css: {backgroundColor: '#19a1a1'}
 				});
-					var width = $('.elementSelected').width();
-				$('#widthChange').val(width);
+
+
+			
+			$('#widthChange').val($('.elementSelected').width());
+			$('#heightChange').val($('.elementSelected').height());
+			$('#xChange').val($('.elementSelected').position().left);
+			$('#yChange').val($('.elementSelected').position().top);
+			$('#bgColorChange').val($('.elementSelected').css('background-color'));
+			$('#opacityChange').val($('.elementSelected').css('opacity'));
 	}
 
 function startAnimation() {
-	
 		var image = document.getElementsByClassName('elementSelected');
 		var time = parseInt($('#animationTime').val());
 		if(isNaN(time) == true || time < 0) {time = 1;};
@@ -233,8 +241,13 @@ function returnProperties() {
 	var height = parseInt($('#heightChange').val());
 	var y = parseInt($('#yChange').val());
 	var x = parseInt($('#xChange').val());
+	var backgroundColor = $('#bgColorChange').val();
+	var opacity = parseInt($('#opacityChange').val());
+	var rotation = $('#rotationChange').val();
 
-	var properties =  {delay:delay,ease:getEase(animationType, easeType),height:height,width:width, left:x, top:y};
+	var properties =  {delay:delay,ease:getEase(animationType,
+	easeType),backgroundColor:backgroundColor,rotation:rotation,opacity:opacity,height:height,width:width,
+	left:x, top:y};
 	
 	return properties;
 }
