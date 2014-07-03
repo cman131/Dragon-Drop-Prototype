@@ -56,7 +56,8 @@ $(document).ready(function() {
 			localStorage.clear();
 		});
 		$(document).on('click', '.selectable', function() {
-			$('.selectable').resizable();
+			$('.elementSelected').resizable();
+			//new Propeller($('.elementSelected'), {intertia: 0});
 		});
 		
 		readIn();
@@ -171,7 +172,8 @@ function activateTween() {
  				"<li><label>Top: </label><input type='number' id='yChange' value='0' /></li>"+
  				"<li><label>Background-Color: </label><input type='text' id='bgColorChange' value='#000000' /></li>"+
  				"<li><label>Opacity: </label><input type='number' id='opacityChange' value='100' /></li>"+
- 				"<li><label>Rotation: </label><input type='rotateChange' id='rotationChange' value='0' /></li>"+
+ 				"<li><label>Rotation: </label><input type='number' id='rotationChange' value='0' /></li>"+
+ 				"<li><label>Scale: </label><input type='number' id='scaleChange' value='1' /></li>"+
  				"<li><label>Animation Time: </label><input type='number' id='animationTime' value='1' /></li>"+
 				"<li><label>Animation Type</label>"+
 				"<select id='animationType'>"+
@@ -248,9 +250,10 @@ function returnProperties() {
 	var backgroundColor = $('#bgColorChange').val();
 	var opacity = parseInt($('#opacityChange').val());
 	var rotation = $('#rotationChange').val();
+	var scale = $('#scaleChange').val();
 
 	var properties =  {delay:delay,ease:getEase(animationType,
-	easeType),backgroundColor:backgroundColor,rotation:rotation,opacity:opacity,height:height,width:width,
+	easeType),backgroundColor:backgroundColor,scale:scale, rotation:rotation,opacity:opacity,height:height,width:width,
 	left:x, top:y};
 	
 	return properties;

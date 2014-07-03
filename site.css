@@ -284,10 +284,6 @@ body>button:active {
 	margin-right: 0 auto;
 }
 
-.selectable{
-	resize:both;
-	overflow:auto;
-}
 
 .dog{
 	background-image:url(images/dog.png);
