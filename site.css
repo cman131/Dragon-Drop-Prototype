@@ -96,7 +96,8 @@ button:hover, input[type=button]:hover {
 	background-color:#6fc6f2;
 	outline: none;
 }
-button:active, input[type=button]:active{
+#menu button:active, #menu input[type=button]:active, 
+#blocker button:active, #blocker input[type=button]:active {
 	position:relative;
 	top:1px;
 	outline: none;
@@ -260,10 +261,6 @@ input:focus {
 #videoMenu label{
 	padding-right:55px;
 }
-body>button:active {
-	top: auto;
-	bottom: -40px;
-}
 
 #editMenu li p{
 	text-align: center;
@@ -291,6 +288,7 @@ body>button:active {
 	height: 300px;
 	width: 1425px;
 	z-index: 9999;
+	overflow-y:none;
 }
 
 .tab {
@@ -312,7 +310,7 @@ body>button:active {
 #timeline {
 	position: relative;
 	padding: 10px;
-	height: 98%;
+	height: 96%;
 	width: 1380px;
 	border-top-left-radius: 12px;
 	border-bottom-left-radius: 12px;
@@ -344,9 +342,19 @@ body>button:active {
 	position: absolute;
 }
 
+#timeline button {
+	position:absolute;
+	bottom:40;
+	right:20;
+}
+
+#timeline button:active {
+	bottom:39;
+}
+
 #line {
 	width: 4px;
-    height:  100%;
+    height:  inherit;
     position: absolute;
     background-color: green;
     z-index: 99999;

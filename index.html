@@ -89,11 +89,15 @@
 	<div id="canvas" ondrop="drop(event)">
 		
 	</div>
-	<button style="position:absolute;bottom:0;right:0;position: fixed;" onclick="launchAnimations();">Animation Time!</button>
+	
 
 	<div id="animationDrawer">
 		<div class="tab"><b style="font-size: 20px;"><<</b></div>
-		<div id="timeline"></div></div>
+		<div id="timeline">
+			<div class='table'></div>
+			<button onclick="launchAnimations();">Animation Time!</button>
+		</div>
+	</div>
 <script src="js/jquery.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/rotate.min.js"></script>

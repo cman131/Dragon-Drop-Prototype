@@ -289,7 +289,7 @@ function submitAnimation(){
 }
 
 function launchAnimations(){
-	$("#line").css("left", 0);
+	$("#line").css("left", 11);
 	var longest = 0;
 	for(var i=0; i<$(".selectable").length; i++){
 		if(animations[i]){

@@ -1,6 +1,15 @@
 var timeline = new TimelineLite({});
 var toggler = true;
 $(document).ready(function() {
+		$(".tab").hover(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -1398);
+			}
+		},function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -1400);
+			}
+		});
 		$(".tab").click(function(){
 			if($(".tab b").html()=="&lt;&lt;"){
 				$("#animationDrawer").animate({right: 0}, 750);
@@ -275,7 +284,7 @@ function unAnimateIt(){
 
 
 function updateTimelineVisual(){
-	var newContent = "<div class='table'><div id=\"line\"><div></div></div>";
+	var newContent = "<div id=\"line\"><div></div></div>";
 	for(var key in animations){
 		if(animations.hasOwnProperty(key)){
 			newContent+="<div class='tr'>"
@@ -293,6 +302,5 @@ function updateTimelineVisual(){
 			newContent+="</div>";
 		}
 	}
-	newContent+="</div>";
-	$("#timeline").html(newContent);
+	$("#timeline div.table").html(newContent);
 }
