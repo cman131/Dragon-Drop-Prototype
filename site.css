@@ -181,7 +181,7 @@ input:focus {
 }
 
 .elementSelected{
-	border: 2px solid #93DBDB;
+	border: 4px solid #93DBDB;
 	
 }
 
@@ -237,6 +237,7 @@ input:focus {
 
 #socialMenu li {
 	padding-left: 70px;
+	padding-bottom: 20px;
 	padding-bottom: 20px;
 }
 

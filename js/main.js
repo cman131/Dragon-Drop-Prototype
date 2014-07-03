@@ -9,6 +9,7 @@ $(document).ready(function() {
 		setEditMenu();
 		$(document).keydown(function(e) {
     		if(e.which==46) {
+				animations[$(".selectable").get().indexOf($(".elementSelected").get(0))] = undefined;
     			$('.elementSelected').remove();
 			log();
     		}
@@ -123,10 +124,14 @@ function log(){
 		);
 	});
 	window.localStorage.work = JSON.stringify(save);
+	window.localStorage.anime = JSON.stringify(animations);
 }
 
 function readIn(){
 	if(window.localStorage.work){
+		if(window.localStorage.anime){
+			animations = JSON.parse(window.localStorage.anime);
+		}
 		var save = JSON.parse(window.localStorage.work);
 		var cur;
 		for(var i=0; i<save.length; i++){

@@ -2,7 +2,7 @@ function contains(obj1, obj2){
 	return obj1.indexOf(obj2)>-1;
 }
 
-var animations = [];
+var animations = {};
 var curDrag;
 
 app = angular.module("app", []);
@@ -252,11 +252,11 @@ function submitAnimation(){
 	catch(e){
 	}
 	console.log(delay);
-	var element = $(".elementSelected").get(0);
+	var position = $(".selectable").get().indexOf($(".elementSelected").get(0));
 	var ease = getEase($("#easeSelect").val(), $("#easeDSelect").val());
 	
-	if(!animations[element]){
-		animations[element] = {};
+	if(!animations[position]){
+		animations[position] = {};
 	}
 	if(!time || time<0){
 		time = 3;
@@ -265,48 +265,35 @@ function submitAnimation(){
 		delay = 0;
 	}
 	if(xchange!=""){
-		animations[element].xpos = function(element){
-			var left = (parseInt(element.style.left)+parseInt(xchange));
-			TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
 	}
 	if(ychange!=""){
-		animations[element].ypos = function(element){
-			var top = (parseInt(element.style.top)+parseInt(ychange));
-			TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
 	}
 	if(xschange!=""){
-		animations[element].xscale = function(element){
-			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
 	}
 	if(yschange!=""){
-		animations[element].yscale = function(element){
-			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
 	}
 	if(rotationchange!=""){
-		animations[element].rotate = function(element){
-			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
 	}
 	if(alphachange!=""){
-		animations[element].alpha = function(element){
-			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
-		}
+		animations[position].alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
 	}
 	$.unblockUI();
+	log();
 }
 
 function launchAnimations(){
 	for(var i=0; i<$(".selectable").length; i++){
-		var element = $(".selectable").get(i);
-		if(animations[element]){
-			console.log(element);
-			for(var key in animations[element]){
-				if(animations[element].hasOwnProperty(key)){
-					animations[element][key].call(animations[element],element);
+		if(animations[i]){
+			console.log(i);
+			for(var key in animations[i]){
+				if(animations[i].hasOwnProperty(key)){
+					var temp = animations[i][key];
+					aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,temp.ease);
 				}
 			}
 		}
@@ -432,4 +419,34 @@ function submitButton(){
 	});
 	$.unblockUI();
 	log();
+}
+
+var aniFuncts = {
+	xpos: function(position, xchange, time, delay, ease){
+		var element = $(".selectable").get(position);
+		var left = (parseInt(element.style.left)+xchange);
+		TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
+	},
+
+	ypos: function(position, ychange, time, delay, ease){
+		var element = $(".selectable").get(position);
+		var top = (parseInt(element.style.top)+ychange);
+		TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
+	},
+	xscale: function(position, xschange, time, delay, ease){
+			var element = $(".selectable").get(position);
+			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
+	},
+	yscale: function(position, yschange, time, delay, ease){
+			var element = $(".selectable").get(position);
+			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
+	},
+	rotate: function(position, rotationchange, time, delay, ease){
+			var element = $(".selectable").get(position);
+			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
+	},
+	alpha: function(position, alphachange, time, delay, ease){
+			var element = $(".selectable").get(position);
+			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
+		}
 }
