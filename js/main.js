@@ -41,8 +41,10 @@ $(document).ready(function() {
 		setEditMenu();
 		$(document).keydown(function(e) {
     		if(e.which==46) {
-				animations[$(".selectable").get().indexOf($(".elementSelected").get(0))] = undefined;
+				delete animations[$(".selectable").get().indexOf($(".elementSelected").get(0))];
     			$('.elementSelected').remove();
+			updateTimeline();
+			updateTimelineVisual();
 			log();
     		}
 		});
@@ -302,7 +304,7 @@ function stop(){
 function updateTimelineVisual(){
 	var newContent = "";
 	for(var key in animations){
-		if(animations.hasOwnProperty(key)){
+		if(animations.hasOwnProperty(key) && animations[key]){
 			newContent+="<div class='tr'>"
 			for(var i=0; i<animations[key].length; i++){
 				var temp;
