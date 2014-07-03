@@ -2,6 +2,9 @@
 <head>
 	<title>Dragon Drop Prototype</title>
 	<link href="site.css" rel="stylesheet">
+	<link href="jquery-ui.min.css" rel="stylesheet">
+	<link href="jquery-ui.theme.min.css" rel="stylesheet">
+	<link href="jquery-ui.structure.min.css" rel="stylesheet">
 </head>
 <body ng-app="app" ondragover="drag_over(event)">
 	<div id="menu">
@@ -94,8 +97,14 @@
 	<div id="animationDrawer">
 		<div class="tab"><b style="font-size: 20px;"><<</b></div>
 		<div id="timeline">
+			<div id="slider" style="height: 10%;"></div>
 			<div class='table'></div>
-			<button onclick="launchAnimations();">Animation Time!</button>
+			<div class="controls">
+				<button onclick="timeline.reverse();"><img src="icons/rewind.png"></button>
+				<button onclick="launchAnimations();"><img src="icons/play.png"></button>
+				<button onclick="timeline.pause();"><img src="icons/pause.png"></button>
+				<button onclick="stop();"><img src="icons/stop.png"></button>
+			</div>
 		</div>
 	</div>
 <script src="js/jquery.js"></script>
@@ -106,6 +115,7 @@
 <script type="text/javascript" src="js/EasePack.min.js"></script>
 <script type="text/javascript" src="js/TweenLite.min.js"></script>
 <script type="text/javascript" src="js/TimelineLite.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/site.js"></script>
 <script src="js/main.js"></script>
 </body>

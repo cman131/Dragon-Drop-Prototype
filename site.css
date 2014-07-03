@@ -321,7 +321,7 @@ input:focus {
 }
 
 #timeline .table {
-	height: 96%;
+	height: 86%;
 	width: 100%;
 	overflow-x: scroll;
 	background-color: white;
@@ -342,27 +342,16 @@ input:focus {
 	position: absolute;
 }
 
-#timeline button {
+#timeline .controls {
 	position:absolute;
 	bottom:40;
 	right:20;
 }
 
+.controls img {
+	height: 20px;
+}
+
 #timeline button:active {
 	bottom:39;
-}
-
-#line {
-	width: 4px;
-    height:  inherit;
-    position: absolute;
-    background-color: green;
-    z-index: 99999;
-    top: 2;
-}
-
-#line div {
-	width: 15;
-    height: 25;
-	background-color: green;
 }

@@ -1,6 +1,17 @@
-var timeline = new TimelineLite({});
+var timeline = new TimelineLite({onUpdate: function(){
+	$("#slider").slider({value: timeline.progress()*1000});
+}});
 var toggler = true;
 $(document).ready(function() {
+		$("#slider").slider({
+            value: 0,
+            min: 0,
+            max: 1000,
+            step: 1,
+            slide: function( event, ui ) {
+                timeline.progress( ui.value/1000 );
+            }
+		});
 		$(".tab").hover(function(){
 			if($(".tab b").html()=="&lt;&lt;"){
 				$("#animationDrawer").css("right", -1398);
@@ -174,6 +185,7 @@ function readIn(){
 		});
 		$(".elementSelected").removeClass("elementSelected");
 		updateTimelineVisual();
+		updateTimeline();
 	}
 }
 
@@ -282,9 +294,13 @@ function unAnimateIt(){
 	log();
 }
 
+function stop(){
+	timeline.pause(0);
+	$("#slider").slider({value: 0});
+}
 
 function updateTimelineVisual(){
-	var newContent = "<div id=\"line\"><div></div></div>";
+	var newContent = "";
 	for(var key in animations){
 		if(animations.hasOwnProperty(key)){
 			newContent+="<div class='tr'>"

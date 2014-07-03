@@ -4,6 +4,7 @@ function contains(obj1, obj2){
 
 var animations = {};
 var curDrag;
+var longest = 0;
 
 app = angular.module("app", []);
 
@@ -286,29 +287,16 @@ function submitAnimation(){
 	animations[position].push(newVal);
 	$.unblockUI();
 	log();
+	updateTimeline();
 }
 
 function launchAnimations(){
-	$("#line").css("left", 11);
-	var longest = 0;
-	for(var i=0; i<$(".selectable").length; i++){
-		if(animations[i]){
-			console.log(i);
-			for(var j = 0; j<animations[i].length; j++){
-				for(var key in animations[i][j]){
-					if(animations[i][j].hasOwnProperty(key)){
-						var temp = animations[i][j][key];
-						if(temp.time+temp.delay>longest){
-							longest = temp.time+temp.delay;
-						}
-						aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,getEase(temp.ease[0], temp.ease[1]));
-					}
-				}
-			}
-		}
+	if(timeline.progress()!=1){
+		timeline.play();
 	}
-	console.log(longest);
-	$("#line").animate({left: 11+(longest*10)}, longest*1000);
+	else{
+		timeline.restart();
+	}
 }
 
 function getEase(type,dir){
@@ -432,32 +420,53 @@ function submitButton(){
 	log();
 }
 
+function updateTimeline(){
+	timeline.clear();
+	for(var i=0; i<$(".selectable").length; i++){
+		if(animations[i]){
+			for(var j = 0; j<animations[i].length; j++){
+				for(var key in animations[i][j]){
+					if(animations[i][j].hasOwnProperty(key)){
+						var temp = animations[i][j][key];
+						if(temp.time+temp.delay>longest){
+							longest = temp.time+temp.delay;
+						}
+						aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,getEase(temp.ease[0], temp.ease[1]));
+					}
+				}
+			}
+		}
+	}
+	timeline.pause(0);
+	$("#slider").css("width", longest*10);
+}
+
 var aniFuncts = {
 	xpos: function(position, xchange, time, delay, ease){
 		var element = $(".selectable").get(position);
 		var left = (parseInt(element.style.left)+xchange);
-		TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
+		timeline.add(TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 
 	ypos: function(position, ychange, time, delay, ease){
 		var element = $(".selectable").get(position);
 		var top = (parseInt(element.style.top)+ychange);
-		TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
+		timeline.add(TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	xscale: function(position, xschange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	yscale: function(position, yschange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	rotate: function(position, rotationchange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	alpha: function(position, alphachange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 		}
 }
