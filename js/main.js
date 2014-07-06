@@ -3,6 +3,9 @@ var timeline = new TimelineLite({onUpdate: function(){
 }});
 var toggler = true;
 $(document).ready(function() {
+	var drawerWidth = parseInt($("#animationDrawer").css("width"));
+	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+	$("#timeline").css("width", drawerWidth-46);
 		$("#slider").slider({
             value: 0,
             min: 0,
@@ -14,11 +17,11 @@ $(document).ready(function() {
 		});
 		$(".tab").hover(function(){
 			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -1398);
+				$("#animationDrawer").css("right", -(drawerWidth-27));
 			}
 		},function(){
 			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -1400);
+				$("#animationDrawer").css("right", -(drawerWidth-25));
 			}
 		});
 		$(".tab").click(function(){
@@ -27,7 +30,7 @@ $(document).ready(function() {
 				$(".tab b").html(">>");
 			}
 			else{
-				$("#animationDrawer").animate({right: -1400}, 750);
+				$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
 				$(".tab b").html("<<");
 			}
 		});
