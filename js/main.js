@@ -24,6 +24,10 @@ $(document).ready(function() {
 			$(textEl).attr('ondragstart','drag_start(event)');
 			textEl.style.position = 'absolute';
 			textEl.innerHTML = $('.input-value').val();
+			var rot = document.createElement('div');
+			rot.innerHTML = "&nbsp;";
+			rot.className = "target";
+			textEl.appendChild(rot);
 			document.getElementById('canvas').appendChild(textEl);
 			$(textEl).bind("mousedown", function(){
 				$(".elementSelected").removeClass("elementSelected");
@@ -44,22 +48,46 @@ $(document).ready(function() {
 				video.className = 'dragon selectable';
 				video.draggable='true';
 				$(video).attr('ondragstart','drag_start(event)');
-				$(video).attr({'autoplay':'true'});	
+				$(video).prop("autoplay",true); 
+				$(video).prop("controls",true); 
 				video.style.position = 'absolute';
 				video.style.display = 'block';
 				video.id = 'vidLoaded';
-				video.src =videoURL;
+				video.src = videoURL;
 				document.getElementById('canvas').appendChild(video);
 				$('.video-value').val("");
+				log();
 		});
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
 		$(document).on('click', '.selectable', function() {
 			$('.elementSelected').resizable();
-			//new Propeller($('.elementSelected'), {intertia: 0});
+			//new Propeller($('.elementSelected'), {inertia: 1});
+			var dragging = 0;
+		    var target = $('.target');
+		    var mainTarget = $('.elementSelected');
+		    var elOfs = mainTarget.offset();
+		    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
+		    var elPos = {X: elOfs.left, Y: elOfs.top};
+		    target.mousedown(function() {
+		        dragging = true;
+		    });
+		    $(document).mouseup(function() {
+		        dragging = 0;
+		    }).mousemove(function(e) {     
+		      if(dragging) {
+		         var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
+		         var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
+		         var getDeg  = -getAtan/(Math.PI/180) + 135; 
+		         mainTarget.css({transform: 'rotate(' + getDeg + 'deg)'});
+		      }
+		    });
+			log();
 		});
-		
+		$('#canvas').click(function() {
+			
+		});
 		readIn();
 	});
 
@@ -221,6 +249,7 @@ function activateTween() {
 			$('#yChange').val($('.elementSelected').position().top);
 			$('#bgColorChange').val($('.elementSelected').css('background-color'));
 			$('#opacityChange').val($('.elementSelected').css('opacity'));
+			log();
 	}
 
 function startAnimation() {
