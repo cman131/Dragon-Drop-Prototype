@@ -44,7 +44,7 @@ $(document).ready(function() {
 		setEditMenu();
 		$(document).keydown(function(e) {
     		if(e.which==46) {
-				delete animations[$(".selectable").get().indexOf($(".elementSelected").get(0))];
+				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
     			$('.elementSelected').remove();
 			updateTimeline();
 			updateTimelineVisual();
@@ -294,8 +294,9 @@ function returnProperties() {
 
 
 function unAnimateIt(){
-	var e = $(".elementSelected").get(0);
-	animations[e] = undefined;
+	 deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
+	updateTimeline();
+	updateTimelineVisual();
 	log();
 }
 
@@ -324,4 +325,21 @@ function updateTimelineVisual(){
 		}
 	}
 	$("#timeline div.table").html(newContent);
+}
+
+function deleteAnimation(index){
+	delete animations[index];
+	for(var i=index; i<$(".selectable").length; i++){
+		if(animations[i]){
+			animations[i-1]=animations[i];
+			for(var j=0; j<animations[i-1].length; j++){
+			console.log(animations[i-1][j]);
+				for(var key in animations[i-1][j]){
+					console.log(0);
+					animations[i-1][j][key].position = i-1;
+				}
+			}
+			delete animations[i];
+		}
+	}
 }
