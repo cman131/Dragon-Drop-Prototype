@@ -98,6 +98,7 @@ function drop(event) {
 			$("#heightMod").val($(this).css("height"));
 			$("#depthMod").val($(this).css("z-index"));
 			$("#colorMod").val($(this).css("background-color"));
+			$("#alphaMod").val($(this).css("opacity")*100);
 		});
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
@@ -145,6 +146,7 @@ function submitLocal(path){
 		$("#heightMod").val($(this).css("height"));
 		$("#depthMod").val($(this).css("z-index"));
 		$("#colorMod").val($(this).css("background-color"));
+		$("#alphaMod").val($(this).css("opacity")*100);
 	});
 	log();
 }
@@ -177,6 +179,7 @@ function getDatTweet(id){
 				$("#heightMod").val($(this).css("height"));
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
+				$("#alphaMod").val($(this).css("opacity")*100);
 			});
 			log();
 		}
@@ -228,7 +231,7 @@ function animateIt(){
 			"<option value='easeInOut'>Ease In Out</option>"+
 			"</select></li>"+
 			"</ul>"+
-			"<button onclick='$.unblockUI();'>Cancel</button>"+
+			"<button onclick='unblock();'>Cancel</button>"+
 			"<button onclick='submitAnimation()'>Submit</button>"+
 			"</div>";
 
@@ -236,6 +239,11 @@ function animateIt(){
 		message: message,
 		css: {top: '20%', backgroundColor: '#19a1a1'}
 	});
+}
+
+function unblock(){
+	$.unblockUI();
+	replace = undefined;
 }
 
 function editAnimation(key,index){
@@ -285,7 +293,7 @@ function submitAnimation(){
 			}
 		}
 		animations[replace[0]] = datAniNew;
-		delete replace;
+		replace = undefined;
 	}
 	var xchange = $("#xchange").val();
 	var ychange = $("#ychange").val();
@@ -464,6 +472,7 @@ function submitButton(){
 		$("#heightMod").val($(this).css("height"));
 		$("#depthMod").val($(this).css("z-index"));
 		$("#colorMod").val($(this).css("background-color"));
+		$("#alphaMod").val($(this).css("opacity"));
 	});
 	$.unblockUI();
 	log();

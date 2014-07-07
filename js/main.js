@@ -72,6 +72,7 @@ $(document).ready(function() {
 				$("#heightMod").val($(this).css("height"));
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
+				$("#alphaMod").val($(this).css("opacity")*100);
 			});
 			$("#textMenu input").val("");
 		});
@@ -99,6 +100,7 @@ function setEditMenu(){
 	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
 	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
 	$("#depthMod").attr("oninput","fire('z-index', $('#depthMod').val())");
+	$("#alphaMod").attr("oninput","fire('opacity', $('#alphaMod').val()/100)");
 	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
 	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
 	$("#fontColorMod").attr("oninput", "fire('color', $('#fontColorMod').val())");
@@ -186,6 +188,7 @@ function readIn(){
 				$("#heightMod").val($(this).css("height"));
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
+				$("#alphaMod").val($(this).css("opacity")*100);
 			});
 		});
 		$(".elementSelected").removeClass("elementSelected");
