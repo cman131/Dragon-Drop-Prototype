@@ -287,7 +287,7 @@ input:focus {
 	right: -76%;
 	height: 300px;
 	width: 76%;
-	z-index: 9999;
+	z-index: 999;
 	overflow-y:none;
 }
 
@@ -340,6 +340,7 @@ input:focus {
 	background-color: grey;
 	display: inline-block;
 	position: absolute;
+	cursor: pointer;
 }
 
 #timeline .controls {

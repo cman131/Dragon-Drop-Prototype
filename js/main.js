@@ -319,7 +319,7 @@ function updateTimelineVisual(){
 					};
 					break;
 				}
-				newContent+="<div class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px'></div>";
+				newContent+="<div class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'></div>";
 			}
 			newContent+="</div>";
 		}

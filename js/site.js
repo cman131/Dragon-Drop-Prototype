@@ -5,6 +5,7 @@ function contains(obj1, obj2){
 var animations = {};
 var curDrag;
 var longest = 0;
+var replace;
 
 app = angular.module("app", []);
 
@@ -237,7 +238,55 @@ function animateIt(){
 	});
 }
 
+function editAnimation(key,index){
+	$(".elementSelected").removeClass("elementSelected");
+	$(".selectable").get(key).className+=" elementSelected";
+	replace = [key, index];
+	animateIt();
+	var anime = animations[key][index];
+	if(anime.xpos){
+		$("#xchange").val(anime.xpos.val);
+	}
+	if(anime.ypos){
+		$("#ychange").val(anime.ypos.val);
+	}
+	if(anime.xscale){
+		$("#xschange").val(anime.xscale.val);
+	}
+	if(anime.yscale){
+		$("#yschange").val(anime.yscale.val);
+	}
+	if(anime.rotate){
+		$("#rotationchange").val(anime.rotate.val);
+	}
+	if(anime.alpha){
+		$("#alphachange").val(anime.alpha.val);
+	}
+	var time;
+	var delay;
+	var ease;
+	for(var key2 in anime){
+		time = anime[key2].time;
+		delay = anime[key2].delay;
+		ease = anime[key2].ease;
+	}
+	$("#delayTime").val(delay);
+	$("#changeTime").val(time);
+	$("#easeSelect").val(ease[0]);
+	$("#easeDSelect").val(ease[1]);
+}
+
 function submitAnimation(){
+	if(replace){
+		var datAniNew = [];
+		for(var i=0; i<animations[replace[0]].length; i++){
+			if(i!=replace[1]){
+				datAniNew += animations[replace[0]][i];
+			}
+		}
+		animations[replace[0]] = datAniNew;
+		delete replace;
+	}
 	var xchange = $("#xchange").val();
 	var ychange = $("#ychange").val();
 	var xschange = $("#xschange").val();
@@ -249,11 +298,11 @@ function submitAnimation(){
 	var newVal = {};
 	try{
 		delay = parseInt($("#delayTime").val());
-		time = parseInt($("#timeChange").val());
+		time = parseInt($("#changeTime").val());
 	}
 	catch(e){
 	}
-	console.log(delay);
+	console.log(time);
 	var position = $(".selectable").get().indexOf($(".elementSelected").get(0));
 	var ease = [$("#easeSelect").val(), $("#easeDSelect").val()];
 	
