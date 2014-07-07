@@ -77,7 +77,8 @@ function logCanvasStyles(){
 		left: $(this).css("left"),
 		width: $(this).css("width"),
 		height: $(this).css("height"),
-		alpha: $(this).css("opacity")
+		alpha: $(this).css("opacity"),
+		rotation: $(this).getRotateAngle()
 		};
 	});
 	return save;
@@ -112,6 +113,9 @@ function parseDiff(context){
 		}
 		if(start.alpha!=end.alpha){
 			temp.alpha = {position: i,val: parseInt(end.alpha),time: time,delay: delay, ease: ease};
+		}
+		if(start.rotation!=end.rotation){
+			temp.rotate = {position: i,val: parseInt(end.rotation),time: time,delay: delay, ease: ease};
 		}
 		if(temp!={}){
 			if(!animations[i]){

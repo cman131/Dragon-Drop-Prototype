@@ -99,6 +99,7 @@ function drop(event) {
 			$("#depthMod").val($(this).css("z-index"));
 			$("#colorMod").val($(this).css("background-color"));
 			$("#alphaMod").val($(this).css("opacity")*100);
+			$("#rotateMod").val($(this).getRotateAngle());
 		});
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
@@ -147,6 +148,7 @@ function submitLocal(path){
 		$("#depthMod").val($(this).css("z-index"));
 		$("#colorMod").val($(this).css("background-color"));
 		$("#alphaMod").val($(this).css("opacity")*100);
+		$("#rotateMod").val($(this).getRotateAngle());
 	});
 	log();
 }
@@ -180,6 +182,7 @@ function getDatTweet(id){
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
 				$("#alphaMod").val($(this).css("opacity")*100);
+				$("#rotateMod").val($(this).getRotateAngle());
 			});
 			log();
 		}
@@ -473,6 +476,7 @@ function submitButton(){
 		$("#depthMod").val($(this).css("z-index"));
 		$("#colorMod").val($(this).css("background-color"));
 		$("#alphaMod").val($(this).css("opacity"));
+		$("#rotateMod").val($(this).getRotateAngle());
 	});
 	$.unblockUI();
 	log();

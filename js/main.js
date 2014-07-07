@@ -75,6 +75,7 @@ $(document).ready(function() {
 				$("#depthMod").val($(this).css("z-index"));
 				$("#colorMod").val($(this).css("background-color"));
 				$("#alphaMod").val($(this).css("opacity")*100);
+				$("#rotateMod").val($(this).getRotateAngle());
 			});
 			$("#textMenu input").val("");
 		});
@@ -113,9 +114,9 @@ function setEditMenu(){
 
 function fire(css, val){
 	if(css=="rotate"){
-		$(".elementSelected").jqrotate(parseInt(val));
+		$(".elementSelected").rotate(parseInt(val));
 		if($(".elementSelected iframe").length>0){
-			$(".elementSelected iframe").jqrotate(parseInt(val));
+			$(".elementSelected iframe").rotate(parseInt(val));
 		}
 	}
 	else if(css=="html"){
@@ -186,6 +187,7 @@ function rewriteCanvas(source){
 				$(".elementSelected").removeClass("elementSelected");
 				$(this).addClass("elementSelected");
 				$("#widthMod").val($(this).css("width"));
+				$("#rotateMod").val($(this).getRotateAngle());
 				$("#htmlMod").val($(this).html());
 				$("#fontColorMod").val($(this).css("color"))
 				$("#textMod").val($(this).css("font-size"));
