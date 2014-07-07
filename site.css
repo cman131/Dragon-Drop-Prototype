@@ -356,3 +356,15 @@ input:focus {
 #timeline button:active {
 	bottom:39;
 }
+
+#recordMenu {
+	background-color: #19a1a1;
+	color: white;
+	position: fixed;
+	top: 0;
+	right: 0;
+	border-bottom-left-radius: 12px;
+	padding: 10px;
+	text-align: center;
+	z-index: 9999;
+}

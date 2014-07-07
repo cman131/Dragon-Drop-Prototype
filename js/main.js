@@ -35,11 +35,13 @@ $(document).ready(function() {
 			}
 		});
 		$('h3').click(function() {
-			$(this).siblings('ul').toggleClass('visible');
-			$("#menu .dragon").each(function(index){
-				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
-			});
+			if(!$(this).hasClass("disabled")){
+				$(this).siblings('ul').toggleClass('visible');
+				$("#menu .dragon").each(function(index){
+					$(this).css("top", $(this).get(0).getBoundingClientRect().top);
+					$(this).css("left", $(this).get(0).getBoundingClientRect().left);
+				});
+			}
 		});
 		setEditMenu();
 		$(document).keydown(function(e) {
@@ -147,7 +149,7 @@ function mkLog(styl, clas, tg, source, html, href, over, leave){
 	}
 }
 
-function log(){
+function logCanvas(){
 	var save = [];
 	$(".selectable").each(function(){
 		save[save.length] = mkLog(
@@ -161,17 +163,19 @@ function log(){
 		$(this).attr("onmouseleave")
 		);
 	});
+	return save;
+}
+
+function log(){
+	var save = logCanvas();
 	window.localStorage.work = JSON.stringify(save);
 	window.localStorage.anime = JSON.stringify(animations);
 	updateTimelineVisual();
 }
 
-function readIn(){
-	if(window.localStorage.work){
-		if(window.localStorage.anime){
-			animations = JSON.parse(window.localStorage.anime);
-		}
-		var save = JSON.parse(window.localStorage.work);
+function rewriteCanvas(source){
+		$("#canvas").empty();
+		var save = JSON.parse(source);
 		var cur;
 		for(var i=0; i<save.length; i++){
 			cur = save[i];
@@ -192,6 +196,14 @@ function readIn(){
 			});
 		});
 		$(".elementSelected").removeClass("elementSelected");
+}
+
+function readIn(){
+	if(window.localStorage.work){
+		if(window.localStorage.anime){
+			animations = JSON.parse(window.localStorage.anime);
+		}
+		rewriteCanvas(window.localStorage.work);
 		updateTimelineVisual();
 		updateTimeline();
 	}
