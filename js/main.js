@@ -1,7 +1,9 @@
+// The timeline object for animations
 var timeline = new TimelineLite({onUpdate: function(){
 	$("#slider").slider({value: timeline.progress()*1000});
 }});
-var toggler = true;
+
+// A collection of functions run when the document is loaded
 $(document).ready(function() {
 	var drawerWidth = parseInt($("#animationDrawer").css("width"));
 	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
@@ -99,6 +101,7 @@ $(document).ready(function() {
 		readIn();
 });
 
+// A collection of functions to be run whenever the window is resized
 $(window).resize(function(){
 	var drawerWidth = parseInt($("#animationDrawer").css("width"));
 	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
@@ -125,7 +128,14 @@ $(window).resize(function(){
 		}
 	});
 });	
-	
+
+/**
+ *
+ * Populates the edit menu fields with the values of the
+ * currently selected element.
+ *
+ * @author Conor Wright
+ */
 function setEditMenu(){
 	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
 	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
@@ -138,7 +148,14 @@ function setEditMenu(){
 	$("#htmlMod").attr("oninput", "fire('html', $('#htmlMod').val())");
 }
 
-
+/**
+ *
+ * Fires new values to the currently selected element
+ *
+ *@param css - value to change
+ *@param val - new value to change to
+ * @author Conor Wright
+ */
 function fire(css, val){
 	if(css=="rotate"){
 		$(".elementSelected").rotate(parseInt(val));
@@ -164,6 +181,22 @@ function fire(css, val){
 	log();
 }
 
+/**
+ *
+ * Creates a log object for a canvas element
+ * for local storage
+ *
+ * @param styl - the style of the element
+ * @param clas - the class list of the element
+ * @param tg - the tag of the element
+ * @param source - the src attribute of the element
+ * @param html - the inner html of the element
+ * @param href - the href attribute of the element
+ * @param over - the mouseover attribute of the element
+ * @param leave - the mouseleave attribute of the element
+ * @return the resulting log object
+ * @author Conor Wright
+ */
 function mkLog(styl, clas, tg, source, html, href, over, leave){
 	return {
 	style: styl, 
@@ -177,6 +210,14 @@ function mkLog(styl, clas, tg, source, html, href, over, leave){
 	}
 }
 
+/**
+ *
+ * logs the entirety of the canvas in a list of log
+ * objects of it's elements
+ *
+ * @return the resulting log list
+ * @author Conor Wright
+ */
 function logCanvas(){
 	var save = [];
 	$(".selectable").each(function(){
@@ -194,6 +235,13 @@ function logCanvas(){
 	return save;
 }
 
+/**
+ *
+ * Logs the current canvas state and animations list
+ * into local storage
+ *
+ * @author Conor Wright
+ */
 function log(){
 	var save = logCanvas();
 	window.localStorage.work = JSON.stringify(save);
@@ -201,6 +249,14 @@ function log(){
 	updateTimelineVisual();
 }
 
+/**
+ *
+ * Redraws the canvas from the given source
+ *
+ * @param source - a JSON string representing a state
+ * for the canvas
+ * @author Conor Wright
+ */
 function rewriteCanvas(source){
 		$("#canvas").empty();
 		var save = JSON.parse(source);
@@ -227,6 +283,13 @@ function rewriteCanvas(source){
 		$(".elementSelected").removeClass("elementSelected");
 }
 
+/**
+ *
+ * Reads in the data logged in local storage
+ * and loads it.
+ *
+ * @author Conor Wright
+ */
 function readIn(){
 	if(window.localStorage.work){
 		if(window.localStorage.anime){
@@ -238,6 +301,12 @@ function readIn(){
 	}
 }
 
+/**
+ *
+ * Flips the currently selected element horizontally
+ *
+ * @author Conor Wright
+ */
 function flipIt(){
 	$('.elementSelected').toggleClass('flipped');
 	log();
@@ -336,7 +405,15 @@ function returnProperties() {
 	return properties;
 }
 
+// Timeline Functions
 
+/**
+ *
+ * Removes all animations currently attached 
+ * to currently selected element
+ *
+ * @author Conor Wright
+ */
 function unAnimateIt(){
 	 deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
 	updateTimeline();
@@ -344,11 +421,24 @@ function unAnimateIt(){
 	log();
 }
 
+/**
+ *
+ * Stops the timeline and resets it to 0 seconds
+ *
+ * @author Conor Wright
+ */
 function stop(){
 	timeline.pause(0);
 	$("#slider").slider({value: 0});
 }
 
+/**
+ *
+ * Updates the visual representation of the timeline
+ * with current animations
+ *
+ * @author Conor Wright
+ */
 function updateTimelineVisual(){
 	var newContent = "";
 	for(var key in animations){
@@ -371,6 +461,14 @@ function updateTimelineVisual(){
 	$("#timeline div.table").html(newContent);
 }
 
+/**
+ *
+ * Deletes the animations at specified index
+ * and updates all other animation positions
+ *
+ * @param index - The index of the animation set to delete
+ * @author Conor Wright
+ */
 function deleteAnimation(index){
 	if(!animations[index] || index<0){
 		return true;

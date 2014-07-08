@@ -1,5 +1,13 @@
+// Frame information for the animation recording being made
 var frames = {};
 
+/**
+ *
+ * Starts the animation recording and disables
+ * what you can't use during recording.
+ *
+ * @author Conor Wright
+ */
 function startRecord(){
 	frames = {};
 	var delay = parseInt($(".frame").get(0).value);
@@ -14,6 +22,13 @@ function startRecord(){
 	displayRecordMenu();
 }
 
+/**
+ *
+ * Runs when the record button is pressed.
+ * blocks the UI and requests recording information.
+ *
+ * @author Conor Wright
+ */
 function record(){
 	var message = "<div id='blocker' style='padding: 5px;padding-top:0px;'>"+
 	"<h3>Frame Recording</h3>"+
@@ -30,6 +45,13 @@ function record(){
 	$(".blockUI.blockMsg.blockPage").css("cursor", "default");
 }
 
+/**
+ *
+ * Disables the elements that shouldn't be
+ * interacted with during recording.
+ *
+ * @author Conor Wright
+ */
 function disable(){
 	disabled = true;
 	$("#slider").slider("disable");
@@ -40,6 +62,12 @@ function disable(){
 	$("#editMenu .sub-nav").addClass("visible");
 }
 
+/**
+ *
+ * Enables the elements that were disabled for recording
+ *
+ * @author Conor Wright
+ */
 function enable(){
 	disabled=false;
 	$("#slider").slider("enable");
@@ -48,6 +76,12 @@ function enable(){
 	$("#menu .parent").removeClass("disabled");
 }
 
+/**
+ *
+ * Displays the "recording in progress" menu
+ *
+ * @author Conor Wright
+ */
 function displayRecordMenu(){
 	var e = document.createElement("div");
 	e.id="recordMenu";
@@ -56,6 +90,12 @@ function displayRecordMenu(){
 	$("body").get(0).appendChild(e);
 }
 
+/**
+ *
+ * Removes the recording menu and submits the recording
+ *
+ * @author Conor Wright
+ */
 function submitRecording(){
 	$("#recordMenu").remove();
 	frames.end = logCanvasStyles();
@@ -69,6 +109,13 @@ function submitRecording(){
 	frames = {};
 }
 
+/**
+ *
+ * Creates a log of the current canvas element styles
+ *
+ * @return The resulting log object
+ * @author Conor Wright
+ */
 function logCanvasStyles(){
 	var save = [];
 	$(".selectable").each(function(){
@@ -84,6 +131,15 @@ function logCanvasStyles(){
 	return save;
 }
 
+/**
+ *
+ * Parses the difference between the logged canvas states.
+ * Then creates the respective animation and puts it in
+ * the animation collection.
+ *
+ * @param context - The context object of this recording
+ * @author Conor Wright
+ */
 function parseDiff(context){
 	var start;
 	var end;
@@ -126,6 +182,13 @@ function parseDiff(context){
 	}
 }
 
+/**
+ *
+ * Creates a clone of the selected element
+ * and puts it in the canvas.
+ *
+ * @author Conor Wright
+ */
 function dupe(){
 	var original = $(".elementSelected").get(0);
 	var clone = original.cloneNode(false);

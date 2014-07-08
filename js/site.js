@@ -1,14 +1,33 @@
+
+/**
+ *
+ * A simple method to check if a given object is within another
+ *
+ * @param obj1 - The container
+ * @param obj2 - The object to search for within the container
+ * @return Boolean - Whether the object is within the other one or not
+ * @author Conor Wright
+ */
 function contains(obj1, obj2){
 	return obj1.indexOf(obj2)>-1;
 }
 
+// The collection of animations
 var animations = {};
+
+// The element currently being dragged
 var curDrag;
-var longest = 0;
+
+// The animation to replace when editting
 var replace;
 
+// The positional change log for dragging
+var offset_data;
+
+// The AngularJS Application
 app = angular.module("app", []);
 
+// The directive for a draggable element
 app.directive("dragon", function(){
 	return {
 		restrict: "C",
@@ -19,6 +38,7 @@ app.directive("dragon", function(){
 	}
 });
 
+// The directive for a selectable element
 app.directive("selectable", function(){
 	return {
 		restrict: "C",
@@ -37,14 +57,29 @@ app.directive("selectable", function(){
 	}
 });
 
-
-var offset_data;
+/**
+ *
+ * The function for when a drag event starts
+ * logs initial position and element
+ *
+ * @param event - the event object for the drag starting
+ * @author Conor Wright
+ */
 function drag_start(event) {
 	var style = window.getComputedStyle(event.target, null);
 	offset_data = (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY);
 	event.dataTransfer.setData("text/plain",offset_data);
 	curDrag = event.target;
 } 
+
+/**
+ *
+ * The function for when the dragon element is
+ * dragged over the body. Logs positional change data while dragging
+ *
+ * @param event - the event object for the drag over occuring
+ * @author Conor Wright
+ */
 function drag_over(event) { 
 	var offset;
 	try {
@@ -61,6 +96,16 @@ function drag_over(event) {
 	event.preventDefault(); 
 	return false; 
 } 
+
+/**
+ *
+ * The function for when a dragon object is dropped on the canvas.
+ * Uses logged data to find correct positioning. Then clones the element
+ * and places it in the canvas at correct positioning.
+ *
+ * @param event - The event object for a drop event
+ * @author Conor Wright
+ */
 function drop(event) { 
 	var offset;
 	try {
@@ -111,6 +156,13 @@ function drop(event) {
 	return false;
 }
 
+/**
+ *
+ * Allows selection of a local video to place
+ * on the canvas by blocking the ui and requesting information.
+ *
+ *@author Conor Wright
+ */
 function addLocal(){
 	var message = "<div id='blocker'>"+
 			"<h2>Choose Your Video File</h2>"+
@@ -122,6 +174,15 @@ function addLocal(){
 	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
 }
 
+/**
+ *
+ * The function for when a local video is submitted to
+ * be added. Gets video and adds it to the canvas.
+ *
+ * @param path - a string representing the location of
+ * the video file.
+ * @author Conor Wright
+ */
 function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
@@ -157,7 +218,10 @@ function submitLocal(path){
 /**
  * Retrieves Specified tweet by id
  * then places it on the canvas
- * (doesn't work with twitter incorporating corps, which they don't...)
+ * (doesn't work without twitter incorporating corps, which they don't...)
+ * 
+ * @param id - The identifier of the tweet to retrieve
+ * @author Conor Wright
  */
 function getDatTweet(id){
 	$.get("https://api.twitter.com/1/statuses/oembed.json?id="+id,
@@ -189,6 +253,16 @@ function getDatTweet(id){
 	});
 }
 
+/**
+ *
+ * The handler for tranforming elements this is run 
+ * once they have been dropped on the canvas.
+ * Transforms the element into it's resulting state.
+ *
+ * @param type - the kind of transformation
+ * @param extra - optional info that is necessary for some transformations
+ * @author Conor Wright
+ */
 function moreThanMeetsTheEye(type, extra){
 	switch(type) {
 	case "twitter":
@@ -199,6 +273,12 @@ function moreThanMeetsTheEye(type, extra){
 	}
 }
 
+/**
+ *
+ * Blocks the UI and launches the animation station
+ * 
+ * @author Conor Wright
+ */
 function animateIt(){
 	var message = "<div id='blocker'>"+
 			"<h3>Animation Station</h3>"+
@@ -244,11 +324,28 @@ function animateIt(){
 	});
 }
 
+/**
+ *
+ * Unblocks the UI and resets carried values
+ *
+ * @author Conor Wright
+ */
 function unblock(){
 	$.unblockUI();
 	replace = undefined;
 }
 
+/**
+ *
+ * Blocks the ui and launches the animation station.
+ * Then populates the values with those of the animation being editted
+ * Also sets the replace variable to be that animation.
+ *
+ * @param key - the position of the animated element on the canvas
+ * @param index - The index of the animation to modify among the
+ * element's other animations
+ * @author Conor Wight
+ */
 function editAnimation(key,index){
 	$(".elementSelected").removeClass("elementSelected");
 	$(".selectable").get(key).className+=" elementSelected";
@@ -287,6 +384,15 @@ function editAnimation(key,index){
 	$("#easeDSelect").val(ease[1]);
 }
 
+
+/**
+ *
+ * Submits the animation station info as an animation to
+ * the animation collection.
+ * Replaces the replace element if there is one.
+ *
+ * @author Conor Wright
+ */
 function submitAnimation(){
 	if(replace){
 		var datAniNew = [];
@@ -350,6 +456,13 @@ function submitAnimation(){
 	updateTimeline();
 }
 
+/**
+ *
+ * Plays the timeline of animation from the current point
+ * or the beginning(if at end)
+ *
+ * @author Conor Wright
+ */
 function launchAnimations(){
 	if(timeline.progress()!=1){
 		timeline.play();
@@ -359,6 +472,15 @@ function launchAnimations(){
 	}
 }
 
+/**
+ *
+ * Retrieves the respective ease given the two names
+ *
+ * @param type - the type of ease(Bounce, Back, etc)
+ * @param dir - the direction to ease(easeOut, easeIn, etc)
+ * @return The resulting ease object
+ * @author Conor Wright
+ */
 function getEase(type,dir){
 	var ease;
 	switch(type){
@@ -424,6 +546,12 @@ function getEase(type,dir){
 	return ease;
 }
 
+/**
+ *
+ * Blocks the UI and opens the button making menu
+ *
+ * @author Conor Wright
+ */
 function makeButtonMenu(){	
 	var message = "<div id='blocker'>"+
 			"<h2>Let's Make A Button</h2>"+
@@ -441,6 +569,13 @@ function makeButtonMenu(){
 	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
 }
 
+/**
+ *
+ * Submits the creation of a button, unblocks
+ * the UI and adds the button to the canvas.
+ *
+ * @author Conor Wright
+ */
 function submitButton(){
 	var text = $("#labelInput").val();
 	var link = $("#linkInput").val();
@@ -482,9 +617,16 @@ function submitButton(){
 	log();
 }
 
+/**
+ *
+ * Updates the timeline object with the current animations
+ * collection.
+ *
+ * @author Conor Wright
+ */
 function updateTimeline(){
 	timeline.clear();
-	longest = 0;
+	var longest = 0;
 	for(var i=0; i<$(".selectable").length; i++){
 		if(animations[i]){
 			for(var j = 0; j<animations[i].length; j++){
@@ -504,6 +646,7 @@ function updateTimeline(){
 	$("#slider").css("width", longest*10);
 }
 
+// A list of functions respective to each animation type
 var aniFuncts = {
 	xpos: function(position, xchange, time, delay, ease){
 		var element = $(".selectable").get(position);
