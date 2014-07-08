@@ -14,6 +14,7 @@ $(document).ready(function() {
             max: 1000,
             step: 1,
             slide: function( event, ui ) {
+	    	timeline.pause();
                 timeline.progress( ui.value/1000 );
             }
 		});

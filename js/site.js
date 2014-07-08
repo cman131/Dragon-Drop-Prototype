@@ -91,7 +91,6 @@ function drag_over(event) {
 	if(!(curDrag.parentNode.id=="canvas" && ((event.clientX + parseInt(offset[0],10))>=0 || (event.clientY + parseInt(offset[1],10))>0))){
 		curDrag.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
 		curDrag.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
-		console.log(curDrag.style.top+" "+curDrag.style.left);
 	}
 	event.preventDefault(); 
 	return false; 
