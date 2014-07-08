@@ -130,6 +130,7 @@ function drop(event) {
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
 		bindSelectable(curDrag);
+		
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
 	curDrag.style.top = (top>=0 ? top : 0) + 'px';

@@ -95,19 +95,7 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-
-		$(document).on('click', '.selectable', function() {
-			$(".selectable").each(function(){
-				if($('.ui-resizable-e').length > 1) {
-					$('.ui-resizable-e:gt(0)').remove();
-					$('.ui-resizable-s:gt(0)').remove();
-					$('.ui-resizable-se:gt(0)').remove();
-				}
-			});
-			$(this).resizable();
-			log();
-			//new Propeller($('.elementSelected'), {inertia: 1});
-		});
+		//new Propeller($('.elementSelected'), {inertia: 1});
 		$(document).on("click", ".dragon", addRotation);
 		readIn();
 });
