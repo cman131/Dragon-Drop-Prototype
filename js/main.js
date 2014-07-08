@@ -62,8 +62,8 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-		$(document).on('click', '.selectable', function() {
-			$('.selectable').resizable();
+		$(document).on('click', '.elementSelected', function() {
+			$('.elementSelected').resizable();
 			//new Propeller($('.elementSelected'), {inertia: 1});
 			// var dragging = 0;
 		 //    var target = $('.target');
@@ -86,21 +86,20 @@ $(document).ready(function() {
 		 //      }
 		 //    });
 			addRotation();
-			
 			log();
 		});
-		$('.selectable').on('click', function() {
-		 	$('.selectable').each(function(index){
-		 		$(this).bind("mousedown", function(){
-		 			if($(this).hasClass('elementSelected')) {
-		 	 			$(this).removeClass("elementSelected");
-		 	 		}
-		 	 		else {	
-		 				$(this).addClass("elementSelected");
-		 			}
-		 		});
-		 	});
-		 });
+		// $('.selectable').on('click', function() {
+		//  	$('.selectable').each(function(index){
+		//  		$(this).bind("mousedown", function(){
+		//  			if($(this).hasClass('elementSelected')) {
+		//  	 			$(this).removeClass("elementSelected");
+		//  	 		}
+		//  	 		else {	
+		//  				$(this).addClass("elementSelected");
+		//  			}
+		//  		});
+		//  	});
+		//  });
 		readIn();
 	});
 
@@ -212,6 +211,7 @@ function readIn(){
 				 	$(this).removeClass("elementSelected");
 				 	//$(this).off();
 				 	//$(this).off('click','.elementSelected',addRotation);
+				 	$(this).unbind("click", addRotation);
 				 }
 				 else {
 				 	$(this).addClass("elementSelected");

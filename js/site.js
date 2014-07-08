@@ -88,16 +88,20 @@ function drop(event) {
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
 		$(curDrag).bind("mousedown", function(){
-			//$(".elementSelected").removeClass("elementSelected");
-			$(this).addClass("elementSelected");
-			$("#widthMod").val($(this).css("width"));
-			$("#htmlMod").val($(this).html());
-			$("#fontColorMod").val($(this).css("color"))
-			$("#textMod").val($(this).css("font-size"));
-			$("#heightMod").val($(this).css("height"));
-			$("#depthMod").val($(this).css("z-index"));
-			$("#colorMod").val($(this).css("background-color"));
-			
+			 if($(this).hasClass('elementSelected')) {
+			 	$(this).removeClass("elementSelected");
+			 	$(this).unbind("click", addRotation);
+			 }
+			 else {
+			 	$(this).addClass("elementSelected");
+				$("#widthMod").val($(this).css("width"));
+				$("#htmlMod").val($(this).html());
+				$("#fontColorMod").val($(this).css("color"))
+				$("#textMod").val($(this).css("font-size"));
+				$("#heightMod").val($(this).css("height"));
+				$("#depthMod").val($(this).css("z-index"));
+				$("#colorMod").val($(this).css("background-color"));
+			}
 		});
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
