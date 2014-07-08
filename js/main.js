@@ -94,15 +94,18 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
+
 		$(document).on('click', '.selectable', function() {
-			if($('.ui-resizable-e').length > 1) {
-				$('.ui-resizable-e:gt(0)').remove();
-				$('.ui-resizable-s:gt(0)').remove();
-				$('.ui-resizable-se:gt(0)').remove();
-			}
+			$(".selectable").each(function(){
+				if($('.ui-resizable-e').length > 1) {
+					$('.ui-resizable-e:gt(0)').remove();
+					$('.ui-resizable-s:gt(0)').remove();
+					$('.ui-resizable-se:gt(0)').remove();
+				}
+			});
 			$(this).resizable();
-			//new Propeller($('.elementSelected'), {inertia: 1});
 			log();
+			//new Propeller($('.elementSelected'), {inertia: 1});
 		});
 		$(document).on("click", ".dragon", addRotation);
 		readIn();
@@ -395,7 +398,7 @@ function activateTween() {
 			$('#bgColorChange').val($('.elementSelected').css('background-color'));
 			$('#opacityChange').val($('.elementSelected').css('opacity'));
 			log();
-	}
+}
 
 /*
 * Function used to fire off animation

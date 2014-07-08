@@ -373,38 +373,40 @@ function submitAnimation(){
 	}
 	catch(e){
 	}
-	console.log(time);
-	var position = $(".selectable").get().indexOf($(".elementSelected").get(0));
 	var ease = [$("#easeSelect").val(), $("#easeDSelect").val()];
-	
-	if(!animations[position]){
-		animations[position] = [];
+	var position;
+	for(var j=0; j<$(".elementSelected").length; j++){
+		position = $(".selectable").get().indexOf($(".elementSelected").get(j));
+		
+		if(!animations[position]){
+			animations[position] = [];
+		}
+		if(!time || time<0){
+			time = 3;
+		}
+		if(!delay){
+			delay = 0;
+		}
+		if(xchange!=""){
+			newVal.xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
+		}
+		if(ychange!=""){
+			newVal.ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
+		}
+		if(xschange!=""){
+			newVal.xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
+		}
+		if(yschange!=""){
+			newVal.yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
+		}
+		if(rotationchange!=""){
+			newVal.rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
+		}
+		if(alphachange!=""){
+			newVal.alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
+		}
+		animations[position].push($.extend(true, {}, newVal));
 	}
-	if(!time || time<0){
-		time = 3;
-	}
-	if(!delay){
-		delay = 0;
-	}
-	if(xchange!=""){
-		newVal.xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
-	}
-	if(ychange!=""){
-		newVal.ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
-	}
-	if(xschange!=""){
-		newVal.xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
-	}
-	if(yschange!=""){
-		newVal.yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
-	}
-	if(rotationchange!=""){
-		newVal.rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
-	}
-	if(alphachange!=""){
-		newVal.alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
-	}
-	animations[position].push(newVal);
 	$.unblockUI();
 	log();
 	updateTimeline();

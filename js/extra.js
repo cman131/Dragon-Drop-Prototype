@@ -1,3 +1,27 @@
+/**
+ * Getting the angle myself because tools aren't helpful enough
+ * 
+ * @param element - the element to get the damn angle of
+ * @author Conor Wright
+ */
+function whatTheHellIsTheAngle(element){
+	// Such Style
+	var style = window.getComputedStyle(element, null);
+	
+	// Much accounting
+	var prop = style.getPropertyValue("-webkit-transform") ||
+         style.getPropertyValue("-moz-transform") ||
+         style.getPropertyValue("-ms-transform") ||
+         style.getPropertyValue("-o-transform") ||
+         style.getPropertyValue("transform");
+	prop = prop.split(", ");
+	var sinVal = parseFloat(prop[1]);
+	var cosVal = parseFloat(prop[0].split("(")[1]);
+	
+	// So Mathmatical
+	return Math.atan2(sinVal, cosVal)*(180/Math.PI);
+}
+
 // Frame information for the animation recording being made
 var frames = {};
 
@@ -125,7 +149,7 @@ function logCanvasStyles(){
 		width: $(this).css("width"),
 		height: $(this).css("height"),
 		alpha: $(this).css("opacity"),
-		rotation: $(this).getRotateAngle()
+		rotation: whatTheHellIsTheAngle(this)
 		};
 	});
 	return save;
@@ -194,19 +218,7 @@ function dupe(){
 	var clone = original.cloneNode(false);
 	clone.style.left = 0;
 	clone.style.top = 0;
-	$(clone).bind("mousedown", function(){
-			$(".elementSelected").removeClass("elementSelected");
-			$(this).addClass("elementSelected");
-			$("#widthMod").val($(this).css("width"));
-			$("#htmlMod").val($(this).html());
-			$("#fontColorMod").val($(this).css("color"))
-			$("#textMod").val($(this).css("font-size"));
-			$("#heightMod").val($(this).css("height"));
-			$("#depthMod").val($(this).css("z-index"));
-			$("#colorMod").val($(this).css("background-color"));
-			$("#alphaMod").val($(this).css("opacity")*100);
-			$("#rotateMod").val($(this).getRotateAngle());
-	});
+	bindSelectable(clone);
 	$(original).removeClass("elementSelected");
 	$("#canvas").get(0).appendChild(clone);
 }
@@ -227,7 +239,7 @@ function bindSelectable(dat){
 		 else {
 			$(this).addClass("elementSelected");
 			$("#widthMod").val($(this).css("width"));
-			$("#rotateMod").val($(this).getRotateAngle());
+			$("#rotateMod").val(whatTheHellIsTheAngle(this));
 			$("#htmlMod").val($(this).html());
 			$("#fontColorMod").val($(this).css("color"))
 			$("#textMod").val($(this).css("font-size"));
