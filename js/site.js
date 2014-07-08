@@ -1,12 +1,33 @@
+
+/**
+ *
+ * A simple method to check if a given object is within another
+ *
+ * @param obj1 - The container
+ * @param obj2 - The object to search for within the container
+ * @return Boolean - Whether the object is within the other one or not
+ * @author Conor Wright
+ */
 function contains(obj1, obj2){
 	return obj1.indexOf(obj2)>-1;
 }
 
+// The collection of animations
 var animations = {};
+
+// The element currently being dragged
 var curDrag;
 
+// The animation to replace when editting
+var replace;
+
+// The positional change log for dragging
+var offset_data;
+
+// The AngularJS Application
 app = angular.module("app", []);
 
+// The directive for a draggable element
 app.directive("dragon", function(){
 	return {
 		restrict: "C",
@@ -17,33 +38,39 @@ app.directive("dragon", function(){
 	}
 });
 
+// The directive for a selectable element
 app.directive("selectable", function(){
 	return {
 		restrict: "C",
 		link: function(scope, element, attrs){
-			element.bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
-				$(".elementSelected").off();
-				$(".selectable").each(function(index){
-					if($(this).css("z-index")>0){
-						$(this).css("z-index",$(this).css("z-index") -1);
-					}
-				});
-				$(element).css("z-index",$(element).css("z-index")+10);
-				element.addClass("elementSelected");
-			});
+			bindSelectable(element);
 		}
 	}
 });
 
-
-var offset_data;
+/**
+ *
+ * The function for when a drag event starts
+ * logs initial position and element
+ *
+ * @param event - the event object for the drag starting
+ * @author Conor Wright
+ */
 function drag_start(event) {
 	var style = window.getComputedStyle(event.target, null);
 	offset_data = (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY);
 	event.dataTransfer.setData("text/plain",offset_data);
 	curDrag = event.target;
 } 
+
+/**
+ *
+ * The function for when the dragon element is
+ * dragged over the body. Logs positional change data while dragging
+ *
+ * @param event - the event object for the drag over occuring
+ * @author Conor Wright
+ */
 function drag_over(event) { 
 	var offset;
 	try {
@@ -55,11 +82,20 @@ function drag_over(event) {
 	if(!(curDrag.parentNode.id=="canvas" && ((event.clientX + parseInt(offset[0],10))>=0 || (event.clientY + parseInt(offset[1],10))>0))){
 		curDrag.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
 		curDrag.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
-		console.log(curDrag.style.top+" "+curDrag.style.left);
 	}
 	event.preventDefault(); 
 	return false; 
 } 
+
+/**
+ *
+ * The function for when a dragon object is dropped on the canvas.
+ * Uses logged data to find correct positioning. Then clones the element
+ * and places it in the canvas at correct positioning.
+ *
+ * @param event - The event object for a drop event
+ * @author Conor Wright
+ */
 function drop(event) { 
 	var offset;
 	try {
@@ -87,18 +123,7 @@ function drop(event) {
 	}
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
-		$(curDrag).bind("mousedown", function(){
-			//$(".elementSelected").removeClass("elementSelected");
-			$(this).addClass("elementSelected");
-			$("#widthMod").val($(this).css("width"));
-			$("#htmlMod").val($(this).html());
-			$("#fontColorMod").val($(this).css("color"))
-			$("#textMod").val($(this).css("font-size"));
-			$("#heightMod").val($(this).css("height"));
-			$("#depthMod").val($(this).css("z-index"));
-			$("#colorMod").val($(this).css("background-color"));
-			
-		});
+		bindSelectable(curDrag);
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
 	curDrag.style.top = (top>=0 ? top : 0) + 'px';
@@ -109,6 +134,13 @@ function drop(event) {
 	return false;
 }
 
+/**
+ *
+ * Allows selection of a local video to place
+ * on the canvas by blocking the ui and requesting information.
+ *
+ *@author Conor Wright
+ */
 function addLocal(){
 	var message = "<div id='blocker'>"+
 			"<h2>Choose Your Video File</h2>"+
@@ -120,6 +152,15 @@ function addLocal(){
 	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
 }
 
+/**
+ *
+ * The function for when a local video is submitted to
+ * be added. Gets video and adds it to the canvas.
+ *
+ * @param path - a string representing the location of
+ * the video file.
+ * @author Conor Wright
+ */
 function submitLocal(path){
 	console.log(path);
 	$.unblockUI();
@@ -135,17 +176,7 @@ function submitLocal(path){
 	div.style.position = 'absolute';
 	div.style.padding = 20;
 	document.getElementById('canvas').appendChild(div);
-	$(div).bind("mousedown", function(){
-		$(".elementSelected").removeClass("elementSelected");
-		$(this).addClass("elementSelected");
-		$("#htmlMod").val($(this).html());
-		$("#fontColorMod").val($(this).css("color"))
-		$("#textMod").val($(this).css("font-size"));
-		$("#widthMod").val($(this).css("width"));
-		$("#heightMod").val($(this).css("height"));
-		$("#depthMod").val($(this).css("z-index"));
-		$("#colorMod").val($(this).css("background-color"));
-	});
+	bindSelectable(div);
 	log();
 }
 
@@ -153,7 +184,10 @@ function submitLocal(path){
 /**
  * Retrieves Specified tweet by id
  * then places it on the canvas
- * (doesn't work with twitter incorporating corps, which they don't...)
+ * (doesn't work without twitter incorporating corps, which they don't...)
+ * 
+ * @param id - The identifier of the tweet to retrieve
+ * @author Conor Wright
  */
 function getDatTweet(id){
 	$.get("https://api.twitter.com/1/statuses/oembed.json?id="+id,
@@ -167,22 +201,22 @@ function getDatTweet(id){
 			$(div).attr('ondragstart','drag_start(event)');
 			div.style.position = 'absolute';
 			document.getElementById('canvas').appendChild(div);
-			$(div).bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
-				$(this).addClass("elementSelected");
-				$("#htmlMod").val($(this).html());
-				$("#fontColorMod").val($(this).css("color"))
-				$("#textMod").val($(this).css("font-size"));
-				$("#widthMod").val($(this).css("width"));
-				$("#heightMod").val($(this).css("height"));
-				$("#depthMod").val($(this).css("z-index"));
-				$("#colorMod").val($(this).css("background-color"));
-			});
+			bindSelectable(div);
 			log();
 		}
 	});
 }
 
+/**
+ *
+ * The handler for tranforming elements this is run 
+ * once they have been dropped on the canvas.
+ * Transforms the element into it's resulting state.
+ *
+ * @param type - the kind of transformation
+ * @param extra - optional info that is necessary for some transformations
+ * @author Conor Wright
+ */
 function moreThanMeetsTheEye(type, extra){
 	switch(type) {
 	case "twitter":
@@ -193,6 +227,12 @@ function moreThanMeetsTheEye(type, extra){
 	}
 }
 
+/**
+ *
+ * Blocks the UI and launches the animation station
+ * 
+ * @author Conor Wright
+ */
 function animateIt(){
 	var message = "<div id='blocker'>"+
 			"<h3>Animation Station</h3>"+
@@ -228,7 +268,7 @@ function animateIt(){
 			"<option value='easeInOut'>Ease In Out</option>"+
 			"</select></li>"+
 			"</ul>"+
-			"<button onclick='$.unblockUI();'>Cancel</button>"+
+			"<button onclick='unblock();'>Cancel</button>"+
 			"<button onclick='submitAnimation()'>Submit</button>"+
 			"</div>";
 
@@ -238,7 +278,86 @@ function animateIt(){
 	});
 }
 
+/**
+ *
+ * Unblocks the UI and resets carried values
+ *
+ * @author Conor Wright
+ */
+function unblock(){
+	$.unblockUI();
+	replace = undefined;
+}
+
+/**
+ *
+ * Blocks the ui and launches the animation station.
+ * Then populates the values with those of the animation being editted
+ * Also sets the replace variable to be that animation.
+ *
+ * @param key - the position of the animated element on the canvas
+ * @param index - The index of the animation to modify among the
+ * element's other animations
+ * @author Conor Wight
+ */
+function editAnimation(key,index){
+	$(".elementSelected").removeClass("elementSelected");
+	$(".selectable").get(key).className+=" elementSelected";
+	replace = [key, index];
+	animateIt();
+	var anime = animations[key][index];
+	if(anime.xpos){
+		$("#xchange").val(anime.xpos.val);
+	}
+	if(anime.ypos){
+		$("#ychange").val(anime.ypos.val);
+	}
+	if(anime.xscale){
+		$("#xschange").val(anime.xscale.val);
+	}
+	if(anime.yscale){
+		$("#yschange").val(anime.yscale.val);
+	}
+	if(anime.rotate){
+		$("#rotationchange").val(anime.rotate.val);
+	}
+	if(anime.alpha){
+		$("#alphachange").val(anime.alpha.val);
+	}
+	var time;
+	var delay;
+	var ease;
+	for(var key2 in anime){
+		time = anime[key2].time;
+		delay = anime[key2].delay;
+		ease = anime[key2].ease;
+	}
+	$("#delayTime").val(delay);
+	$("#changeTime").val(time);
+	$("#easeSelect").val(ease[0]);
+	$("#easeDSelect").val(ease[1]);
+}
+
+
+/**
+ *
+ * Submits the animation station info as an animation to
+ * the animation collection.
+ * Replaces the replace element if there is one.
+ *
+ * @author Conor Wright
+ */
 function submitAnimation(){
+	if(replace){
+		var datAniNew = [];
+		for(var i=0; i<animations[replace[0]].length; i++){
+			if(i!=replace[1]){
+				datAniNew += animations[replace[0]][i];
+			}
+		}
+		animations[replace[0]] = datAniNew;
+		replace = undefined;
+	}
 	var xchange = $("#xchange").val();
 	var ychange = $("#ychange").val();
 	var xschange = $("#xschange").val();
@@ -247,18 +366,19 @@ function submitAnimation(){
 	var alphachange = $("#alphachange").val();
 	var time;
 	var delay;
+	var newVal = {};
 	try{
 		delay = parseInt($("#delayTime").val());
-		time = parseInt($("#timeChange").val());
+		time = parseInt($("#changeTime").val());
 	}
 	catch(e){
 	}
-	console.log(delay);
+	console.log(time);
 	var position = $(".selectable").get().indexOf($(".elementSelected").get(0));
-	var ease = getEase($("#easeSelect").val(), $("#easeDSelect").val());
+	var ease = [$("#easeSelect").val(), $("#easeDSelect").val()];
 	
 	if(!animations[position]){
-		animations[position] = {};
+		animations[position] = [];
 	}
 	if(!time || time<0){
 		time = 3;
@@ -267,41 +387,54 @@ function submitAnimation(){
 		delay = 0;
 	}
 	if(xchange!=""){
-		animations[position].xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
+		newVal.xpos = {position: position,val: parseInt(xchange),time: time,delay: delay, ease: ease};
 	}
 	if(ychange!=""){
-		animations[position].ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
+		newVal.ypos = {position: position,val: parseInt(ychange),time: time,delay: delay, ease: ease};
 	}
 	if(xschange!=""){
-		animations[position].xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
+		newVal.xscale = {position: position,val: parseInt(xschange),time: time,delay: delay, ease: ease};
 	}
 	if(yschange!=""){
-		animations[position].yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
+		newVal.yscale = {position: position,val: parseInt(yschange),time: time,delay: delay, ease: ease};
 	}
 	if(rotationchange!=""){
-		animations[position].rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
+		newVal.rotate = {position: position,val: parseInt(rotationchange),time: time,delay: delay, ease: ease};
 	}
 	if(alphachange!=""){
-		animations[position].alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
+		newVal.alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
 	}
+	animations[position].push(newVal);
 	$.unblockUI();
 	log();
+	updateTimeline();
 }
 
+/**
+ *
+ * Plays the timeline of animation from the current point
+ * or the beginning(if at end)
+ *
+ * @author Conor Wright
+ */
 function launchAnimations(){
-	for(var i=0; i<$(".selectable").length; i++){
-		if(animations[i]){
-			console.log(i);
-			for(var key in animations[i]){
-				if(animations[i].hasOwnProperty(key)){
-					var temp = animations[i][key];
-					aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,temp.ease);
-				}
-			}
-		}
+	if(timeline.progress()!=1){
+		timeline.play();
+	}
+	else{
+		timeline.restart();
 	}
 }
 
+/**
+ *
+ * Retrieves the respective ease given the two names
+ *
+ * @param type - the type of ease(Bounce, Back, etc)
+ * @param dir - the direction to ease(easeOut, easeIn, etc)
+ * @return The resulting ease object
+ * @author Conor Wright
+ */
 function getEase(type,dir){
 	var ease;
 	switch(type){
@@ -367,6 +500,12 @@ function getEase(type,dir){
 	return ease;
 }
 
+/**
+ *
+ * Blocks the UI and opens the button making menu
+ *
+ * @author Conor Wright
+ */
 function makeButtonMenu(){	
 	var message = "<div id='blocker'>"+
 			"<h2>Let's Make A Button</h2>"+
@@ -384,6 +523,13 @@ function makeButtonMenu(){
 	$.blockUI({message: message, css: {top: '20%', backgroundColor: '#19a1a1'}});
 }
 
+/**
+ *
+ * Submits the creation of a button, unblocks
+ * the UI and adds the button to the canvas.
+ *
+ * @author Conor Wright
+ */
 function submitButton(){
 	var text = $("#labelInput").val();
 	var link = $("#linkInput").val();
@@ -408,47 +554,67 @@ function submitButton(){
 	$(e).attr('ondragstart','drag_start(event)');
 	e.style.position = 'absolute';
 	document.getElementById('canvas').appendChild(e);
-	$(e).bind("mousedown", function(){
-		$(".elementSelected").removeClass("elementSelected");
-		$(this).addClass("elementSelected");
-		$("#htmlMod").val($(this).html());
-		$("#fontColorMod").val($(this).css("color"))
-		$("#textMod").val($(this).css("font-size"));
-		$("#widthMod").val($(this).css("width"));
-		$("#heightMod").val($(this).css("height"));
-		$("#depthMod").val($(this).css("z-index"));
-		$("#colorMod").val($(this).css("background-color"));
-	});
+	bindSelectable(e);
 	$.unblockUI();
 	log();
 }
 
+/**
+ *
+ * Updates the timeline object with the current animations
+ * collection.
+ *
+ * @author Conor Wright
+ */
+function updateTimeline(){
+	timeline.clear();
+	var longest = 0;
+	for(var i=0; i<$(".selectable").length; i++){
+		if(animations[i]){
+			for(var j = 0; j<animations[i].length; j++){
+				for(var key in animations[i][j]){
+					if(animations[i][j].hasOwnProperty(key)){
+						var temp = animations[i][j][key];
+						if(temp.time+temp.delay>longest){
+							longest = temp.time+temp.delay;
+						}
+						aniFuncts[key].call(aniFuncts[key],temp.position,temp.val,temp.time,temp.delay,getEase(temp.ease[0], temp.ease[1]));
+					}
+				}
+			}
+		}
+	}
+	timeline.pause(0);
+	$("#slider").css("width", longest*10);
+}
+
+// A list of functions respective to each animation type
 var aniFuncts = {
 	xpos: function(position, xchange, time, delay, ease){
 		var element = $(".selectable").get(position);
 		var left = (parseInt(element.style.left)+xchange);
-		TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}});
+		timeline.add(TweenLite.to(element, time, {left: left+"px", delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 
 	ypos: function(position, ychange, time, delay, ease){
 		var element = $(".selectable").get(position);
 		var top = (parseInt(element.style.top)+ychange);
-		TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}});
+		timeline.add(TweenLite.to(element, time, {top: top+"px", delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	xscale: function(position, xschange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {scaleX: xschange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	yscale: function(position, yschange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {scaleY: yschange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	rotate: function(position, rotationchange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {rotation: rotationchange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 	},
 	alpha: function(position, alphachange, time, delay, ease){
 			var element = $(".selectable").get(position);
-			TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}});
+			timeline.add(TweenLite.to(element, time, {alpha: alphachange, delay: delay, ease:ease,onComplete: function(){}}), "PlatinumDisco");
 		}
 }

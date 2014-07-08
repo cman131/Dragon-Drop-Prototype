@@ -3,6 +3,9 @@
 	<title>Dragon Drop Prototype</title>
 	<link href="site.css" rel="stylesheet">
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<link href="jquery-ui.min.css" rel="stylesheet">
+	<link href="jquery-ui.theme.min.css" rel="stylesheet">
+	<link href="jquery-ui.structure.min.css" rel="stylesheet">
 </head>
 <body ng-app="app" ondragover="drag_over(event)">
 	<div id="menu">
@@ -63,11 +66,13 @@
 				<li><label>Height: </label><input id="heightMod" type='text' value="" /></li>
 				<li><label>Depth: </label><input id="depthMod" type='text' value="" /></li>
 				<li><label>Color: </label><input id="colorMod" type='text' value="" /></li>
-				<li><label>Rotation: </label><input id="rotateMod" type='text' value="" /></li>
+				<li><label>Rotation: </label><input id="rotateMod" type='text' value="0" /></li>
+				<li><label>Alpha: </label><input id="alphaMod" type='text' value="100" /></li>
 				<li><label>Font Color: </label><input type='text' value="" id="fontColorMod" /></li>
 				<li><label>Font Size: </label><input type='text' id="textMod" /></li>
 				<li><label>Text: </label><input type='text' id="htmlMod" /></li>
 				<li><button id="flippy" title="Horizontally" onclick="flipIt();">Flip it!</button></li>
+				<li><button id="dacksDuplicate" title="copy and paste" onclick="dupe();">Dupe it!</button></li>
 
 				<li>
 				<h4 style="color: white;">Animations:</h4>
@@ -88,17 +93,35 @@
 	<div id="canvas" ondrop="drop(event)">
 		</div>
 	</div>
-	<button style="position:absolute;bottom:0;right:0;position: fixed;" onclick="launchAnimations();">Animation Time!</button>
+	
+
+	<div id="animationDrawer">
+		<div class="tab"><b style="font-size: 20px;"><<</b></div>
+		<div id="timeline">
+			<div id="slider" style="height: 10%;"></div>
+			<div class='table'></div>
+			<div class="controls">
+				<button onclick="timeline.reverse();"><img src="icons/rewind.png"></button>
+				<button onclick="launchAnimations();"><img src="icons/play.png"></button>
+				<button onclick="timeline.pause();"><img src="icons/pause.png"></button>
+				<button onclick="stop();"><img src="icons/stop.png"></button>
+				<button onclick="record();"><img src="icons/record.png"></button>
+			</div>
+		</div>
+	</div>
 <script src="js/jquery.js"></script>
-<script src="js/angular.min.js"></script>
-<script src="js/rotate.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/jQueryRotate.js"></script>
 <script src="js/blockUI.js"></script>
 <script src="js/propeller.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/CSSPlugin.min.js"></script>
 <script type="text/javascript" src="js/EasePack.min.js"></script>
 <script type="text/javascript" src="js/TweenLite.min.js"></script>
+<script type="text/javascript" src="js/TimelineLite.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script src="js/site.js"></script>
 <script src="js/main.js"></script>
+<script src="js/extra.js"></script>
 </body>
 </html>

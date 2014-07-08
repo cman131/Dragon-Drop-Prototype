@@ -1,16 +1,58 @@
+// The timeline object for animations
+var timeline = new TimelineLite({onUpdate: function(){
+	$("#slider").slider({value: timeline.progress()*1000});
+}});
+
+// A collection of functions run when the document is loaded
 $(document).ready(function() {
+	var drawerWidth = parseInt($("#animationDrawer").css("width"));
+	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+	$("#timeline").css("width", drawerWidth-46);
+		$("#slider").slider({
+            value: 0,
+            min: 0,
+            max: 1000,
+            step: 1,
+            slide: function( event, ui ) {
+	    	timeline.pause();
+                timeline.progress( ui.value/1000 );
+            }
+		});
+		$(".tab").hover(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -(drawerWidth-27));
+			}
+		},function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -(drawerWidth-25));
+			}
+		});
+		$(".tab").click(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").animate({right: 0}, 750);
+				$(".tab b").html(">>");
+			}
+			else{
+				$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+				$(".tab b").html("<<");
+			}
+		});
 		$('h3').click(function() {
-			$(this).siblings('ul').toggleClass('visible');
-			$("#menu .dragon").each(function(index){
-				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
-			});
+			if(!$(this).hasClass("disabled")){
+				$(this).siblings('ul').toggleClass('visible');
+				$("#menu .dragon").each(function(index){
+					$(this).css("top", $(this).get(0).getBoundingClientRect().top);
+					$(this).css("left", $(this).get(0).getBoundingClientRect().left);
+				});
+			}
 		});
 		setEditMenu();
 		$(document).keydown(function(e) {
     		if(e.which==46) {
-				animations[$(".selectable").get().indexOf($(".elementSelected").get(0))] = undefined;
+				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
     			$('.elementSelected').remove();
+			updateTimeline();
+			updateTimelineVisual();
 			log();
     		}
 		});
@@ -29,17 +71,7 @@ $(document).ready(function() {
 			rot.className = "target";
 			textEl.appendChild(rot);
 			document.getElementById('canvas').appendChild(textEl);
-			$(textEl).bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
-				$(this).addClass("elementSelected");
-				$("#htmlMod").val($(this).html());
-				$("#fontColorMod").val($(this).css("color"))
-				$("#textMod").val($(this).css("font-size"));
-				$("#widthMod").val($(this).css("width"));
-				$("#heightMod").val($(this).css("height"));
-				$("#depthMod").val($(this).css("z-index"));
-				$("#colorMod").val($(this).css("background-color"));
-			});
+			bindSelectable(textEL);
 			$("#textMenu input").val("");
 			log();
 		});
@@ -89,20 +121,36 @@ $(document).ready(function() {
 			
 			log();
 		});
-		$('.selectable').on('click', function() {
-		 	$('.selectable').each(function(index){
-		 		$(this).bind("mousedown", function(){
-		 			if($(this).hasClass('elementSelected')) {
-		 	 			$(this).removeClass("elementSelected");
-		 	 		}
-		 	 		else {	
-		 				$(this).addClass("elementSelected");
-		 			}
-		 		});
-		 	});
-		 });
 		readIn();
+});
+
+// A collection of functions to be run whenever the window is resized
+$(window).resize(function(){
+	var drawerWidth = parseInt($("#animationDrawer").css("width"));
+	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+	$("#timeline").css("width", drawerWidth-46);
+	$(".tab").unbind();
+	$(".tab b").html("<<");
+	$(".tab").hover(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-27));
+		}
+	},function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-25));
+		}
 	});
+	$(".tab").click(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").animate({right: 0}, 750);
+			$(".tab b").html(">>");
+		}
+		else{
+			$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+			$(".tab b").html("<<");
+		}
+	});
+});	
 
 function addRotation() {
 	var dragging = 0;
@@ -127,10 +175,18 @@ function addRotation() {
     });
 }
 
+/**
+ *
+ * Populates the edit menu fields with the values of the
+ * currently selected element.
+ *
+ * @author Conor Wright
+ */
 function setEditMenu(){
 	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
 	$("#heightMod").attr("oninput","fire('height', $('#heightMod').val())");
 	$("#depthMod").attr("oninput","fire('z-index', $('#depthMod').val())");
+	$("#alphaMod").attr("oninput","fire('opacity', $('#alphaMod').val()/100)");
 	$("#colorMod").attr("oninput","fire('background-color', $('#colorMod').val())");
 	$("#rotateMod").attr("oninput","fire('rotate', $('#rotateMod').val())");
 	$("#fontColorMod").attr("oninput", "fire('color', $('#fontColorMod').val())");
@@ -138,12 +194,19 @@ function setEditMenu(){
 	$("#htmlMod").attr("oninput", "fire('html', $('#htmlMod').val())");
 }
 
-
+/**
+ *
+ * Fires new values to the currently selected element
+ *
+ *@param css - value to change
+ *@param val - new value to change to
+ * @author Conor Wright
+ */
 function fire(css, val){
 	if(css=="rotate"){
-		$(".elementSelected").jqrotate(parseInt(val));
+		$(".elementSelected").rotate(parseInt(val));
 		if($(".elementSelected iframe").length>0){
-			$(".elementSelected iframe").jqrotate(parseInt(val));
+			$(".elementSelected iframe").rotate(parseInt(val));
 		}
 	}
 	else if(css=="html"){
@@ -164,6 +227,22 @@ function fire(css, val){
 	log();
 }
 
+/**
+ *
+ * Creates a log object for a canvas element
+ * for local storage
+ *
+ * @param styl - the style of the element
+ * @param clas - the class list of the element
+ * @param tg - the tag of the element
+ * @param source - the src attribute of the element
+ * @param html - the inner html of the element
+ * @param href - the href attribute of the element
+ * @param over - the mouseover attribute of the element
+ * @param leave - the mouseleave attribute of the element
+ * @return the resulting log object
+ * @author Conor Wright
+ */
 function mkLog(styl, clas, tg, source, html, href, over, leave){
 	return {
 	style: styl, 
@@ -177,7 +256,15 @@ function mkLog(styl, clas, tg, source, html, href, over, leave){
 	}
 }
 
-function log(){
+/**
+ *
+ * logs the entirety of the canvas in a list of log
+ * objects of it's elements
+ *
+ * @return the resulting log list
+ * @author Conor Wright
+ */
+function logCanvas(){
 	var save = [];
 	$(".selectable").each(function(){
 		save[save.length] = mkLog(
@@ -191,44 +278,69 @@ function log(){
 		$(this).attr("onmouseleave")
 		);
 	});
-	window.localStorage.work = JSON.stringify(save);
-	window.localStorage.anime = JSON.stringify(animations);
+	return save;
 }
 
-function readIn(){
-	if(window.localStorage.work){
-		if(window.localStorage.anime){
-			animations = JSON.parse(window.localStorage.anime);
-		}
-		var save = JSON.parse(window.localStorage.work);
+/**
+ *
+ * Logs the current canvas state and animations list
+ * into local storage
+ *
+ * @author Conor Wright
+ */
+function log(){
+	var save = logCanvas();
+	window.localStorage.work = JSON.stringify(save);
+	window.localStorage.anime = JSON.stringify(animations);
+	updateTimelineVisual();
+}
+
+/**
+ *
+ * Redraws the canvas from the given source
+ *
+ * @param source - a JSON string representing a state
+ * for the canvas
+ * @author Conor Wright
+ */
+function rewriteCanvas(source){
+		$("#canvas").empty();
+		var save = JSON.parse(source);
 		var cur;
 		for(var i=0; i<save.length; i++){
 			cur = save[i];
 			$("#canvas").append("<"+cur.tag+" class='"+cur.class+"' style='"+cur.style+"' href='"+cur.href+"' onmouseover='"+cur.over+"' onmouseleave='"+cur.leave+"' src='"+cur.src+"' draggable='true' ondragstart='drag_start(event)'>"+cur.inner+"</"+cur.tag+">");
 		}
 		$(".selectable").each(function(index){
-			$(this).bind("mousedown", function(){
-				 if($(this).hasClass('elementSelected')) {
-				 	$(this).removeClass("elementSelected");
-				 	//$(this).off();
-				 	//$(this).off('click','.elementSelected',addRotation);
-				 }
-				 else {
-				 	$(this).addClass("elementSelected");
-					$("#widthMod").val($(this).css("width"));
-					$("#htmlMod").val($(this).html());
-					$("#fontColorMod").val($(this).css("color"))
-					$("#textMod").val($(this).css("font-size"));
-					$("#heightMod").val($(this).css("height"));
-					$("#depthMod").val($(this).css("z-index"));
-					$("#colorMod").val($(this).css("background-color"));
-				}
-			});
+			bindSelectable(this);
 		});
-		//$(".elementSelected").removeClass("elementSelected");
+		$(".elementSelected").removeClass("elementSelected");
+}
+
+/**
+ *
+ * Reads in the data logged in local storage
+ * and loads it.
+ *
+ * @author Conor Wright
+ */
+function readIn(){
+	if(window.localStorage.work){
+		if(window.localStorage.anime){
+			animations = JSON.parse(window.localStorage.anime);
+		}
+		rewriteCanvas(window.localStorage.work);
+		updateTimelineVisual();
+		updateTimeline();
 	}
 }
 
+/**
+ *
+ * Flips the currently selected element horizontally
+ *
+ * @author Conor Wright
+ */
 function flipIt(){
 	$('.elementSelected').toggleClass('flipped');
 	log();
@@ -330,9 +442,86 @@ function returnProperties() {
 	return properties;
 }
 
+// Timeline Functions
 
+/**
+ *
+ * Removes all animations currently attached 
+ * to currently selected element
+ *
+ * @author Conor Wright
+ */
 function unAnimateIt(){
-	var e = $(".elementSelected").get(0);
-	animations[e] = undefined;
+	 deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
+	updateTimeline();
+	updateTimelineVisual();
 	log();
+}
+
+/**
+ *
+ * Stops the timeline and resets it to 0 seconds
+ *
+ * @author Conor Wright
+ */
+function stop(){
+	timeline.pause(0);
+	$("#slider").slider({value: 0});
+}
+
+/**
+ *
+ * Updates the visual representation of the timeline
+ * with current animations
+ *
+ * @author Conor Wright
+ */
+function updateTimelineVisual(){
+	var newContent = "";
+	for(var key in animations){
+		if(animations.hasOwnProperty(key) && animations[key]){
+			newContent+="<div class='tr'>"
+			for(var i=0; i<animations[key].length; i++){
+				var temp;
+				for(var key2 in animations[key][i]){
+					temp = {
+					start: animations[key][i][key2].delay*10,
+					dur: animations[key][i][key2].time*10
+					};
+					break;
+				}
+				newContent+="<div class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'></div>";
+			}
+			newContent+="</div>";
+		}
+	}
+	$("#timeline div.table").html(newContent);
+}
+
+/**
+ *
+ * Deletes the animations at specified index
+ * and updates all other animation positions
+ *
+ * @param index - The index of the animation set to delete
+ * @author Conor Wright
+ */
+function deleteAnimation(index){
+	if(!animations[index] || index<0){
+		return true;
+	}
+	delete animations[index];
+	for(var i=index; i<$(".selectable").length; i++){
+		if(animations[i]){
+			animations[i-1]=animations[i];
+			for(var j=0; j<animations[i-1].length; j++){
+			console.log(animations[i-1][j]);
+				for(var key in animations[i-1][j]){
+					console.log(0);
+					animations[i-1][j][key].position = i-1;
+				}
+			}
+			delete animations[i];
+		}
+	}
 }
