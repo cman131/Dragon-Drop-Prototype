@@ -130,6 +130,12 @@ function drop(event) {
 	curDrag=undefined;
 	offset_data=undefined;
 	event.preventDefault();
+	$("iframe").css( "max-width",'100%');
+	$("iframe").css( "min-width",'0');
+	$("iframe").css( "max-height",'100%');
+	$("iframe").css( "width",'100%');
+	$("iframe").css( "min-height",'0');
+	$("iframe").css( "height",'100%');
 	log();
 	return false;
 }

@@ -10,6 +10,7 @@ $(document).ready(function() {
 	$("#timeline").css("width", drawerWidth-46);
 		$("#slider").slider({
             value: 0,
+			range: "min",
             min: 0,
             max: 1000,
             step: 1,
@@ -204,14 +205,11 @@ function setEditMenu(){
 function fire(css, val){
 	if(css=="rotate"){
 		$(".elementSelected").rotate(parseInt(val));
-		if($(".elementSelected iframe").length>0){
-			$(".elementSelected iframe").rotate(parseInt(val));
-		}
 	}
 	else if(css=="html"){
 		$(".elementSelected").html(val);
 		if($(".elementSelected iframe").length>0){
-			$(".elementSelected iframe").html(val);
+			return true;
 		}
 	}
 	else{

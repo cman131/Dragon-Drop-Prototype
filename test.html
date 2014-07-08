@@ -1,10 +1,19 @@
+<!DOCTYPE html>
 <html>
 <head>
+<script src="js/jquery.js"></script>
+<link href="jquery-ui.min.css" rel="stylesheet">
+<link href="jquery-ui.theme.min.css" rel="stylesheet">
+<link href="jquery-ui.structure.min.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#slider").slider();
+  });
+  $("#slider span").html("<img src='./icons/arrow.png'>");
+  </script>
 </head>
 <body>
-	<video controls width="600" height="240">
-		<source src="videos/movie.ogg" type="video/ogg">
-	</video>
-	<a href="http://www.w3schools.com/html/movie.ogg">Click</a>
+<div id="slider"></div>
 </body>
 </html>
