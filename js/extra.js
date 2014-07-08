@@ -234,8 +234,7 @@ function bindSelectable(dat){
 	$(dat).bind("mousedown", function(){
 		 if($(this).hasClass('elementSelected')) {
 			$(this).removeClass("elementSelected");
-			//$(this).off();
-			//$(this).off('click','.elementSelected',addRotation);
+			$(this).off("click", ".dragon", addRotation);
 		 }
 		 else {
 			$(this).addClass("elementSelected");
@@ -249,5 +248,6 @@ function bindSelectable(dat){
 			$("#colorMod").val($(this).css("background-color"));
 			$("#alphaMod").val($(this).css("opacity")*100);
 		}
+		
 	});
 }

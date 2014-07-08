@@ -95,32 +95,20 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-		$(document).on('click', '.elementSelected', function() {
-			$('.elementSelected').resizable();
-			//new Propeller($('.elementSelected'), {inertia: 1});
-			// var dragging = 0;
-		 //    var target = $('.target');
-		 //    var mainTarget = $('.elementSelected');
-		 //    var elOfs = mainTarget.offset();
-		 //    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
-		 //    var elPos = {X: elOfs.left, Y: elOfs.top};
-		 //    target.mousedown(function() {
-		 //        dragging = true;
-		 //    });
-		 //    $(document).mouseup(function() {
-		 //        dragging = 0;
-		 //    }).mousemove(function(e) {     
-		 //      if(dragging) {
-		 //         var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
-		 //         var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
-		 //         var getDeg  = -getAtan/(Math.PI/180) + 135; 
-		 //         mainTarget.css({transform: 'rotate(' + getDeg + 'deg)'});
-		 //         log();
-		 //      }
-		 //    });
-			addRotation();
+
+		$(document).on('click', '.selectable', function() {
+			$(".selectable").each(function(){
+				if($('.ui-resizable-e').length > 1) {
+					$('.ui-resizable-e:gt(0)').remove();
+					$('.ui-resizable-s:gt(0)').remove();
+					$('.ui-resizable-se:gt(0)').remove();
+				}
+			});
+			$(this).resizable();
 			log();
+			//new Propeller($('.elementSelected'), {inertia: 1});
 		});
+		$(document).on("click", ".dragon", addRotation);
 		readIn();
 });
 
@@ -152,6 +140,9 @@ $(window).resize(function(){
 	});
 });	
 
+/*
+* Function to allow currently selected element to be rotated
+*/
 function addRotation() {
 	var dragging = 0;
     var target = $('.target');
@@ -343,6 +334,10 @@ function flipIt(){
 	log();
 }
 
+/**
+* Creates menu to input animations for currently selected element
+* Animation is fired off immediately after clicking submit
+*/
 function activateTween() {  
  	var prompt = "<div id='tweenOptions'><ul>"+
  				"<li><label>Width: </label><input type='number' id='widthChange' value='0' /></li>"+
@@ -403,6 +398,9 @@ function activateTween() {
 			log();
 }
 
+/*
+* Function used to fire off animation
+*/
 function startAnimation() {
 		var image = document.getElementsByClassName('elementSelected');
 		var time = parseInt($('#animationTime').val());
@@ -419,6 +417,9 @@ function startAnimation() {
 	$.unblockUI();
 }
 
+/*
+* Function used to set the animation properties to animated
+*/
 function returnProperties() {
 	var easeType = $('#easeSelect').val();
 	var animationType = $('#animationType').val();
