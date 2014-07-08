@@ -23,6 +23,7 @@ app.directive("selectable", function(){
 		link: function(scope, element, attrs){
 			element.bind("mousedown", function(){
 				$(".elementSelected").removeClass("elementSelected");
+				$(".elementSelected").off();
 				$(".selectable").each(function(index){
 					if($(this).css("z-index")>0){
 						$(this).css("z-index",$(this).css("z-index") -1);
@@ -87,7 +88,7 @@ function drop(event) {
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
 		$(curDrag).bind("mousedown", function(){
-			$(".elementSelected").removeClass("elementSelected");
+			//$(".elementSelected").removeClass("elementSelected");
 			$(this).addClass("elementSelected");
 			$("#widthMod").val($(this).css("width"));
 			$("#htmlMod").val($(this).html());

@@ -41,6 +41,7 @@ $(document).ready(function() {
 				$("#colorMod").val($(this).css("background-color"));
 			});
 			$("#textMenu input").val("");
+			log();
 		});
 		$('#addVideo').click(function() {
 				var videoURL = $('.video-value').val();
@@ -62,34 +63,69 @@ $(document).ready(function() {
 			localStorage.clear();
 		});
 		$(document).on('click', '.selectable', function() {
-			$('.elementSelected').resizable();
+			$('.selectable').resizable();
 			//new Propeller($('.elementSelected'), {inertia: 1});
-			var dragging = 0;
-		    var target = $('.target');
-		    var mainTarget = $('.elementSelected');
-		    var elOfs = mainTarget.offset();
-		    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
-		    var elPos = {X: elOfs.left, Y: elOfs.top};
-		    target.mousedown(function() {
-		        dragging = true;
-		    });
-		    $(document).mouseup(function() {
-		        dragging = 0;
-		    }).mousemove(function(e) {     
-		      if(dragging) {
-		         var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
-		         var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
-		         var getDeg  = -getAtan/(Math.PI/180) + 135; 
-		         mainTarget.css({transform: 'rotate(' + getDeg + 'deg)'});
-		      }
-		    });
+			// var dragging = 0;
+		 //    var target = $('.target');
+		 //    var mainTarget = $('.elementSelected');
+		 //    var elOfs = mainTarget.offset();
+		 //    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
+		 //    var elPos = {X: elOfs.left, Y: elOfs.top};
+		 //    target.mousedown(function() {
+		 //        dragging = true;
+		 //    });
+		 //    $(document).mouseup(function() {
+		 //        dragging = 0;
+		 //    }).mousemove(function(e) {     
+		 //      if(dragging) {
+		 //         var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
+		 //         var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
+		 //         var getDeg  = -getAtan/(Math.PI/180) + 135; 
+		 //         mainTarget.css({transform: 'rotate(' + getDeg + 'deg)'});
+		 //         log();
+		 //      }
+		 //    });
+			addRotation();
+			
 			log();
 		});
-		$('#canvas').click(function() {
-			
-		});
+		$('.selectable').on('click', function() {
+		 	$('.selectable').each(function(index){
+		 		$(this).bind("mousedown", function(){
+		 			if($(this).hasClass('elementSelected')) {
+		 	 			$(this).removeClass("elementSelected");
+		 	 		}
+		 	 		else {	
+		 				$(this).addClass("elementSelected");
+		 			}
+		 		});
+		 	});
+		 });
 		readIn();
 	});
+
+function addRotation() {
+	var dragging = 0;
+    var target = $('.target');
+    var mainTarget = $('.elementSelected');
+    var elOfs = mainTarget.offset();
+    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
+    var elPos = {X: elOfs.left, Y: elOfs.top};
+    target.mousedown(function() {
+        dragging = true;
+    });
+    $(document).mouseup(function() {
+        dragging = 0;
+    }).mousemove(function(e) {     
+      if(dragging) {
+         var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
+         var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
+         var getDeg  = -getAtan/(Math.PI/180) + 135; 
+         mainTarget.css({transform: 'rotate(' + getDeg + 'deg)'});
+         log();
+      }
+    });
+}
 
 function setEditMenu(){
 	$("#widthMod").attr("oninput","fire('width', $('#widthMod').val())");
@@ -172,18 +208,24 @@ function readIn(){
 		}
 		$(".selectable").each(function(index){
 			$(this).bind("mousedown", function(){
-				$(".elementSelected").removeClass("elementSelected");
-				$(this).addClass("elementSelected");
-				$("#widthMod").val($(this).css("width"));
-				$("#htmlMod").val($(this).html());
-				$("#fontColorMod").val($(this).css("color"))
-				$("#textMod").val($(this).css("font-size"));
-				$("#heightMod").val($(this).css("height"));
-				$("#depthMod").val($(this).css("z-index"));
-				$("#colorMod").val($(this).css("background-color"));
+				 if($(this).hasClass('elementSelected')) {
+				 	$(this).removeClass("elementSelected");
+				 	//$(this).off();
+				 	//$(this).off('click','.elementSelected',addRotation);
+				 }
+				 else {
+				 	$(this).addClass("elementSelected");
+					$("#widthMod").val($(this).css("width"));
+					$("#htmlMod").val($(this).html());
+					$("#fontColorMod").val($(this).css("color"))
+					$("#textMod").val($(this).css("font-size"));
+					$("#heightMod").val($(this).css("height"));
+					$("#depthMod").val($(this).css("z-index"));
+					$("#colorMod").val($(this).css("background-color"));
+				}
 			});
 		});
-		$(".elementSelected").removeClass("elementSelected");
+		//$(".elementSelected").removeClass("elementSelected");
 	}
 }
 
