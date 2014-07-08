@@ -484,6 +484,7 @@ function submitButton(){
 
 function updateTimeline(){
 	timeline.clear();
+	longest = 0;
 	for(var i=0; i<$(".selectable").length; i++){
 		if(animations[i]){
 			for(var j = 0; j<animations[i].length; j++){

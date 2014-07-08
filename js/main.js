@@ -103,34 +103,27 @@ $(window).resize(function(){
 	var drawerWidth = parseInt($("#animationDrawer").css("width"));
 	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
 	$("#timeline").css("width", drawerWidth-46);
-		$("#slider").slider({
-            value: 0,
-            min: 0,
-            max: 1000,
-            step: 1,
-            slide: function( event, ui ) {
-                timeline.progress( ui.value/1000 );
-            }
-		});
-		$(".tab").hover(function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-27));
-			}
-		},function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-25));
-			}
-		});
-		$(".tab").click(function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").animate({right: 0}, 750);
-				$(".tab b").html(">>");
-			}
-			else{
-				$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
-				$(".tab b").html("<<");
-			}
-		});
+	$(".tab").unbind();
+	$(".tab b").html("<<");
+	$(".tab").hover(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-27));
+		}
+	},function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-25));
+		}
+	});
+	$(".tab").click(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").animate({right: 0}, 750);
+			$(".tab b").html(">>");
+		}
+		else{
+			$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+			$(".tab b").html("<<");
+		}
+	});
 });	
 	
 function setEditMenu(){
@@ -379,6 +372,9 @@ function updateTimelineVisual(){
 }
 
 function deleteAnimation(index){
+	if(!animations[index] || index<0){
+		return true;
+	}
 	delete animations[index];
 	for(var i=index; i<$(".selectable").length; i++){
 		if(animations[i]){
