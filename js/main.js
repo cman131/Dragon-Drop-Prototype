@@ -94,8 +94,8 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-		$(document).on('click', '.selectable', function() {
-			$('.selectable').resizable();
+		$(document).on('click', '.elementSelected', function() {
+			$('.elementSelected').resizable();
 			//new Propeller($('.elementSelected'), {inertia: 1});
 			// var dragging = 0;
 		 //    var target = $('.target');
@@ -118,7 +118,6 @@ $(document).ready(function() {
 		 //      }
 		 //    });
 			addRotation();
-			
 			log();
 		});
 		readIn();
@@ -404,7 +403,7 @@ function activateTween() {
 			$('#bgColorChange').val($('.elementSelected').css('background-color'));
 			$('#opacityChange').val($('.elementSelected').css('opacity'));
 			log();
-	}
+}
 
 function startAnimation() {
 		var image = document.getElementsByClassName('elementSelected');

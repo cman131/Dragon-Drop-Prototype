@@ -405,7 +405,7 @@ function submitAnimation(){
 		if(alphachange!=""){
 			newVal.alpha = {position: position,val: parseInt(alphachange),time: time,delay: delay, ease: ease};
 		}
-		animations[position].push(newVal);
+		animations[position].push($.extend(true, {}, newVal));
 	}
 	$.unblockUI();
 	log();
