@@ -275,6 +275,12 @@ input:focus {
 	list-style:none;
 }
 
+#dacksDuplicate {
+	width: 80%;
+	margin-left: 0 auto;
+	margin-right: 0 auto;
+}
+
 #flippy {
 	width: 80%;
 	margin-left: 0 auto;

@@ -125,3 +125,25 @@ function parseDiff(context){
 		}
 	}
 }
+
+function dupe(){
+	var original = $(".elementSelected").get(0);
+	var clone = original.cloneNode(false);
+	clone.style.left = 0;
+	clone.style.top = 0;
+	$(clone).bind("mousedown", function(){
+			$(".elementSelected").removeClass("elementSelected");
+			$(this).addClass("elementSelected");
+			$("#widthMod").val($(this).css("width"));
+			$("#htmlMod").val($(this).html());
+			$("#fontColorMod").val($(this).css("color"))
+			$("#textMod").val($(this).css("font-size"));
+			$("#heightMod").val($(this).css("height"));
+			$("#depthMod").val($(this).css("z-index"));
+			$("#colorMod").val($(this).css("background-color"));
+			$("#alphaMod").val($(this).css("opacity")*100);
+			$("#rotateMod").val($(this).getRotateAngle());
+	});
+	$(original).removeClass("elementSelected");
+	$("#canvas").get(0).appendChild(clone);
+}
