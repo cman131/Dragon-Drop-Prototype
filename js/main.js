@@ -478,7 +478,7 @@ function updateTimelineVisual(){
 	var newContent = "";
 	for(var key in animations){
 		if(animations.hasOwnProperty(key) && animations[key]){
-			newContent+="<div class='tr' ondragover='timeline_drag_over(event);' ondrop='timeline_drop(event);'>"
+			newContent+="<div class='tr' ondragleave=\"noDraggingHere();\" ondragover='timeline_drag_over(event);' ondrop='timeline_drop(event);'>"
 			for(var i=0; i<animations[key].length; i++){
 				var temp;
 				for(var key2 in animations[key][i]){
@@ -488,7 +488,10 @@ function updateTimelineVisual(){
 					};
 					break;
 				}
-				newContent+="<div ondragstart='timeline_drag_start(event);' draggable='true' class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'></div>";
+				newContent+="<div ondragstart='timeline_drag_start(event);' draggable='true' class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'>"+
+				"<div class=\"anchor anchor-left\" draggable=\"true\" ondragstart=\"timeline_drag_start(event);\"></div>"+
+				"<div class=\"anchor anchor-right\" draggable=\"true\" ondragstart=\"timeline_drag_start(event);\"></div>"+
+				"</div>";
 			}
 			newContent+="</div>";
 		}

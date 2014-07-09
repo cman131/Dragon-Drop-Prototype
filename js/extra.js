@@ -261,13 +261,13 @@ function bindSelectable(dat){
  * @author Conor Wright
  */
 function timeline_drag_start(event) {
-	if($(".moving").length<=0){
-		var style = window.getComputedStyle(event.target, null);
-		offset_data = (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY);
-		console.log(offset_data);
-		event.dataTransfer.setData("text/plain",offset_data);
-		event.target.className+=" moving";
-	}
+	curDrag = $("body").get(0);
+	stop();
+	$(".moving").removeClass("moving");
+	var style = window.getComputedStyle(event.target, null);
+	offset_data = (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY);
+	event.dataTransfer.setData("text/plain",offset_data);
+	event.target.className+=" moving";
 } 
 
 /**
@@ -289,11 +289,56 @@ function timeline_drag_over(event) {
 	catch(e) {
 		offset = offset_data.split(',');
 	}
-	$(".moving").css("left", (event.clientX + parseInt(offset[0],10)) + 'px');
+	$(".moving.td").css("left", (event.clientX + parseInt(offset[0],10)) + 'px');
+	var width;
+	var left;
+	if(event.clientX>=11){
+		var key;
+		if($(".moving").hasClass("anchor")){
+			var parent = $(".moving").get(0).parentNode;
+			if($(".moving").hasClass("anchor-right")){
+				width = (event.clientX-parseInt(parent.getBoundingClientRect().left));
+				$(parent).css("width", width + 'px');
+			}
+			else if($(".moving").hasClass("anchor-left")){
+				var diff = parent.getBoundingClientRect().left - event.clientX;
+				left = parseFloat(parent.style.left)-diff;
+				left = ((left > 0) ? left : 0);
+				width = parseFloat(parent.style.width)+diff;
+				width = width>0?width:0;
+				$(parent).css("width", width + 'px');
+				$(parent).css("left", left + 'px');
+			}
+			key = $(parent).attr("onclick").split(",");
+		}
+		else{
+			left = (event.clientX + parseInt(offset[0],10));
+			$(".moving").css("left", left);
+			key = $(".moving").attr("onclick").split(",");
+		}
+		var index = parseInt(key[1]);
+		key = key[0].split("(")[1];
+		for(key2 in animations[key][index]){
+			if(left){
+				animations[key][index][key2].delay = (left-11)/10;
+			}
+			if(width){
+				animations[key][index][key2].time = (width)/10;
+			}
+		}
+	}
 	event.preventDefault(); 
 	return false; 
 } 
 
+/**
+ *
+ * The function for when a timeline element is dropped on the timeline
+ * positions the element(s) correctly and updates the animation data
+ *
+ * @param event - The event object for a drop event
+ * @author Conor Wright
+ */
 function timeline_drop(event){
 	if($(".moving").length<=0){
 		return true;
@@ -305,16 +350,53 @@ function timeline_drop(event){
 	catch(e) {
 		offset = offset_data.split(',');
 	}
-	var left = (event.clientX + parseInt(offset[0],10));
-	$(".moving").css("left", left);
-	var key = $(".moving").attr("onclick").split(",");
+	var left;
+	var width;
+	var key;
+	if($(".moving").hasClass("anchor")){
+		var parent = $(".moving").get(0).parentNode;
+		if($(".moving").hasClass("anchor-right")){
+			width = (event.clientX-parseInt(parent.getBoundingClientRect().left));
+			$(parent).css("width", width + 'px');
+		}
+		else if($(".moving").hasClass("anchor-left")){
+			var diff = parent.getBoundingClientRect().left - event.clientX;
+			left = parseFloat(parent.style.left)-diff;
+			left = ((left > 0) ? left : 0);
+			width = parseFloat(parent.style.width)+diff;
+			width = width>0?width:0;
+			$(parent).css("width", width + 'px');
+			$(parent).css("left", left + 'px');
+		}
+		$(".moving").removeClass("moving");
+		key = $(parent).attr("onclick").split(",");
+	}
+	else{
+		left = (event.clientX + parseInt(offset[0],10));
+		$(".moving").css("left", left);
+		key = $(".moving").attr("onclick").split(",");
+		$(".moving").removeClass("moving");
+	}
 	var index = parseInt(key[1]);
 	key = key[0].split("(")[1];
 	for(key2 in animations[key][index]){
-		animations[key][index][key2].delay = (left-11)/10;
+		if(left){
+			console.log(left);
+			animations[key][index][key2].delay = (left-11)/10;
+		}
+		if(width){
+			console.log(left);
+			animations[key][index][key2].time = (width)/10;
+		}
 	}
 	updateTimeline();
 	updateTimelineVisual();
 	log();
-	$(".moving").removeClass("moving");
+}
+
+function noDraggingHere(){
+	//$('.moving').removeClass('moving');
+	//updateTimeline();
+	//updateTimelineVisual();
+	//log();
 }

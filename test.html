@@ -2,18 +2,42 @@
 <html>
 <head>
 <script src="js/jquery.js"></script>
-<link href="jquery-ui.min.css" rel="stylesheet">
-<link href="jquery-ui.theme.min.css" rel="stylesheet">
-<link href="jquery-ui.structure.min.css" rel="stylesheet">
-<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#slider").slider();
-  });
-  $("#slider span").html("<img src='./icons/arrow.png'>");
-  </script>
+<script src="js/test.js"></script>
+
+<style>
+.anchor {
+	border-radius: 50px;
+	width: 10px;
+	height: 10px;
+	background-color: #7ACC29;
+	cursor: pointer;
+	display: inline-block;
+	position: absolute;
+	top: 40%;
+}
+.anchor:hover {
+	border: 1px solid #5C991F;
+}
+.anchor-right {
+	right: -5px;
+}
+.anchor-left {
+	left: -5px;
+}
+.td{
+	background-color: grey;
+	width: 100px;
+	height: 50px;
+	position: relative;
+	left:0;
+}
+</style>
+
 </head>
-<body>
-<div id="slider"></div>
+<body ondragover='timeline_drag_over(event);' ondrop='timeline_drop(event);'>
+<div class="td" onclick="(0,0)" draggable="true" ondragstart="timeline_drag_start(event);">
+	<div class="anchor anchor-left" draggable="true" ondragstart="timeline_drag_start(event);"></div>
+	<div class="anchor anchor-right" draggable="true" ondragstart="timeline_drag_start(event);"></div>
+</div>
 </body>
 </html>

@@ -72,7 +72,7 @@ function drag_start(event) {
  * @author Conor Wright
  */
 function drag_over(event) { 
-	if($(".moving").length>0){
+	if($(".moving").length>0 || curDrag.tagName=="body"){
 		return true;
 	}
 	var offset;
@@ -100,7 +100,8 @@ function drag_over(event) {
  * @author Conor Wright
  */
 function drop(event) { 
-	if($(".moving").length>0){
+	if($(".moving").length>0 || curDrag.tagName=="BODY"){
+		$(".moving").removeClass("moving");
 		return true;
 	}
 	var offset;

@@ -444,3 +444,23 @@ input:focus {
 	top: -50px;
 	left: -20px;
 }
+
+.anchor {
+	border-radius: 50px;
+	width: 10px;
+	height: 10px;
+	background-color: #7ACC29;
+	cursor: pointer;
+	display: inline-block;
+	position: absolute;
+	top: 40%;
+}
+.anchor:hover {
+	border: 1px solid #5C991F;
+}
+.anchor-right {
+	right: -5px;
+}
+.anchor-left {
+	left: -5px;
+}
