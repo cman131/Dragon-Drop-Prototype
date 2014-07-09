@@ -485,6 +485,10 @@ function stop(){
 	$('.ui-slider-handle').text(parseInt(seconds));
 }
 
+function replay() {
+	$('#replay').toggleClass("active");
+}
+
 /**
  *
  * Updates the visual representation of the timeline
