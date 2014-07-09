@@ -331,11 +331,11 @@ input:focus {
 	height:20px;
 	width:20px;
 	background:url(images/rotate.png) no-repeat top center;
-	background-size:50%;
+	background-size:75%;
     cursor:pointer; 
     z-index:1; 
     top:0; 
-    right:0;    
+    right:50%;    
 
 }
 
@@ -368,12 +368,13 @@ input:focus {
 #timeline {
 	position: relative;
 	padding: 10px;
-	height: 96%;
+	min-height: 100%;
+	height:auto;
 	width: 1380px;
 	border-top-left-radius: 12px;
 	border-bottom-left-radius: 12px;
 	float: right;
-	background-color: #19a1a1;
+	background-color: #696969;
 	display: inline-block;
 	overflow: auto;
 }
@@ -382,23 +383,37 @@ input:focus {
 	height: 86%;
 	width: 100%;
 	overflow-x: scroll;
-	background-color: white;
-	border: 2px solid black;
+	background-color: #696969;
+	border: 2px solid #999999;
+	border-top:1px solid black;
 }
 
 #timeline .table .tr{
 	display: block;
 	width: 100%;
 	height: 30px;
+	background-color:#8A8383;
 	border-bottom: 1px solid black;
+}
+
+#timeline .table .tr:hover{
+	background-color:#A8A0A0;
 }
 
 #timeline .table .tr .td{
 	height: inherit;
-	background-color: grey;
+	background-color: #4da7eb;
 	display: inline-block;
 	position: absolute;
 	cursor: pointer;
+}
+
+#timeline ::-webkit-scrollbar{
+	background-color:#8A8383;	
+}
+
+#timeline ::-webkit-scrollbar-thumb, #timeline ::webkit-scrollbar-track{
+	background-color:#A8A0A0;
 }
 
 #timeline .controls {

@@ -21,7 +21,7 @@ $(document).ready(function() {
 		});
 		$(".tab").hover(function(){
 			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-27));
+				$("#animationDrawer").css("right", -(drawerWidth-25));
 			}
 		},function(){
 			if($(".tab b").html()=="&lt;&lt;"){

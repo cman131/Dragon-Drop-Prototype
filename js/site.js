@@ -252,7 +252,7 @@ function animateIt(){
 			"<ul>"+
 			"<li><label>Change in X pos: </label><input id='xchange' type='number'></li>"+
 			"<li><label>Change in Y pos: </label><input id='ychange' type='number'></li>"+
-			"<li><label>Change in x scale: </label><input id='xschange' type='number'></li>"+
+			"<li><label>Change in X scale: </label><input id='xschange' type='number'></li>"+
 			"<li><label>Change in Y scale: </label><input id='yschange' type='number'></li>"+
 			"<li><label>Change in rotation: </label><input id='rotationchange' type='number'></li>"+
 			"<li><label>Change in alpha: </label><input id='alphachange' type='number'></li>"+
