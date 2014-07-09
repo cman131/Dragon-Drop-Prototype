@@ -72,6 +72,9 @@ function drag_start(event) {
  * @author Conor Wright
  */
 function drag_over(event) { 
+	if($(".moving").length>0){
+		return true;
+	}
 	var offset;
 	try {
 		offset = event.dataTransfer.getData("text/plain").split(',');
@@ -97,6 +100,9 @@ function drag_over(event) {
  * @author Conor Wright
  */
 function drop(event) { 
+	if($(".moving").length>0){
+		return true;
+	}
 	var offset;
 	try {
 		offset = event.dataTransfer.getData("text/plain").split(',');
