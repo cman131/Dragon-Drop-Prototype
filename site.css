@@ -442,8 +442,12 @@ input:focus {
 	text-align: center;
 	z-index: 9999;
 }
-
 .ui-slider-handle {
+    color: #777777;
+    font-size: 10px;
+    padding: 3px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-decoration:none;
 	outline: none;
 	cursor: pointer;
 	border: none;
@@ -451,6 +455,7 @@ input:focus {
 	width: 20px;
 	height: 30px;
 	background: none;
+	text-align: center;
 }
 
 .ui-slider-handle img {
@@ -479,4 +484,13 @@ input:focus {
 }
 .anchor-left {
 	left: -5px;
+}
+#marker {
+	background-color: #313131; 
+	height: 266; 
+	width: 2px; 
+	position:absolute; 
+	left: 11px; 
+	top: 16px;
+	z-index: 1;
 }
