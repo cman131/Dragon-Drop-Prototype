@@ -241,12 +241,14 @@ function bindSelectable(dat){
 						$(this).find('.ui-resizable-s:gt(0)').remove();
 						$(this).find('.ui-resizable-se:gt(0)').remove();
 					}
+				$(this).off('click', addRotation);
 				});
 			log();
 		 }
 		 else {
 			$(this).addClass("elementSelected");
 			$(this).resizable();
+			$(this).on("click", ".dragon", addRotation);
 			$("#widthMod").val($(this).css("width"));
 			$("#rotateMod").val(whatTheHellIsTheAngle(this));
 			$("#htmlMod").val($(this).html());

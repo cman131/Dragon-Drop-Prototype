@@ -96,7 +96,14 @@ $(document).ready(function() {
 			localStorage.clear();
 		});
 		//new Propeller($('.elementSelected'), {inertia: 1});
-		$(document).on("click", ".dragon", addRotation);
+		
+		$("div")
+			.mouseup(function() {
+				$(".dragon").on("click", addRotation);
+			}) 
+			.mousedown(function() {
+				$('.dragon').off("click", addRotation);
+			})
 		readIn();
 });
 
@@ -136,15 +143,19 @@ function addRotation() {
     var target = $('.target');
     var mainTarget = $('.elementSelected');
     var elOfs = mainTarget.offset();
-    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
-    var elPos = {X: elOfs.left, Y: elOfs.top};
+    if(mainTarget.length != 0 ) { 
+    	var elPos = {X: elOfs.left, Y: elOfs.top};
+    	var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
+    }
+
     target.mousedown(function() {
         dragging = true;
+        
     });
     $(document).mouseup(function() {
         dragging = 0;
     }).mousemove(function(e) {     
-      if(dragging) {
+      if(dragging && mainTarget.length != 0) {
          var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
          var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
          var getDeg  = -getAtan/(Math.PI/180) + 135; 
