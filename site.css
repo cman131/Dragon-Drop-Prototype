@@ -363,6 +363,7 @@ input:focus {
 	float: left;
 	color: white;
 	cursor: pointer;
+	background-color: #696969;
 }
 
 #timeline {

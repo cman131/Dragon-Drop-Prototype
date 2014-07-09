@@ -50,8 +50,10 @@ $(document).ready(function() {
 		setEditMenu();
 		$(document).keydown(function(e) {
     		if(e.which==46) {
-				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
-    			$('.elementSelected').remove();
+				for(var i=0; i<$(".elementSelected").length; i++){
+					deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
+				}
+			$('.elementSelected').remove();
 			updateTimeline();
 			updateTimelineVisual();
 			log();
@@ -449,7 +451,9 @@ function returnProperties() {
  * @author Conor Wright
  */
 function unAnimateIt(){
-	 deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)));
+	for(var i=0; i<$(".elementSelected").length; i++){
+		deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
+	}
 	updateTimeline();
 	updateTimelineVisual();
 	log();
