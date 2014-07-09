@@ -131,6 +131,7 @@ function drop(event) {
 	if(!contains(curDrag.className, "selectable")){
 		curDrag.className = curDrag.className+" selectable";
 		bindSelectable(curDrag);
+		
 	}
 	curDrag.style.left = (left>=0 ? left : 0) + 'px';
 	curDrag.style.top = (top>=0 ? top : 0) + 'px';
@@ -252,7 +253,7 @@ function animateIt(){
 			"<ul>"+
 			"<li><label>Change in X pos: </label><input id='xchange' type='number'></li>"+
 			"<li><label>Change in Y pos: </label><input id='ychange' type='number'></li>"+
-			"<li><label>Change in x scale: </label><input id='xschange' type='number'></li>"+
+			"<li><label>Change in X scale: </label><input id='xschange' type='number'></li>"+
 			"<li><label>Change in Y scale: </label><input id='yschange' type='number'></li>"+
 			"<li><label>Change in rotation: </label><input id='rotationchange' type='number'></li>"+
 			"<li><label>Change in alpha: </label><input id='alphachange' type='number'></li>"+

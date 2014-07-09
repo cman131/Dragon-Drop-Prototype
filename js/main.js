@@ -21,7 +21,7 @@ $(document).ready(function() {
 		});
 		$(".tab").hover(function(){
 			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-27));
+				$("#animationDrawer").css("right", -(drawerWidth-25));
 			}
 		},function(){
 			if($(".tab b").html()=="&lt;&lt;"){
@@ -95,20 +95,15 @@ $(document).ready(function() {
 		$('#clearLocalStorage').click(function() {
 			localStorage.clear();
 		});
-
-		$(document).on('click', '.selectable', function() {
-			$(".selectable").each(function(){
-				if($('.ui-resizable-e').length > 1) {
-					$('.ui-resizable-e:gt(0)').remove();
-					$('.ui-resizable-s:gt(0)').remove();
-					$('.ui-resizable-se:gt(0)').remove();
-				}
-			});
-			$(this).resizable();
-			log();
-			//new Propeller($('.elementSelected'), {inertia: 1});
-		});
-		$(document).on("click", ".dragon", addRotation);
+		//new Propeller($('.elementSelected'), {inertia: 1});
+		
+		$("div")
+			.mouseup(function() {
+				$(".dragon").on("click", addRotation);
+			}) 
+			.mousedown(function() {
+				$('.dragon').off("click", addRotation);
+			})
 		readIn();
 });
 
@@ -148,15 +143,19 @@ function addRotation() {
     var target = $('.target');
     var mainTarget = $('.elementSelected');
     var elOfs = mainTarget.offset();
-    var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
-    var elPos = {X: elOfs.left, Y: elOfs.top};
+    if(mainTarget.length != 0 ) { 
+    	var elPos = {X: elOfs.left, Y: elOfs.top};
+    	var cent  = {X: mainTarget.width()/2, Y: mainTarget.height()/2};    
+    }
+
     target.mousedown(function() {
         dragging = true;
+        
     });
     $(document).mouseup(function() {
         dragging = 0;
     }).mousemove(function(e) {     
-      if(dragging) {
+      if(dragging && mainTarget.length != 0) {
          var mPos    = {X: e.pageX-elPos.X, Y: e.pageY-elPos.Y};
          var getAtan = Math.atan2(mPos.X-cent.X, mPos.Y-cent.Y);
          var getDeg  = -getAtan/(Math.PI/180) + 135; 

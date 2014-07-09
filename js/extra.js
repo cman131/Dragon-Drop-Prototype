@@ -235,9 +235,20 @@ function bindSelectable(dat){
 		 if($(this).hasClass('elementSelected')) {
 			$(this).removeClass("elementSelected");
 			$(this).off("click", ".dragon", addRotation);
+			$(".selectable").each(function(){
+				if($(this).find('.ui-resizable-e').length > 1) {
+						$(this).find('.ui-resizable-e:gt(0)').remove();
+						$(this).find('.ui-resizable-s:gt(0)').remove();
+						$(this).find('.ui-resizable-se:gt(0)').remove();
+					}
+				$(this).off('click', addRotation);
+				});
+			log();
 		 }
 		 else {
 			$(this).addClass("elementSelected");
+			$(this).resizable();
+			$(this).on("click", ".dragon", addRotation);
 			$("#widthMod").val($(this).css("width"));
 			$("#rotateMod").val(whatTheHellIsTheAngle(this));
 			$("#htmlMod").val($(this).html());
@@ -248,7 +259,7 @@ function bindSelectable(dat){
 			$("#colorMod").val($(this).css("background-color"));
 			$("#alphaMod").val($(this).css("opacity")*100);
 		}
-		
+		log();
 	});
 }
 
