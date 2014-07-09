@@ -6,6 +6,9 @@ var timeline = new TimelineLite({onUpdate: function(){
 	$('.ui-slider-handle').text(parseInt(seconds));
 }});
 
+// Last time the window was resized
+var lastTime = 0;
+
 // A collection of functions run when the document is loaded
 $(document).ready(function() {
 	var drawerWidth = parseInt($("#animationDrawer").css("width"));
@@ -122,31 +125,36 @@ $(document).ready(function() {
 });
 
 // A collection of functions to be run whenever the window is resized
+
 $(window).resize(function(){
-	var drawerWidth = parseInt($("#animationDrawer").css("width"));
-	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
-	$("#timeline").css("width", drawerWidth-46);
-	$(".tab").unbind();
-	$(".tab b").html("<<");
-	$(".tab").hover(function(){
-		if($(".tab b").html()=="&lt;&lt;"){
-			$("#animationDrawer").css("right", -(drawerWidth-27));
-		}
-	},function(){
-		if($(".tab b").html()=="&lt;&lt;"){
-			$("#animationDrawer").css("right", -(drawerWidth-25));
-		}
-	});
-	$(".tab").click(function(){
-		if($(".tab b").html()=="&lt;&lt;"){
-			$("#animationDrawer").animate({right: 0}, 750);
-			$(".tab b").html(">>");
-		}
-		else{
-			$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
-			$(".tab b").html("<<");
-		}
-	});
+	var d = new Date();
+	if(d.getTime()>lastTime+1000){
+		lastTime = d.getTime();
+		var drawerWidth = parseInt($("#animationDrawer").css("width"));
+		$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+		$("#timeline").css("width", drawerWidth-46);
+		$(".tab").unbind();
+		$(".tab b").html("<<");
+		$(".tab").hover(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -(drawerWidth-27));
+			}
+		},function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").css("right", -(drawerWidth-25));
+			}
+		});
+		$(".tab").click(function(){
+			if($(".tab b").html()=="&lt;&lt;"){
+				$("#animationDrawer").animate({right: 0}, 750);
+				$(".tab b").html(">>");
+			}
+			else{
+				$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+				$(".tab b").html("<<");
+			}
+		});
+	}
 });	
 
 /*
