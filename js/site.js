@@ -440,6 +440,12 @@ function launchAnimations(){
 	else{
 		timeline.restart();
 	}
+	setInterval(function() {
+		if(timeline.progress() == 1 && ($("#replay").hasClass("active"))) {
+			timeline.restart();
+		
+		}	
+	}, 1000);
 }
 
 /**
