@@ -403,7 +403,7 @@ input:focus {
 
 #timeline .table .tr .td{
 	height: inherit;
-	background-color: #4da7eb;
+	background-color: salmon;
 	display: inline-block;
 	position: absolute;
 	cursor: pointer;
@@ -470,14 +470,14 @@ input:focus {
 	border-radius: 50px;
 	width: 10px;
 	height: 10px;
-	background-color: #7ACC29;
+	background-color: white;
 	cursor: pointer;
 	display: inline-block;
 	position: absolute;
 	top: 40%;
 }
 .anchor:hover {
-	border: 1px solid #5C991F;
+	border: 1px solid grey;
 }
 .anchor-right {
 	right: -5px;
