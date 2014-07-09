@@ -11,112 +11,114 @@ $(document).ready(function() {
 	var drawerWidth = parseInt($("#animationDrawer").css("width"));
 	$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
 	$("#timeline").css("width", drawerWidth-46);
-		$("#slider").slider({
-            value: 0,
-			range: "min",
-            min: 0,
-            max: 1000,
-            step: 1,
-            slide: function( event, ui ) {
-				timeline.pause();
-                timeline.progress( ui.value/1000 );
-				var seconds = (parseFloat($(this).css("width"))/10)*(ui.value/1000);
-				$(this).find('.ui-slider-handle').text(parseInt(seconds));
-				$('#marker').css("left", 11+(10*seconds));
-            },
-			create: function(event, ui) {
-				var v=$(this).slider('value');
-				$(this).find('.ui-slider-handle').text(v);
+	$("#slider").slider({
+		value: 0,
+		range: "min",
+		min: 0,
+		max: 1000,
+		step: 1,
+		slide: function( event, ui ) {
+			timeline.pause();
+			timeline.progress( ui.value/1000 );
+			var seconds = (parseFloat($(this).css("width"))/10)*(ui.value/1000);
+			$(this).find('.ui-slider-handle').text(parseInt(seconds));
+			$('#marker').css("left", 11+(10*seconds));
+		},
+		create: function(event, ui) {
+			var v=$(this).slider('value');
+			$(this).find('.ui-slider-handle').text(v);
+		}
+	});
+	$("#slider").css({height: '6%', border: 'none'});
+	$("#slider .ui-widget-header").css("border","none");
+	$(".tab").hover(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-25));
+		}
+	},function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").css("right", -(drawerWidth-25));
+		}
+	});
+	$(".tab").click(function(){
+		if($(".tab b").html()=="&lt;&lt;"){
+			$("#animationDrawer").animate({right: 0}, 750);
+			$(".tab b").html(">>");
+		}
+		else{
+			$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
+			$(".tab b").html("<<");
+		}
+	});
+	$('h3').click(function() {
+		if(!$(this).hasClass("disabled")){
+			$(this).siblings('ul').toggleClass('visible');
+			$("#menu .dragon").each(function(index){
+				$(this).css("top", $(this).get(0).getBoundingClientRect().top);
+				$(this).css("left", $(this).get(0).getBoundingClientRect().left);
+			});
+		}
+	});
+	setEditMenu();
+	$(document).keydown(function(e) {
+		if(e.which==46) {
+			for(var i=0; i<$(".elementSelected").length; i++){
+				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
 			}
-		});
-		$(".tab").hover(function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-25));
-			}
-		},function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").css("right", -(drawerWidth-25));
-			}
-		});
-		$(".tab").click(function(){
-			if($(".tab b").html()=="&lt;&lt;"){
-				$("#animationDrawer").animate({right: 0}, 750);
-				$(".tab b").html(">>");
-			}
-			else{
-				$("#animationDrawer").animate({right: -(drawerWidth-25)}, 750);
-				$(".tab b").html("<<");
-			}
-		});
-		$('h3').click(function() {
-			if(!$(this).hasClass("disabled")){
-				$(this).siblings('ul').toggleClass('visible');
-				$("#menu .dragon").each(function(index){
-					$(this).css("top", $(this).get(0).getBoundingClientRect().top);
-					$(this).css("left", $(this).get(0).getBoundingClientRect().left);
-				});
-			}
-		});
-		setEditMenu();
-		$(document).keydown(function(e) {
-    		if(e.which==46) {
-				for(var i=0; i<$(".elementSelected").length; i++){
-					deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
-				}
-			$('.elementSelected').remove();
-			updateTimeline();
-			updateTimelineVisual();
+		$('.elementSelected').remove();
+		updateTimeline();
+		updateTimelineVisual();
+		log();
+		}
+	});
+	$('#push').click(function() {
+		if($(".input-value").val()==""){
+			return;
+		}
+		var textEl = document.createElement('div');
+		textEl.className = 'dragon selectable';
+		textEl.draggable='true';
+		$(textEl).attr('ondragstart','drag_start(event)');
+		textEl.style.position = 'absolute';
+		textEl.innerHTML = $('.input-value').val();
+		var rot = document.createElement('div');
+		rot.innerHTML = "&nbsp;";
+		rot.className = "target";
+		textEl.appendChild(rot);
+		document.getElementById('canvas').appendChild(textEl);
+		bindSelectable(textEL);
+		$("#textMenu input").val("");
+		log();
+	});
+	$('#addVideo').click(function() {
+			var videoURL = $('.video-value').val();
+			var video = document.createElement('video');
+			video.className = 'dragon selectable';
+			video.draggable='true';
+			$(video).attr('ondragstart','drag_start(event)');
+			$(video).prop("autoplay",true); 
+			$(video).prop("controls",true); 
+			video.style.position = 'absolute';
+			video.style.display = 'block';
+			video.id = 'vidLoaded';
+			video.src = videoURL;
+			document.getElementById('canvas').appendChild(video);
+			$('.video-value').val("");
 			log();
-    		}
-		});
-		$('#push').click(function() {
-			if($(".input-value").val()==""){
-				return;
-			}
-			var textEl = document.createElement('div');
-			textEl.className = 'dragon selectable';
-			textEl.draggable='true';
-			$(textEl).attr('ondragstart','drag_start(event)');
-			textEl.style.position = 'absolute';
-			textEl.innerHTML = $('.input-value').val();
-			var rot = document.createElement('div');
-			rot.innerHTML = "&nbsp;";
-			rot.className = "target";
-			textEl.appendChild(rot);
-			document.getElementById('canvas').appendChild(textEl);
-			bindSelectable(textEL);
-			$("#textMenu input").val("");
-			log();
-		});
-		$('#addVideo').click(function() {
-				var videoURL = $('.video-value').val();
-				var video = document.createElement('video');
-				video.className = 'dragon selectable';
-				video.draggable='true';
-				$(video).attr('ondragstart','drag_start(event)');
-				$(video).prop("autoplay",true); 
-				$(video).prop("controls",true); 
-				video.style.position = 'absolute';
-				video.style.display = 'block';
-				video.id = 'vidLoaded';
-				video.src = videoURL;
-				document.getElementById('canvas').appendChild(video);
-				$('.video-value').val("");
-				log();
-		});
-		$('#clearLocalStorage').click(function() {
-			localStorage.clear();
-		});
-		//new Propeller($('.elementSelected'), {inertia: 1});
-		
-		$("div")
-			.mouseup(function() {
-				$(".dragon").on("click", addRotation);
-			}) 
-			.mousedown(function() {
-				$('.dragon').off("click", addRotation);
-			})
-		readIn();
+	});
+	$('#clearLocalStorage').click(function() {
+		localStorage.clear();
+	});
+	//new Propeller($('.elementSelected'), {inertia: 1});
+	
+	$("div")
+		.mouseup(function() {
+			$(".dragon").on("click", addRotation);
+		}) 
+		.mousedown(function() {
+			$('.dragon').off("click", addRotation);
+		})
+	readIn();
 });
 
 // A collection of functions to be run whenever the window is resized
