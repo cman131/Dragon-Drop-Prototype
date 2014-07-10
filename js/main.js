@@ -65,10 +65,10 @@ $(document).ready(function() {
 	setEditMenu();
 	$(document).keydown(function(e) {
 		if(e.which==46) {
-			for(var i=0; i<$(".elementSelected").length; i++){
-				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
+			for(var i=0; $(".elementSelected").length>0; i++){
+				deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(0)), true);
+				$('.elementSelected')[0].remove();
 			}
-		$('.elementSelected').remove();
 		updateTimeline();
 		updateTimelineVisual();
 		log();
@@ -472,7 +472,7 @@ function returnProperties() {
  */
 function unAnimateIt(){
 	for(var i=0; i<$(".elementSelected").length; i++){
-		deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)));
+		deleteAnimation($(".selectable").get().indexOf($(".elementSelected").get(i)), false);
 	}
 	updateTimeline();
 	updateTimelineVisual();
@@ -537,22 +537,24 @@ function updateTimelineVisual(){
  * @param index - The index of the animation set to delete
  * @author Conor Wright
  */
-function deleteAnimation(index){
+function deleteAnimation(index, isDeep){
 	if(!animations[index] || index<0){
 		return true;
 	}
 	delete animations[index];
-	for(var i=index; i<$(".selectable").length; i++){
-		if(animations[i]){
-			animations[i-1]=animations[i];
-			for(var j=0; j<animations[i-1].length; j++){
-			console.log(animations[i-1][j]);
-				for(var key in animations[i-1][j]){
-					console.log(0);
-					animations[i-1][j][key].position = i-1;
+	if(isDeep){
+		for(var i=index; i<$(".selectable").length; i++){
+			if(animations[i]){
+				animations[i-1]=animations[i];
+				for(var j=0; j<animations[i-1].length; j++){
+				console.log(animations[i-1][j]);
+					for(var key in animations[i-1][j]){
+						console.log(0);
+						animations[i-1][j][key].position = i-1;
+					}
 				}
+				delete animations[i];
 			}
-			delete animations[i];
 		}
 	}
 }

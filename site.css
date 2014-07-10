@@ -38,6 +38,10 @@ body {
 	border-bottom-right-radius: 12px;
 }
 
+#menu .target {
+	visibility: hidden;
+}
+
 .dragon {
 	top: 0;
 	left: 0;
