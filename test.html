@@ -5,38 +5,39 @@
 <script src="js/test.js"></script>
 
 <style>
+body {
+	background-color: black;
+}
 .anchor {
 	width: 10px;
 	height: 10px;
-	background-color: white;
 	cursor: pointer;
 	display: inline-block;
 	position: absolute;
-	top: 40%;
+	top: -5px;
 	
 	width: 0;
 	height: 0;
-	border: 5px solid transparent;
-	border-bottom: 7px solid white;
-	position: relative;
+	border: 12.5px solid transparent;
+	border-bottom: 17.5px solid white;
 }
 .anchor:after {
 	content: '';
 	position: absolute;
-	left: -5px; top: 7px;
+	left: -12.5px; top: 17px;
 	width: 0;
 	height: 0;
-	border: 5px solid transparent;
-	border-top: 7px solid white;
+	border: 12.5px solid transparent;
+	border-top: 17.5px solid white;
 }
 .anchor:hover {
-	
+	top: -4px;	
 }
 .anchor-right {
-	right: -5px;
+	right: -12px;
 }
 .anchor-left {
-	left: -5px;
+	left: -12px;
 }
 .td{
 	background-color: salmon;

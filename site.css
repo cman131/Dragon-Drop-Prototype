@@ -399,6 +399,7 @@ input:focus {
 	height: 30px;
 	background-color:#8A8383;
 	border-bottom: 1px solid black;
+	position: relative;
 }
 
 #timeline .table .tr:hover{
@@ -471,17 +472,27 @@ input:focus {
 }
 
 .anchor {
-	border-radius: 50px;
-	width: 10px;
-	height: 10px;
-	background-color: white;
 	cursor: pointer;
 	display: inline-block;
 	position: absolute;
-	top: 40%;
+	top: 0px;
+	
+	width: 0;
+	height: 0;
+	border: 6.25px solid transparent;
+	border-bottom: 8.75px solid white;
+}
+.anchor:after {
+	content: '';
+	position: absolute;
+	left: -6px; top: 8px;
+	width: 0;
+	height: 0;
+	border: 6.25px solid transparent;
+	border-top: 8.75px solid white;
 }
 .anchor:hover {
-	border: 1px solid grey;
+	top: 1px;	
 }
 .anchor-right {
 	right: -5px;

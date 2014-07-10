@@ -2,7 +2,7 @@
 var timeline = new TimelineLite({onUpdate: function(){
 	$("#slider").slider({value: timeline.progress()*1000});
 	var seconds = (parseFloat($("#slider").css("width"))/10)*timeline.progress();
-	$('#marker').css("left", 11+(10*seconds));
+	$('#marker').css("left", (10*seconds));
 	$('.ui-slider-handle').text(parseInt(seconds));
 }});
 
@@ -25,7 +25,7 @@ $(document).ready(function() {
 			timeline.progress( ui.value/1000 );
 			var seconds = (parseFloat($(this).css("width"))/10)*(ui.value/1000);
 			$(this).find('.ui-slider-handle').text(parseInt(seconds));
-			$('#marker').css("left", 11+(10*seconds));
+			$('#marker').css("left", (10*seconds));
 		},
 		create: function(event, ui) {
 			var v=$(this).slider('value');
@@ -489,7 +489,7 @@ function stop(){
 	timeline.pause(0);
 	$("#slider").slider({value: 0});
 	var seconds = (parseFloat($("#slider").css("width"))/10)*timeline.progress();
-	$('#marker').css("left", 11+(10*seconds));
+	$('#marker').css("left", (10*seconds));
 	$('.ui-slider-handle').text(parseInt(seconds));
 }
 
@@ -518,7 +518,7 @@ function updateTimelineVisual(){
 					};
 					break;
 				}
-				newContent+="<div ondragstart='timeline_drag_start(event);' draggable='true' class='td' style='left: "+(11+temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'>"+
+				newContent+="<div ondragstart='timeline_drag_start(event);' draggable='true' class='td' style='left: "+(temp.start)+"px; width: "+temp.dur+"px' onclick='editAnimation("+key+","+i+");'>"+
 				"<div class=\"anchor anchor-left\" draggable=\"true\" ondragstart=\"timeline_drag_start(event);\"></div>"+
 				"<div class=\"anchor anchor-right\" draggable=\"true\" ondragstart=\"timeline_drag_start(event);\"></div>"+
 				"</div>";

@@ -304,7 +304,7 @@ function timeline_drag_over(event) {
 	$(".moving.td").css("left", (event.clientX + parseInt(offset[0],10)) + 'px');
 	var width;
 	var left;
-	if(event.clientX>=11){
+	if(event.clientX>=0){
 		var key;
 		if($(".moving").hasClass("anchor")){
 			var parent = $(".moving").get(0).parentNode;
@@ -325,6 +325,7 @@ function timeline_drag_over(event) {
 		}
 		else{
 			left = (event.clientX + parseInt(offset[0],10));
+			left = ((left > 0) ? left : 0);
 			$(".moving").css("left", left);
 			key = $(".moving").attr("onclick").split(",");
 		}
@@ -332,7 +333,7 @@ function timeline_drag_over(event) {
 		key = key[0].split("(")[1];
 		for(key2 in animations[key][index]){
 			if(left){
-				animations[key][index][key2].delay = (left-11)/10;
+				animations[key][index][key2].delay = (left)/10;
 			}
 			if(width){
 				animations[key][index][key2].time = (width)/10;
@@ -385,6 +386,7 @@ function timeline_drop(event){
 	}
 	else{
 		left = (event.clientX + parseInt(offset[0],10));
+		left = ((left > 0) ? left : 0);
 		$(".moving").css("left", left);
 		key = $(".moving").attr("onclick").split(",");
 		$(".moving").removeClass("moving");
@@ -394,7 +396,7 @@ function timeline_drop(event){
 	for(key2 in animations[key][index]){
 		if(left){
 			console.log(left);
-			animations[key][index][key2].delay = (left-11)/10;
+			animations[key][index][key2].delay = (left)/10;
 		}
 		if(width){
 			console.log(left);
