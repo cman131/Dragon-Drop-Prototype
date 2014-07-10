@@ -2,7 +2,7 @@
 var timeline = new TimelineLite({onUpdate: function(){
 	$("#slider").slider({value: timeline.progress()*1000});
 	var seconds = (parseFloat($("#slider").css("width"))/10)*timeline.progress();
-	$('#marker').css("left", (10*seconds));
+	$('#marker').css("left", 11+(10*seconds));
 	$('.ui-slider-handle').text(parseInt(seconds));
 }});
 
@@ -25,7 +25,7 @@ $(document).ready(function() {
 			timeline.progress( ui.value/1000 );
 			var seconds = (parseFloat($(this).css("width"))/10)*(ui.value/1000);
 			$(this).find('.ui-slider-handle').text(parseInt(seconds));
-			$('#marker').css("left", (10*seconds));
+			$('#marker').css("left", 11+(10*seconds));
 		},
 		create: function(event, ui) {
 			var v=$(this).slider('value');
@@ -489,7 +489,7 @@ function stop(){
 	timeline.pause(0);
 	$("#slider").slider({value: 0});
 	var seconds = (parseFloat($("#slider").css("width"))/10)*timeline.progress();
-	$('#marker').css("left", (10*seconds));
+	$('#marker').css("left", 11+(10*seconds));
 	$('.ui-slider-handle').text(parseInt(seconds));
 }
 
