@@ -19,7 +19,8 @@ function whatTheHellIsTheAngle(element){
 	var cosVal = parseFloat(prop[0].split("(")[1]);
 	
 	// So Mathmatical
-	return Math.atan2(sinVal, cosVal)*(180/Math.PI);
+	var angle = Math.atan2(sinVal, cosVal)*(180/Math.PI);
+	return angle ? angle : 0;
 }
 
 // Frame information for the animation recording being made
@@ -405,6 +406,13 @@ function timeline_drop(event){
 	log();
 }
 
+/**
+ *
+ * The function called when a timeline element 
+ * is dragged out of the draggable area
+ * 
+ * @author Conor Wright
+ */
 function noDraggingHere(){
 	//$('.moving').removeClass('moving');
 	//updateTimeline();

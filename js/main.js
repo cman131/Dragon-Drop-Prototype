@@ -535,6 +535,8 @@ function updateTimelineVisual(){
  * and updates all other animation positions
  *
  * @param index - The index of the animation set to delete
+ * @param isDeep - Whether to imact the animation collection
+ * deeply or not(usually sifting to account for deletion)
  * @author Conor Wright
  */
 function deleteAnimation(index, isDeep){
